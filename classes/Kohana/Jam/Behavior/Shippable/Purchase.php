@@ -1,5 +1,11 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
+/**
+ * @package    openbuildings\shipping
+ * @author     Ivan Kerin <ikerin@gmail.com>
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
+ */
 class Kohana_Jam_Behavior_Shippable_Purchase extends Jam_Behavior {
 
 	/**

@@ -1,11 +1,10 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
 /**
- * Jam Model: Location
- *
- * @package applicaiton
- * @author Ivan Kerin
- * @copyright  (c) 2011-2013 Despark Ltd.
+ * @package    openbuildings\shipping
+ * @author     Ivan Kerin <ikerin@gmail.com>
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Kohana_Model_Shipping_Method extends Jam_Model {
 

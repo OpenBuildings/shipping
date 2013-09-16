@@ -161,7 +161,7 @@ $available = $store_purchase->items(array('can_ship' => TRUE));
 $not_shippable = $store_purchase->items(array('can_ship' => FALSE));
 ```
 
-If you want to be more precise, you can get available items, but grouped by available shipping methods, if there are more than one:
+If you want to be more precise, you can get available items, but grouped by available shipping methods, so that if you have purchase_items that can ship with both _post_ and _courier_ and other that can ship only with _post_, they will be in different groups:
 
 ```php
 $available = $store_purchase->items_by_shipping_method();
