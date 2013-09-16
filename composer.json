@@ -1,7 +1,7 @@
 {
 	"name": "openbuildings/shipping",
 	"type": "kohana-module",
-	"description": "Closuretable behavior",
+	"description": "Add complex shipping to openbuildings/purchases package",
 	"keywords": ["kohana", "cart", "jam", "shipping", "address", "purchase"],
 	"homepage": "https://github.com/OpenBuildings/shipping",
 	"license": "BSD-3-Clause",

@@ -1,8 +1,8 @@
 # Purchases Shipping
 
-[![Build Status](https://travis-ci.org/OpenBuildings/jam-shipping.png?branch=master)](https://travis-ci.org/OpenBuildings/jam-shipping)
-[![Coverage Status](https://coveralls.io/repos/OpenBuildings/jam-shipping/badge.png?branch=master)](https://coveralls.io/r/OpenBuildings/jam-shipping?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/openbuildings/jam-shipping/v/stable.png)](https://packagist.org/packages/openbuildings/jam-shipping)
+[![Build Status](https://travis-ci.org/OpenBuildings/shipping.png?branch=master)](https://travis-ci.org/OpenBuildings/shipping)
+[![Coverage Status](https://coveralls.io/repos/OpenBuildings/shipping/badge.png?branch=master)](https://coveralls.io/r/OpenBuildings/shipping?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/openbuildings/shipping/v/stable.png)](https://packagist.org/packages/openbuildings/shipping)
 
 ## Usage
 
