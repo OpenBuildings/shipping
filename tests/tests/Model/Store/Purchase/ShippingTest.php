@@ -54,17 +54,17 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 	}
 
 	/**
-	 * @covers Model_Store_Purchase_Shipping::location
+	 * @covers Model_Store_Purchase_Shipping::ship_to
 	 */
-	public function test_location()
+	public function test_ship_to()
 	{
 		$france = Jam::find('location', 'France');
 		
-		$store_purchase = Jam::build('store_purchase', array(
+		$store_purchase_shipping = Jam::build('store_purchase_shipping', array(
 			'location' => $france,
 		));
 
-		$this->assertSame($france, $store_purchase->location);
+		$this->assertSame($france, $store_purchase_shipping->ship_to());
 	}
 
 	/**
