@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d6f720982ad2db03b31ce6fbd3a56a64",
+    "hash": "8165d1924c1b9b51390edaeaee5bf609",
     "packages": [
         {
             "name": "composer/installers",
@@ -515,7 +515,7 @@
         },
         {
             "name": "openbuildings/purchases",
-            "version": "dev-master",
+            "version": "0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
@@ -784,9 +784,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "openbuildings/purchases": 20
-    },
+    "stability-flags": [
+
+    ],
     "platform": {
         "php": ">=5.3.0"
     },
