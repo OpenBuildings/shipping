@@ -96,6 +96,30 @@ class Kohana_Model_Shipping extends Jam_Model {
 		return count($this->locations_containing($location)) > 0;
 	}
 
+	public function total_delivery_time_for(Model_Location $location)
+	{
+		$delivery_time = $this->delivery_time_for($location);
+
+		if ( ! $delivery_time OR ! $this->processing_time) 
+			return NULL;
+		
+		return Jam_Range::sum(array($this->processing_time, $delivery_time));
+	}
+
+	public function delivery_time_for(Model_Location $location)
+	{
+		$groups = $this->groups_in($location);
+
+		if ( ! $groups) 
+			return NULL;
+
+		$delivery_times = array_map(function($group) {
+			return $group->delivery_time;
+		}, $groups);
+
+		return Jam_Range::merge($delivery_times);
+	}
+
 	public function locations_containing(Model_Location $location)
 	{
 		// Get by unique id (flattening duplicates)
