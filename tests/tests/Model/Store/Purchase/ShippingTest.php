@@ -180,4 +180,30 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 
 		$store_purchase_shipping->build_items_from($purchase_items, $post);
 	}
+
+	/**
+	 * @covers Model_Store_Purchase_Shipping::total_delivery_time
+	 */
+	public function test_total_delivery_time()
+	{
+		$item1 = $this->getMock('Model_Shipping_Item', array('total_delivery_time'), array('shipping_item'));
+
+		$item1
+			->expects($this->once())
+				->method('total_delivery_time')
+				->will($this->returnValue(new Jam_Range(array(10, 23))));
+
+		$item2 = $this->getMock('Model_Shipping_Item', array('total_delivery_time'), array('shipping_item'));
+
+		$item2
+			->expects($this->once())
+				->method('total_delivery_time')
+				->will($this->returnValue(new Jam_Range(array(2, 34))));
+
+		$shipping = Jam::build('store_purchase_shipping', array(
+			'items' => array($item1, $item2),
+		));
+
+		$this->assertEquals(new Jam_Range(array(10, 34)), $shipping->total_delivery_time());
+	}
 }

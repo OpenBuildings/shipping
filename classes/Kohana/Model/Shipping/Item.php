@@ -14,6 +14,9 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	public static function initialize(Jam_Meta $meta)
 	{
 		$meta
+			->behaviors(array(
+				'freezable' => Jam::behavior('freezable', array('fields' => 'total_delivery_time', 'parent' => 'store_purchase_shipping')),
+			))
 			->associations(array(
 				'store_purchase_shipping' => Jam::association('belongsto', array('inverse_of' => 'items')),
 				'purchase_item' => Jam::association('belongsto'),
@@ -21,6 +24,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 			))
 			->fields(array(
 				'id' => Jam::field('primary'),
+				'total_delivery_time' => Jam::field('range'),
 			))
 			->validator('purchase_item', 'shipping_group', array('present' => TRUE));
 	}
@@ -234,6 +238,43 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 		$additional_items_price = $this->additional_item_price()->multiply_by($this->quantity() - 1);
 
 		return $this->price()->add($additional_items_price);
+	}
+
+	/**
+	 * Shipping group's delivery_time
+	 * @return Jam_Range 
+	 */
+	public function delivery_time()
+	{
+		return $this->get_insist('shipping_group')->delivery_time;
+	}
+
+	/**
+	 * Shipping's processing_time
+	 * @return Jam_Range 
+	 */
+	public function processing_time()
+	{
+		return $this->shipping_insist()->processing_time;
+	}
+
+	/**
+	 * Return the delivary time min / max days - summed processing and delivery times
+	 * Freezable
+	 * @return Jam_Range
+	 */
+	public function total_delivery_time()
+	{
+		if ($this->delivery_time) 
+		{
+			$total_delivery_time = $this->delivery_time;
+		}
+		else
+		{
+			$total_delivery_time = Jam_Range::sum(array($this->delivery_time(), $this->processing_time()));
+		}
+
+		return $total_delivery_time;
 	}
 
 	/**

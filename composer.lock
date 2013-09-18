@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3e8075ec1ede9474fd51c06c31482496",
+    "hash": "d6f720982ad2db03b31ce6fbd3a56a64",
     "packages": [
         {
             "name": "composer/installers",
@@ -174,24 +174,21 @@
         },
         {
             "name": "openbuildings/emp",
-            "version": "0.1.2",
+            "version": "0.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/emp.git",
-                "reference": "22b174e5b301ae7de63383426277bf857aa83169"
+                "reference": "f54df4f41ce7264813225f93112ff9043d4b00ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/emp/zipball/22b174e5b301ae7de63383426277bf857aa83169",
-                "reference": "22b174e5b301ae7de63383426277bf857aa83169",
+                "url": "https://api.github.com/repos/OpenBuildings/emp/zipball/f54df4f41ce7264813225f93112ff9043d4b00ae",
+                "reference": "f54df4f41ce7264813225f93112ff9043d4b00ae",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "php": ">=5.3.0"
-            },
-            "suggest": {
-                "openbuildings/paypal": "Easy payments with PayPal: ExpressCheckout, AdaptivePayments, subscriptions"
             },
             "type": "library",
             "autoload": {
@@ -224,7 +221,7 @@
                 "money",
                 "payments"
             ],
-            "time": "2013-09-02 11:27:01"
+            "time": "2013-09-16 14:45:22"
         },
         {
             "name": "openbuildings/flex-storage",
@@ -266,16 +263,16 @@
         },
         {
             "name": "openbuildings/jam",
-            "version": "0.4.10",
+            "version": "0.4.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/jam.git",
-                "reference": "99175a3373bf6bba597bac31e95b2712ddbb6ed0"
+                "reference": "d5310172ed9feabcbc7e332683e9718f3f19d991"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/99175a3373bf6bba597bac31e95b2712ddbb6ed0",
-                "reference": "99175a3373bf6bba597bac31e95b2712ddbb6ed0",
+                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/d5310172ed9feabcbc7e332683e9718f3f19d991",
+                "reference": "d5310172ed9feabcbc7e332683e9718f3f19d991",
                 "shasum": ""
             },
             "require": {
@@ -309,7 +306,7 @@
                 "upload",
                 "validation"
             ],
-            "time": "2013-09-05 08:39:03"
+            "time": "2013-09-18 09:35:48"
         },
         {
             "name": "openbuildings/jam-auth",
@@ -522,12 +519,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "0274469f0d72d2f99eaedf034562cf9f58341cb4"
+                "reference": "209ef7ba452c77c36cb4869b9a084891606bd316"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/0274469f0d72d2f99eaedf034562cf9f58341cb4",
-                "reference": "0274469f0d72d2f99eaedf034562cf9f58341cb4",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/209ef7ba452c77c36cb4869b9a084891606bd316",
+                "reference": "209ef7ba452c77c36cb4869b9a084891606bd316",
                 "shasum": ""
             },
             "require": {
@@ -567,7 +564,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2013-09-12 11:03:41"
+            "time": "2013-09-17 15:13:07"
         },
         {
             "name": "paypal/rest-api-sdk-php",

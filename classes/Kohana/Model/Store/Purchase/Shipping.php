@@ -14,6 +14,9 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	public static function initialize(Jam_Meta $meta)
 	{
 		$meta
+			->behaviors(array(
+				'freezable' => Jam::behavior('freezable', array('children' => 'items', 'parent' => 'store_purchase')),
+			))
 			->associations(array(
 				'store_purchase' => Jam::association('belongsto'),
 				'location' => Jam::association('belongsto'),
@@ -37,6 +40,20 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		$total_price = $this->total_purchase_price();
 
 		return Model_Shipping_Item::compute_price($items, $total_price);
+	}
+
+	/**
+	 * Get the merge of all total_delivery_time ranges from the items
+	 * By getting the maximum min and max amounts.
+	 * @return Jam_Range
+	 */
+	public function total_delivery_time()
+	{
+		$times = array_map(function($item){
+			return $item->total_delivery_time();
+		}, $this->items->as_array());
+
+		return Jam_Range::merge($times);
 	}
 
 	/**

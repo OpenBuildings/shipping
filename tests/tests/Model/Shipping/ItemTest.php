@@ -285,6 +285,64 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	}
 
 	/**
+	 * @covers Model_Shipping_Item::delivery_time
+	 */
+	public function test_delivery_time()
+	{
+		$range = new Jam_Range(array(10, 12));
+
+		$item = Jam::build('shipping_item', array(
+			'shipping_group' => array(
+				'delivery_time' => $range,
+			),
+		));
+
+		$this->assertEquals($range, $item->delivery_time());
+	}
+
+	/**
+	 * @covers Model_Shipping_Item::processing_time
+	 */
+	public function test_processing_time()
+	{
+		$range = new Jam_Range(array(10, 12));
+
+		$item = Jam::build('shipping_item', array(
+			'shipping_group' => array(
+				'shipping' => array(
+					'processing_time' => $range,
+				)
+			),
+		));
+
+		$this->assertEquals($range, $item->processing_time());
+	}
+
+	/**
+	 * @covers Model_Shipping_Item::total_delivery_time
+	 */
+	public function test_total_delivery_time()
+	{
+		$item = $this->getMock('Model_Shipping_Item', array('processing_time', 'delivery_time'), array('shipping_item'));
+
+		$item
+			->expects($this->once())
+				->method('processing_time')
+				->will($this->returnValue(new Jam_Range(array(10, 23))));
+
+		$item
+			->expects($this->once())
+				->method('delivery_time')
+				->will($this->returnValue(new Jam_Range(array(2, 13))));
+
+		$this->assertEquals(new Jam_Range(array(12, 36)), $item->total_delivery_time());
+
+		$item->delivery_time = new Jam_Range(array(4, 5));
+
+		$this->assertEquals(new Jam_Range(array(4, 5)), $item->total_delivery_time());
+	}
+
+	/**
 	 * @covers Model_Shipping_Item::additional_item_price
 	 */
 	public function test_additional_item_price()

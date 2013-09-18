@@ -163,14 +163,14 @@ DROP TABLE IF EXISTS `shipping_methods`;
 CREATE TABLE `shipping_methods` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `shipping_id` int(11) UNSIGNED NOT NULL,
+  `store_id` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `store_purchase_shippings`;
 CREATE TABLE `store_purchase_shippings` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `store_purchase_shipping_id` int(11) UNSIGNED NOT NULL,
+  `location_id` int(11) UNSIGNED NOT NULL,
   `store_purchase_id` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -180,6 +180,7 @@ CREATE TABLE `shipping_items` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `purchase_item_id` int(11) UNSIGNED NOT NULL,
   `shipping_group_id` int(11) UNSIGNED NOT NULL,
+  `delivery_time` varchar(100) NOT NULL,
   `store_purchase_shipping_id` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -283,11 +284,11 @@ VALUES
   (2,'Green',298.90,1);
 
 
-INSERT INTO `shipping_methods` (`id`, `name`, `shipping_id`)
+INSERT INTO `shipping_methods` (`id`, `name`, `store_id`)
 VALUES
   (1,'Post', 0),
   (2,'Courier', 0),
-  (3,'Custom', 1);
+  (3,'Custom', 0);
 
 
 INSERT INTO `shippings` (`id`, `name`, `currency`, `processing_time`, `ships_from_id`, `store_id`)
@@ -306,9 +307,9 @@ VALUES
   (5, '12.00', '2|4', 1, 1, 3),
   (6, '5.00', '2|3', 2, 1, 3);
 
-INSERT INTO `store_purchase_shippings` (`id`, `store_purchase_id`)
+INSERT INTO `store_purchase_shippings` (`id`, `store_purchase_id`, `location_id`)
 VALUES
-  (1, 1);
+  (1, 1, 3);
 
 INSERT INTO `shipping_items` (`id`, `store_purchase_shipping_id`, `purchase_item_id`, `shipping_group_id`)
 VALUES

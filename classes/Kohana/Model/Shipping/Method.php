@@ -15,7 +15,12 @@ class Kohana_Model_Shipping_Method extends Jam_Model {
 	{
 		$meta
 			->associations(array(
-				'shipping' => Jam::association('belongsto', array('inverse_of' => 'methods')),
+				'store' => Jam::association('belongsto', array('inverse_of' => 'methods')),
+				'shippings' => Jam::association('manytomany', array(
+					'foreign_key' => 'method_id',
+					'join_table' => 'shipping_groups',
+					'readonly' => TRUE,
+				)),
 				'shipping_groups' => Jam::association('hasmany', array('inverse_of' => 'method')),
 			))
 			->fields(array(
