@@ -29,7 +29,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 
 		$store_purchase_shipping->items = $items;
 
-		$price = $store_purchase_shipping->price(Jam::build('purchase_item'));
+		$price = $store_purchase_shipping->price_for_purchase_item(Jam::build('purchase_item'));
 
 		$this->assertEquals($expected, $price);
 	}

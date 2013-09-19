@@ -34,7 +34,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	 * @param  Model_Purchase_Item $item
 	 * @return Jam_Price
 	 */
-	public function price(Model_Purchase_Item $item)
+	public function price_for_purchase_item(Model_Purchase_Item $item)
 	{
 		$items = $this->items->as_array();
 		$total_price = $this->total_purchase_price();
