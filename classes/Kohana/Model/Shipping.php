@@ -34,7 +34,10 @@ class Kohana_Model_Shipping extends Jam_Model {
 				)),
 				'ships_from' => Jam::association('belongsto', array(
 					'foreign_model' => 'location',
-				))
+				)),
+				'store' => Jam::association('belongsto', array(
+					'inverse_of' => 'shippings'
+				)),
 			))
 
 			->fields(array(
