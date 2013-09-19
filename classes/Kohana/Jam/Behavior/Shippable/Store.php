@@ -18,6 +18,9 @@ class Kohana_Jam_Behavior_Shippable_Store extends Jam_Behavior {
 		$meta
 			->associations(array(
 				'shippings' => Jam::association('hasmany', array('inverse_of' => 'store'))
+				'shipping_methods' => Jam::association('hasmany', array(
+					'inverse_of' => 'store'
+				)),
 			));
 	}
 }
