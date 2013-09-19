@@ -142,4 +142,38 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 		
 		$this->assertEquals($expected_ids, $this->ids($items));
 	}
+
+	public function test_model_call_total_delivery_time()
+	{
+		$range = new Jam_Range(array(10, 20));
+		$shipping = $this->getMock('Model_Store_Purchase_Shipping', array('total_delivery_time'), array('store_purchase_shipping'));
+		$shipping
+			->expects($this->once())
+				->method('total_delivery_time')
+				->will($this->returnValue($range));
+
+		$store_purchase = Jam::build('store_purchase', array('shipping' => $shipping));
+
+		$this->assertSame($range, $store_purchase->total_delivery_time());
+	}
+
+	public function test_model_call_delivery_time_dates()
+	{
+		$range = new Jam_Range(array(10, 20));
+
+		$store_purchase = $this->getMock('Model_Store_Purchase', array('total_delivery_time', 'payed_at'), array('store_purchase'));
+		$store_purchase
+			->expects($this->once())
+				->method('total_delivery_time')
+				->will($this->returnValue($range));
+
+		$store_purchase
+			->expects($this->once())
+				->method('payed_at')
+				->will($this->returnValue('2013-02-02 10:00:00'));
+
+		$this->assertEquals(new Jam_Range(array(1361080800, 1362290400)), $store_purchase->delivery_time_dates());
+	}
+
+
 }

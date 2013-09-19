@@ -44,7 +44,8 @@ class Kohana_Model_Shipping extends Jam_Model {
 				'processing_time' => Jam::field('range'),
 			))
 
-			->validator('name', 'currency', array('present' => TRUE));
+			->validator('name', 'currency', array('present' => TRUE))
+			->validator('processing_time', array('range' => array('consecutive' => TRUE)));
 	}
 
 	/**

@@ -178,6 +178,37 @@ foreach ($available as $methods => $purchase_items)
 }
 ```
 
+### Delivery Times
+
+This shipping module comes with extensive support for calculating delivery times.
+
+Model_Shipping_Group has "delivery_time" - min - max workdays to deliver the item. Model_Shipping has process_time - min - max workdays to 'build' the item. Both of these are Jam_Ranges, and combined represent the total_delivery_time for a specific location.
+
+Model_Shipping has this interface:
+
+```php
+$france = Jam::find('locaiton', 'France');
+
+$shipping = $product->shipping();
+
+// To get a Jam_Range object only for the delivery to that location
+$shipping->delivery_time_for($france); 
+
+// To get a Jam_Range for delivery + processing for a specific country
+$shipping->total_delivery_time_for($france); 
+```
+
+The shippable purchase behavior also adds some methods to the Model_Store_Purchase for handling delivery time calculations:
+
+```php
+// Get the Jam_Range object for the delivery time for the store_purchase
+$store_purchase->total_delivery_time();
+
+// Get the Jam_Range object if the dates that the purchase will arraive
+// This is calculate based on the time the payment was made. If its not yet payed purchase, the current time is used.
+$store_purchase->delivery_time_dates();
+```
+
 ## License
 
 Copyright (c) 2012-2013, OpenBuildings Ltd. Developed by Ivan Kerin as part of [clippings.com](http://clippings.com)

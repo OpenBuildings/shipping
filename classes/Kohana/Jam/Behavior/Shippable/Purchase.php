@@ -36,6 +36,22 @@ class Kohana_Jam_Behavior_Shippable_Purchase extends Jam_Behavior {
 		});
 	}
 
+	public function model_call_total_delivery_time(Model_Store_Purchase $store_purchase, Jam_Event_Data $data)
+	{
+		$data->return = $store_purchase->get_insist('shipping')->total_delivery_time();
+	}
+
+	public function model_call_delivery_time_dates(Model_Store_Purchase $store_purchase, Jam_Event_Data $data)
+	{
+		$delivery_time = $store_purchase->total_delivery_time();
+		$start_date = $store_purchase->payed_at() ?: time();
+
+		$data->return = new Jam_Range(array(
+			strtotime("{$start_date} + {$delivery_time->min()} weekdays"),
+			strtotime("{$start_date} + {$delivery_time->max()} weekdays"),
+		));
+	}
+
 	public function filter_shipping_items(Model_Store_Purchase $store_purchase, Jam_Event_Data $data, array $items, array $filter)
 	{
 		$items = is_array($data->return) ? $data->return : $items;
