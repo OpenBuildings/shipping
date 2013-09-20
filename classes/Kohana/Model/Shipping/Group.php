@@ -34,6 +34,23 @@ class Kohana_Model_Shipping_Group extends Jam_Model {
 	}
 
 	/**
+	 * Sort Model_Shipping_Item by price, biggest price first 
+	 * @param  array  $items 
+	 * @return array        
+	 */
+	public static function sort_by_price(array $items)
+	{
+		Array_Util::validate_instance_of($items, 'Model_Shipping_Group');
+
+		usort($items, function($item1, $item2){
+			return $item1->price->is(Jam_Price::GREATER_THAN, $item2->price) ? -1 : 1;
+		});
+
+		return $items;
+	}
+
+
+	/**
 	 * Get the currency for pricing calculations
 	 * @return string
 	 * @throws Kohana_Exception If store_purchase_shipping is NULL

@@ -1,5 +1,8 @@
 <?php
 
+use OpenBuildings\Monetary\Monetary;
+use OpenBuildings\Monetary\Source_Static;
+
 /**
  * Functest_TestsTest 
  *
@@ -38,7 +41,7 @@ class Model_Shipping_GroupTest extends Testcase_Shipping {
 		$shipping = $this->getMock('Model_Shipping', array('currency'), array('shipping_group'));
 
 		$shipping
-			->expects($this->at(0))
+			->expects($this->at(0)) 
 				->method('currency')
 				->will($this->returnValue('GBP'));
 
@@ -54,4 +57,46 @@ class Model_Shipping_GroupTest extends Testcase_Shipping {
 		$this->assertEquals('GBP', $group->currency());
 		$this->assertEquals('EUR', $group->currency());
 	}
+
+	public function data_sort_by_price()
+	{
+		$monetary = new Monetary('GBP', new Source_Static());
+
+		return array(
+			array(
+				array(
+					array('id' => 10, 'price' => new Jam_Price(20, 'USD', $monetary)), 
+					array('id' => 11, 'price' => new Jam_Price(18, 'GBP', $monetary)),
+					array('id' => 12, 'price' => new Jam_Price(5, 'USD', $monetary)),
+				),
+				array(11, 10, 12),
+			),
+			array(
+				array(
+					array('id' => 10, 'price' => new Jam_Price(20, 'USD', $monetary)), 
+					array('id' => 11, 'price' => new Jam_Price(20, 'GBP', $monetary)),
+					array('id' => 12, 'price' => new Jam_Price(5, 'USD', $monetary)),
+					array('id' => 13, 'price' => new Jam_Price(45, 'USD', $monetary)),
+				),
+				array(13, 11, 10, 12),
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider data_sort_by_price
+	 */
+	public function test_sort_by_price($params, $expected_ids)
+	{
+		$shipping_groups = array();
+		foreach ($params as $param) 
+		{
+			$shipping_groups []= Jam::build('shipping_group', $param);
+		}
+
+		$sorted = Model_Shipping_Group::sort_by_price($shipping_groups);
+
+		$this->assertEquals($expected_ids, $this->ids($sorted));
+	}
+
 }

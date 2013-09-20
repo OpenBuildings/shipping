@@ -72,6 +72,16 @@ class Kohana_Model_Shipping extends Jam_Model {
 		});
 	}
 
+	public function cheapest_group_in(Model_Location $location)
+	{
+		$groups = $this->groups_in($location);
+
+		$groups = Model_Shipping_Group::sort_by_price($groups);
+
+
+		return end($groups);
+	}
+
 	public function group_for(Model_Location $location, Model_Shipping_Method $method)
 	{
 		$location = $this->most_specific_location_containing($location);

@@ -1,5 +1,8 @@
 <?php
 
+use OpenBuildings\Monetary\Monetary;
+use OpenBuildings\Monetary\Source_Static;
+
 /**
  * Functest_TestsTest 
  *
@@ -136,6 +139,35 @@ class Model_ShippingTest extends Testcase_Shipping {
 		$groups = $shipping->groups_in($location);
 
 		$this->assertEquals($expected_group_ids, $this->ids($groups));
+	}
+
+	/**
+	 * @covers Model_Shipping::cheapest_group_in
+	 */
+	public function test_cheapest_group_in()
+	{
+		$monetary = new Monetary('GBP', new Source_Static());
+		$france = Jam::find('location', 'France');
+		$shipping = $this->getMock('Model_Shipping', array('groups_in'), array('shipping'));
+
+		$params = array(
+			array('id' => 10, 'price' => new Jam_Price(20, 'USD', $monetary)), 
+			array('id' => 11, 'price' => new Jam_Price(18, 'GBP', $monetary)),
+			array('id' => 12, 'price' => new Jam_Price(5, 'USD', $monetary)),
+		);
+
+		$groups = $this->buildModelArray('shipping_group', $params);
+
+		$shipping
+			->expects($this->once())
+			->method('groups_in')
+			->with($this->identicalTo($france))
+			->will($this->returnValue($groups));
+
+		$group = $shipping->cheapest_group_in($france);
+
+		$this->assertInstanceOf('Model_Shipping_Group', $group);
+		$this->assertEquals(12, $group->id());
 	}
 
 	public function data_group_for()

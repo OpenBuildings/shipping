@@ -38,6 +38,18 @@ abstract class Testcase_Shipping extends PHPUnit_Framework_TestCase {
 		return array_values(array_map(function($item){ return $item->id(); }, $items));
 	}
 
+	public function buildModelArray($model_name, array $params)
+	{
+		$items = array();
+
+		foreach ($params as $group_params) 
+		{
+			$items []= Jam::build($model_name, $group_params);
+		}
+
+		return $items;
+	}
+
 	public function getMockModelArray($model_name, array $params)
 	{
 		$items = array();
