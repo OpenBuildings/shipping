@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "8165d1924c1b9b51390edaeaee5bf609",
+    "hash": "d6f720982ad2db03b31ce6fbd3a56a64",
     "packages": [
         {
             "name": "composer/installers",
@@ -515,16 +515,16 @@
         },
         {
             "name": "openbuildings/purchases",
-            "version": "0.2.6",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "e139e6c03356ae39adabee46f3ecf54c0d7ef6a9"
+                "reference": "e94cb5e621aacb8f763f75159cbe9f1a5a1feb9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/e139e6c03356ae39adabee46f3ecf54c0d7ef6a9",
-                "reference": "e139e6c03356ae39adabee46f3ecf54c0d7ef6a9",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/e94cb5e621aacb8f763f75159cbe9f1a5a1feb9b",
+                "reference": "e94cb5e621aacb8f763f75159cbe9f1a5a1feb9b",
                 "shasum": ""
             },
             "require": {
@@ -564,7 +564,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2013-09-19 14:14:55"
+            "time": "2013-09-19 14:23:09"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -784,9 +784,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "openbuildings/purchases": 20
+    },
     "platform": {
         "php": ">=5.3.0"
     },
