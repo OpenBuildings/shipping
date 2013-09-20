@@ -14,7 +14,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 
 	/**
 	 * @dataProvider Model_Shipping_ItemTest::data_compute_price
-	 * @covers Model_Store_Purchase_Shipping::price
+	 * @covers Model_Store_Purchase_Shipping::price_for_purchase_item
 	 */
 	public function test_compute_price($params, $total, $expected)
 	{
