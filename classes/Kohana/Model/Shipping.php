@@ -48,6 +48,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 			))
 
 			->validator('name', 'currency', array('present' => TRUE))
+			->validator('currency', array('currency' => TRUE))
 			->validator('processing_time', array('range' => array('consecutive' => TRUE)));
 	}
 

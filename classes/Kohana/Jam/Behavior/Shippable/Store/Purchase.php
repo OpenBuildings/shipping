@@ -6,7 +6,7 @@
  * @copyright  (c) 2013 OpenBuildings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-class Kohana_Jam_Behavior_Shippable_Purchase extends Jam_Behavior {
+class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 
 	/**
 	 * @codeCoverageIgnore

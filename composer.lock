@@ -263,16 +263,16 @@
         },
         {
             "name": "openbuildings/jam",
-            "version": "0.4.15",
+            "version": "0.4.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/jam.git",
-                "reference": "472fa326633db84213b93da3fee7c30a4df50ac1"
+                "reference": "98be114b39115223fa577f8b5a00980aa9d4a6bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/472fa326633db84213b93da3fee7c30a4df50ac1",
-                "reference": "472fa326633db84213b93da3fee7c30a4df50ac1",
+                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/98be114b39115223fa577f8b5a00980aa9d4a6bb",
+                "reference": "98be114b39115223fa577f8b5a00980aa9d4a6bb",
                 "shasum": ""
             },
             "require": {
@@ -306,7 +306,7 @@
                 "upload",
                 "validation"
             ],
-            "time": "2013-09-19 09:56:03"
+            "time": "2013-09-20 20:12:00"
         },
         {
             "name": "openbuildings/jam-auth",
@@ -405,16 +405,16 @@
         },
         {
             "name": "openbuildings/jam-monetary",
-            "version": "0.1.8",
+            "version": "0.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/jam-monetary.git",
-                "reference": "b186349bd42f202dec908f50cf41e20d7526e87f"
+                "reference": "b98bc740e78249e13893f4c4b8e90445386c2592"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam-monetary/zipball/b186349bd42f202dec908f50cf41e20d7526e87f",
-                "reference": "b186349bd42f202dec908f50cf41e20d7526e87f",
+                "url": "https://api.github.com/repos/OpenBuildings/jam-monetary/zipball/b98bc740e78249e13893f4c4b8e90445386c2592",
+                "reference": "b98bc740e78249e13893f4c4b8e90445386c2592",
                 "shasum": ""
             },
             "require": {
@@ -449,7 +449,7 @@
                 "money",
                 "price"
             ],
-            "time": "2013-09-10 10:16:11"
+            "time": "2013-09-20 18:41:23"
         },
         {
             "name": "openbuildings/monetary",
@@ -519,12 +519,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "e94cb5e621aacb8f763f75159cbe9f1a5a1feb9b"
+                "reference": "0bbb1c33b220a6ce58e33530ec7b3b3bb463d61e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/e94cb5e621aacb8f763f75159cbe9f1a5a1feb9b",
-                "reference": "e94cb5e621aacb8f763f75159cbe9f1a5a1feb9b",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/0bbb1c33b220a6ce58e33530ec7b3b3bb463d61e",
+                "reference": "0bbb1c33b220a6ce58e33530ec7b3b3bb463d61e",
                 "shasum": ""
             },
             "require": {
@@ -564,7 +564,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2013-09-19 14:23:09"
+            "time": "2013-09-20 13:40:25"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -746,16 +746,16 @@
         },
         {
             "name": "openbuildings/kohana-test-bootsrap",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/kohana-test-bootstrap.git",
-                "reference": "00f1f6dad4a755662c5c77b3739d248614bab15d"
+                "reference": "a3f9e8756d0a3262063fd904ef31ead324639a0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/kohana-test-bootstrap/zipball/00f1f6dad4a755662c5c77b3739d248614bab15d",
-                "reference": "00f1f6dad4a755662c5c77b3739d248614bab15d",
+                "url": "https://api.github.com/repos/OpenBuildings/kohana-test-bootstrap/zipball/a3f9e8756d0a3262063fd904ef31ead324639a0e",
+                "reference": "a3f9e8756d0a3262063fd904ef31ead324639a0e",
                 "shasum": ""
             },
             "type": "library",
@@ -777,7 +777,7 @@
                 }
             ],
             "description": "Kohana core classes repackaged with composer, used to test modules",
-            "time": "2013-08-12 09:28:25"
+            "time": "2013-09-20 19:43:58"
         }
     ],
     "aliases": [

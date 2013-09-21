@@ -4,16 +4,16 @@
  * Functest_TestsTest 
  *
  * @group jam.behavior
- * @group jam.behavior.shippable.purchase
+ * @group jam.behavior.shippable_store_purchase
  * 
  * @package Functest
  * @author Ivan Kerin
  * @copyright  (c) 2011-2013 Despark Ltd.
  */
-class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
+class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 
 	/**
-	 * @covers Jam_Behavior_Shippable_Purchase::update_shipping_items
+	 * @covers Jam_Behavior_Shippable_Store_Purchase::update_shipping_items
 	 */
 	public function test_update_items()
 	{
@@ -46,7 +46,7 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 	}
 
 	/**
-	 * @covers Jam_Behavior_Shippable_Purchase::model_call_items_by_shipping_method
+	 * @covers Jam_Behavior_Shippable_Store_Purchase::model_call_items_by_shipping_method
 	 */
 	public function test_items_by_shipping_method()
 	{
@@ -101,7 +101,7 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 
 	/**
 	 * @dataProvider data_filter_shipping_items
-	 * @covers Jam_Behavior_Shippable_Purchase::filter_shipping_items
+	 * @covers Jam_Behavior_Shippable_Store_Purchase::filter_shipping_items
 	 */
 	public function test_filter_shipping_items($item_params, $filter_name, $filters_array, $expected_ids)
 	{
@@ -143,6 +143,9 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 		$this->assertEquals($expected_ids, $this->ids($items));
 	}
 
+	/**
+	 * @covers Jam_Behavior_Shippable_Store_Purchase::model_call_total_delivery_time
+	 */
 	public function test_model_call_total_delivery_time()
 	{
 		$range = new Jam_Range(array(10, 20));
@@ -157,6 +160,9 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 		$this->assertSame($range, $store_purchase->total_delivery_time());
 	}
 
+	/**
+	 * Jam_Behavior_Shippable_Store_Purchase::model_call_delivery_time_dates
+	 */
 	public function test_model_call_delivery_time_dates()
 	{
 		$range = new Jam_Range(array(10, 20));
