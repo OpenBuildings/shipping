@@ -132,6 +132,17 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 		return Jam_Price::sum($group_prices, $total->currency(), $total->monetary());
 	}
 
+	public static function compute_delivery_time(array $items)
+	{
+		Array_Util::validate_instance_of($items, 'Model_Shipping_Item');
+
+		$ranges = array_map(function($item){
+			return $item->total_delivery_time();
+		}, $items);
+
+		return Jam_Range::merge($ranges);
+	}
+
 	/**
 	 * Get the shipping object associated with this item
 	 * @return Model_Shipping 

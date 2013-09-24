@@ -107,6 +107,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	}
 
 	/**
+	 * @covers Model_Shipping_Item::sort_by_price
 	 * @dataProvider data_sort_by_price
 	 */
 	public function test_sort_by_price($params, $expected_ids)
@@ -116,6 +117,40 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 		$sorted = Model_Shipping_Item::sort_by_price($items);
 
 		$this->assertEquals($expected_ids, $this->ids($sorted));
+	}
+
+	public function data_compute_delivery_time()
+	{
+		return array(
+			array(
+				array(
+					10 => array('total_delivery_time' => new Jam_Range(array(3, 10))), 
+					12 => array('total_delivery_time' => new Jam_Range(array(2, 12))), 
+					14 => array('total_delivery_time' => new Jam_Range(array(5, 22))), 
+				),
+				new Jam_range(array(5, 22)),
+			),
+			array(
+				array(
+					20 => array('total_delivery_time' => new Jam_Range(array(5, 5))), 
+					11 => array('total_delivery_time' => new Jam_Range(array(5, 6))), 
+					12 => array('total_delivery_time' => new Jam_Range(array(7, 10))), 
+				),
+				new Jam_range(array(7, 10)),
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider data_compute_delivery_time
+	 */
+	public function test_compute_delivery_time($params, $expected)
+	{
+		$items = $this->getMockModelArray('shipping_item', $params);
+		
+		$computed = Model_Shipping_Item::compute_delivery_time($items);
+
+		$this->assertEquals($expected, $computed);
 	}
 
 	public function data_relative_prices()
