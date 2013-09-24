@@ -85,6 +85,7 @@ class Model_Shipping_GroupTest extends Testcase_Shipping {
 
 	/**
 	 * @dataProvider data_sort_by_price
+ 	 * @covers Model_Shipping_Group::sort_by_price
 	 */
 	public function test_sort_by_price($params, $expected_ids)
 	{
@@ -97,6 +98,23 @@ class Model_Shipping_GroupTest extends Testcase_Shipping {
 		$sorted = Model_Shipping_Group::sort_by_price($shipping_groups);
 
 		$this->assertEquals($expected_ids, $this->ids($sorted));
+	}
+
+	/**
+ 	 * @covers Model_Shipping_Group::total_delivery_time
+	 */
+	public function test_total_delivery_time()
+	{
+		$shipping_group = Jam::build('shipping_group', array(
+			'delivery_time' => array(2, 3),
+			'shipping' => array(
+				'processing_time' => array(10, 20)
+			)
+		));
+
+		$expects = new Jam_Range(array(12, 23));
+
+		$this->assertEquals($expects, $shipping_group->total_delivery_time());
 	}
 
 }

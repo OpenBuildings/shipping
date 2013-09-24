@@ -49,6 +49,13 @@ class Kohana_Model_Shipping_Group extends Jam_Model {
 		return $items;
 	}
 
+	public function total_delivery_time()
+	{
+		$processing_time = $this->get_insist('shipping')->processing_time;
+		
+		return Jam_Range::sum(array($this->delivery_time, $processing_time));
+	}
+
 
 	/**
 	 * Get the currency for pricing calculations
