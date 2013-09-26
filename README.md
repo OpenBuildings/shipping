@@ -209,6 +209,20 @@ $store_purchase->total_delivery_time();
 $store_purchase->delivery_time_dates();
 ```
 
+### Shipping Address
+
+By default as shipping address is used the billing address of the purchase. If you want to change that address, you'll have to change the ``shipping_same_as_billing`` field and set the shipping_address association, which is the same Model_Address object. After that all the calculation will take the country of shiping_address instead of billing_address:
+
+```php
+$purchase = Jam::find('purchase', 1);
+
+$purchase->shipping_same_as_billing = FALSE;
+$purchase->build('shipping_address', array(
+  'country' => Jam::find('country', 'United Kingdom'),
+  'line1' => 'Street 1',
+  // ...
+));
+
 ## License
 
 Copyright (c) 2012-2013, OpenBuildings Ltd. Developed by Ivan Kerin as part of [clippings.com](http://clippings.com)

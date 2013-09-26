@@ -19,7 +19,6 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 			))
 			->associations(array(
 				'store_purchase' => Jam::association('belongsto'),
-				'location' => Jam::association('belongsto'),
 				'items' => Jam::association('hasmany', array('foreign_model' => 'shipping_item', 'inverse_of' => 'store_purchase_shipping')),
 			))
 			->fields(array(
@@ -63,7 +62,9 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	 */
 	public function total_purchase_price()
 	{
-		return $this->get_insist('store_purchase')->total_price(array('is_payable' => TRUE));
+		return $this
+			->get_insist('store_purchase')
+				->total_price(array('is_payable' => TRUE));
 	}
 
 	/**
@@ -72,7 +73,9 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	 */
 	public function currency()
 	{
-		return $this->get_insist('store_purchase')->currency();
+		return $this
+			->get_insist('store_purchase')
+				->currency();
 	}
 
 	/**
@@ -81,7 +84,10 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	 */
 	public function ship_to()
 	{
-		return $this->location;
+		return $this
+			->get_insist('store_purchase')
+				->get_insist('purchase')
+					->shipping_country();
 	}
 
 	/**
@@ -90,7 +96,9 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	 */
 	public function monetary()
 	{
-		return $this->get_insist('store_purchase')->monetary();
+		return $this
+			->get_insist('store_purchase')
+				->monetary();
 	}
 
 	/**
@@ -99,9 +107,9 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	 * @param  Model_Shipping_Method $method
 	 * @return $this
 	 */
-	public function build_items_from(array $purchase_items, Model_Shipping_Method $method)
+	public function build_items_from(array $purchase_items, Model_Shipping_Method $method = NULL)
 	{
-		$this->items = Model_Shipping_item::build_from($purchase_items, $this->ship_to(), $method);
+		$this->items = Model_Shipping_Item::build_from($purchase_items, $this->ship_to(), $method);
 
 		return $this;
 	}

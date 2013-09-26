@@ -50,8 +50,6 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 	 */
 	public function test_items_by_shipping_method()
 	{
-		$location = Jam::find('location', 'Germany');
-
 		$shipping = $this->getMock('Model_Shipping', array('methods_group_key', 'ships_to'), array('shipping'));
 
 		$shipping
@@ -59,26 +57,23 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 				->method('methods_group_key')
 				->will($this->onConsecutiveCalls('group1', 'group1', 'group2'));
 
-		$shipping
-			->set(array('location' => $location))
-			->expects($this->exactly(4))
-				->method('ships_to')
-				->with($this->identicalTo($location))
-				->will($this->onConsecutiveCalls(TRUE, TRUE, TRUE, FALSE));
-
 		$product = Jam::build('product', array('shipping' => $shipping));
 
-		$store_purchase = Jam::build('store_purchase', array(
-			'shipping' => array(
-				'location' => $location,
-			),
-			'items' => array(
+		$items = Jam_Array_Model::factory()
+			->model('purchase_item')
+			->load_fields(array())
+			->set(array(
 				array('id' => 10, 'type' => 'product', 'reference' => $product),
 				array('id' => 11, 'type' => 'product', 'reference' => $product),
 				array('id' => 12, 'type' => 'product', 'reference' => $product),
-				array('id' => 13, 'type' => 'product', 'reference' => $product),
-			)
-		));
+			));
+
+		$store_purchase = $this->getMock('Model_Store_Purchase', array('items'), array('store_purchase'));
+		$store_purchase
+			->expects($this->once())
+			->method('items')
+			->with($this->equalTo(array('can_ship' => TRUE)))
+			->will($this->returnValue($items->as_array()));
 
 		$groups = $store_purchase->items_by_shipping_method();
 
@@ -107,14 +102,19 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 	{
 		$location = Jam::find('location', 'Germany');
 
+		$shipping = $this->getMock('Model_Shipping', array('ship_to'), array('shipping'));
+
+		$shipping
+			->expects($this->exactly(3))
+				->method('ship_to')
+				->will($this->returnValue($location));
+
 		$store_purchase = Jam::build('store_purchase', array(
 			'items' => array(
 				array('id' => 100, 'type' => 'shipping'),
 				array('id' => 101, 'type' => 'promotion'),
 			),
-			'shipping' => array(
-				'location' => $location,
-			)
+			'shipping' => $shipping
 		));
 
 		foreach ($item_params as $id => $ships_to_result) 

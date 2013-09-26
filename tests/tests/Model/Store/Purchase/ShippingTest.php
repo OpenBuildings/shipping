@@ -59,9 +59,18 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 	public function test_ship_to()
 	{
 		$france = Jam::find('location', 'France');
+
+		$purchase = $this->getMock('Model_Purchase', array('shipping_country'), array('purchase'));
+
+		$purchase
+			->expects($this->once())
+				->method('shipping_country')
+				->will($this->returnValue($france));
 		
 		$store_purchase_shipping = Jam::build('store_purchase_shipping', array(
-			'location' => $france,
+			'store_purchase' => array(
+				'purchase' => $purchase,
+			),
 		));
 
 		$this->assertSame($france, $store_purchase_shipping->ship_to());
@@ -113,9 +122,12 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$post = Jam::find('shipping_method', 1);
 		$group = Jam::build('shipping_group');
 
-		$store_purchase_shipping = Jam::build('store_purchase_shipping', array(
-			'location' => $france
-		));
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('ship_to'), array('store_purchase_shipping'));
+
+		$store_purchase_shipping
+			->expects($this->once())
+				->method('ship_to')
+				->will($this->returnValue($france));
 
 		$shipping = $this->getMock('Model_Shipping', array('group_for'), array('shipping'));
 
@@ -167,18 +179,24 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 	 */
 	public function test_build_items_from_errors($wrong_object, $expected_exception_message)
 	{
-		$post = Jam::find('shipping_method', 1);
+		$france = Jam::find('location', 'France');
+
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('ship_to'), array('store_purchase_shipping'));
+
+		$store_purchase_shipping
+			->expects($this->once())
+				->method('ship_to')
+				->will($this->returnValue($france));
+
 
 		$purchase_items = array(
 			Jam::build('purchase_item'),
 			$wrong_object,
 		);
 
-		$store_purchase_shipping = Jam::build('store_purchase_shipping');
-
 		$this->setExpectedException('Kohana_Exception', $expected_exception_message);
 
-		$store_purchase_shipping->build_items_from($purchase_items, $post);
+		$store_purchase_shipping->build_items_from($purchase_items);
 	}
 
 	/**

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d6f720982ad2db03b31ce6fbd3a56a64",
+    "hash": "bc679298cc01eb10987165849ddf8db1",
     "packages": [
         {
             "name": "composer/installers",
@@ -263,16 +263,16 @@
         },
         {
             "name": "openbuildings/jam",
-            "version": "0.4.16",
+            "version": "0.4.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/jam.git",
-                "reference": "98be114b39115223fa577f8b5a00980aa9d4a6bb"
+                "reference": "232e94ba9292f9b77b675bfa9934fe391aba1bb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/98be114b39115223fa577f8b5a00980aa9d4a6bb",
-                "reference": "98be114b39115223fa577f8b5a00980aa9d4a6bb",
+                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/232e94ba9292f9b77b675bfa9934fe391aba1bb7",
+                "reference": "232e94ba9292f9b77b675bfa9934fe391aba1bb7",
                 "shasum": ""
             },
             "require": {
@@ -282,6 +282,12 @@
             },
             "require-dev": {
                 "openbuildings/kohana-test-bootsrap": "0.1.*"
+            },
+            "suggest": {
+                "openbuildings/jam-auth": "A Kohana Auth implementation for Jam, with services",
+                "openbuildings/jam-closuretable": "Closuretable implementation for Jam ORM",
+                "openbuildings/jam-monetary": "Convert and format currencies and amounts with a Jam field",
+                "openbuildings/jam-tart": "Jam admin builder"
             },
             "type": "kohana-module",
             "notification-url": "https://packagist.org/downloads/",
@@ -306,7 +312,7 @@
                 "upload",
                 "validation"
             ],
-            "time": "2013-09-20 20:12:00"
+            "time": "2013-09-26 08:34:31"
         },
         {
             "name": "openbuildings/jam-auth",
@@ -402,6 +408,54 @@
                 "tree"
             ],
             "time": "2013-09-02 12:41:12"
+        },
+        {
+            "name": "openbuildings/jam-locations",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OpenBuildings/jam-locations.git",
+                "reference": "1b3183467f376f99451cfdc7445c07b11a83d0cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OpenBuildings/jam-locations/zipball/1b3183467f376f99451cfdc7445c07b11a83d0cf",
+                "reference": "1b3183467f376f99451cfdc7445c07b11a83d0cf",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "*",
+                "openbuildings/jam-closuretable": "0.1.*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "ext-geoip": "*",
+                "openbuildings/environment-backup": "0.1.*",
+                "openbuildings/kohana-test-bootsrap": "0.1.*"
+            },
+            "type": "kohana-module",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Kerin",
+                    "email": "ikerin@gmail.com",
+                    "homepage": "http://www.openbuildings.com",
+                    "role": "Author"
+                }
+            ],
+            "description": "Geoip and IP integration",
+            "homepage": "https://github.com/OpenBuildings/jam-locations",
+            "keywords": [
+                "city",
+                "country",
+                "geoip",
+                "kohana",
+                "location"
+            ],
+            "time": "2013-09-26 07:02:11"
         },
         {
             "name": "openbuildings/jam-monetary",
@@ -519,12 +573,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "fa42d80fbb082e65ed29040f3e5076b008e3eb41"
+                "reference": "e9fdd9a03bc8c8009f36eed446affdf18536cda1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/fa42d80fbb082e65ed29040f3e5076b008e3eb41",
-                "reference": "fa42d80fbb082e65ed29040f3e5076b008e3eb41",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/e9fdd9a03bc8c8009f36eed446affdf18536cda1",
+                "reference": "e9fdd9a03bc8c8009f36eed446affdf18536cda1",
                 "shasum": ""
             },
             "require": {
@@ -532,6 +586,7 @@
                 "openbuildings/emp": "0.1.*",
                 "openbuildings/jam": "0.4.*",
                 "openbuildings/jam-auth": "0.2.*",
+                "openbuildings/jam-locations": "0.1.*",
                 "openbuildings/jam-monetary": "0.1.*",
                 "paypal/rest-api-sdk-php": "0.7.*",
                 "php": ">=5.3.0"
@@ -564,7 +619,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2013-09-24 11:03:50"
+            "time": "2013-09-26 07:21:54"
         },
         {
             "name": "paypal/rest-api-sdk-php",

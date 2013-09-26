@@ -37,7 +37,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	 * @param  Model_Shipping_Method $method         
 	 * @return array                 an array of Model_Shipping_Item objects
 	 */
-	public static function build_from(array $purchase_items, $location, $method)
+	public static function build_from(array $purchase_items, $location, $method = NULL)
 	{
 		$items = array();
 
@@ -45,9 +45,11 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 
 		foreach ($purchase_items as $purchase_item) 
 		{
+			$shipping = $purchase_item->get_insist('reference')->shipping();
+
 			$items []= Jam::build('shipping_item', array(
 				'purchase_item' => $purchase_item,
-				'shipping_group' => $purchase_item->get_insist('reference')->shipping()->group_for($location, $method),
+				'shipping_group' => $method ? $shipping->group_for($location, $method) : $shipping->cheapest_group_in($location),
 			));
 		}
 
