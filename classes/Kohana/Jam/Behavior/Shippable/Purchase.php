@@ -21,7 +21,9 @@ class Kohana_Jam_Behavior_Shippable_Purchase extends Jam_Behavior {
 			))
 			->fields(array(
 				'shipping_same_as_billing' => Jam::field('boolean', array('default' => 1)),
-			));
+			))
+			->events()
+				->bind('model.add_item', array($this, 'add_item'));
 	}
 
 	public function model_call_shipping_country(Model_Purchase $purchase, Jam_Event_Data $data, Model_Location $shipping_country = NULL)
@@ -47,6 +49,19 @@ class Kohana_Jam_Behavior_Shippable_Purchase extends Jam_Behavior {
 		if ($address AND $address->country)
 		{
 			$data->return = $address->country;
+		}
+	}
+
+	public function add_item(Model_Purchase $purchase, Jam_Event_Data $data, Model_Purchase_Item $purchase_item)
+	{
+		if (($store_purchase = $purchase_item->store_purchase) AND $purchase->shipping_country())
+		{
+			if ( ! $store_purchase->shipping) 
+			{
+				$store_purchase->build('shipping');
+			}
+
+			$store_purchase->shipping->build_item_from($purchase_item);
 		}
 	}
 

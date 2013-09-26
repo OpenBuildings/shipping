@@ -165,6 +165,46 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		}
 	}
 
+	/**
+	 * @covers Model_Store_Purchase_Shipping::build_item_from
+	 */
+	public function test_build_item_from()
+	{
+		$france = Jam::find('location', 'France');
+		$post = Jam::find('shipping_method', 1);
+		$group = Jam::build('shipping_group');
+
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('ship_to'), array('store_purchase_shipping'));
+
+		$store_purchase_shipping
+			->expects($this->once())
+				->method('ship_to')
+				->will($this->returnValue($france));
+
+		$shipping = $this->getMock('Model_Shipping', array('group_for'), array('shipping'));
+
+		$shipping
+			->expects($this->once())
+				->method('group_for')
+				->with($this->identicalTo($france), $this->identicalTo($post))
+				->will($this->returnValue($group));
+
+		$purchase_item = Jam::build('purchase_item', array(
+			'reference' => Jam::build('product', array(
+				'shipping' => $shipping
+			))
+		));
+
+		$store_purchase_shipping->build_item_from($purchase_item, $post);
+
+		$item = $store_purchase_shipping->items[0];
+		
+		$this->assertInstanceOf('Model_Shipping_Item', $item);
+		$this->assertSame($purchase_item, $item->purchase_item);
+		$this->assertSame($group, $item->shipping_group);
+		$this->assertSame($store_purchase_shipping, $item->store_purchase_shipping);
+	}
+
 	public function data_build_items_from_errors()
 	{
 		return array(

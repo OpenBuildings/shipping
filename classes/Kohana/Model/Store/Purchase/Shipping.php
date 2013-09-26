@@ -18,7 +18,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 				'freezable' => Jam::behavior('freezable', array('children' => 'items', 'parent' => 'store_purchase')),
 			))
 			->associations(array(
-				'store_purchase' => Jam::association('belongsto'),
+				'store_purchase' => Jam::association('belongsto', array('inverse_of' => 'shipping')),
 				'items' => Jam::association('hasmany', array('foreign_model' => 'shipping_item', 'inverse_of' => 'store_purchase_shipping')),
 			))
 			->fields(array(
@@ -109,8 +109,16 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	 */
 	public function build_items_from(array $purchase_items, Model_Shipping_Method $method = NULL)
 	{
-		$this->items = Model_Shipping_Item::build_from($purchase_items, $this->ship_to(), $method);
+		$this->items = Model_Shipping_Item::build_array_from($purchase_items, $this->ship_to(), $method);
 
 		return $this;
 	}
+
+	public function build_item_from(Model_Purchase_Item $purchase_item, Model_Shipping_Method $method = NULL)
+	{
+		$this->items []= Model_Shipping_Item::build_from($purchase_item, $this->ship_to(), $method);
+
+		return $this;
+	}
+
 }

@@ -21,7 +21,6 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 			))
 			->events()
 				->bind('model.update_items', array($this, 'update_shipping_items'))
-				->bind('model.update_items', array($this, 'build_shipping'))
 				->bind('model.filter_items', array($this, 'filter_shipping_items'));
 
 		$behaviors = $meta->behaviors();
@@ -98,21 +97,6 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 		}
 
 		$data->return = $filtered;
-	}
-
-	public function build_shipping(Model_Store_Purchase $store_purchase, Jam_Event_Data $data)
-	{
-		if ( ! $store_purchase->shipping AND $store_purchase->get_insist('purchase')->shipping_country())
-		{
-			$shippable_items = $store_purchase->items(array('shippable' => TRUE));
-
-			if ($shippable_items)
-			{
-				$store_purchase
-					->build('shipping')
-						->build_items_from($shippable_items);
-			}
-		}
 	}
 
 	public function update_shipping_items(Model_Store_Purchase $store_purchase, Jam_Event_Data $data)

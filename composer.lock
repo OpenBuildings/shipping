@@ -263,16 +263,16 @@
         },
         {
             "name": "openbuildings/jam",
-            "version": "0.4.20",
+            "version": "0.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/jam.git",
-                "reference": "232e94ba9292f9b77b675bfa9934fe391aba1bb7"
+                "reference": "251e1dbbe2259deade9678c65f1c03c1442ba960"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/232e94ba9292f9b77b675bfa9934fe391aba1bb7",
-                "reference": "232e94ba9292f9b77b675bfa9934fe391aba1bb7",
+                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/251e1dbbe2259deade9678c65f1c03c1442ba960",
+                "reference": "251e1dbbe2259deade9678c65f1c03c1442ba960",
                 "shasum": ""
             },
             "require": {
@@ -312,7 +312,7 @@
                 "upload",
                 "validation"
             ],
-            "time": "2013-09-26 08:34:31"
+            "time": "2013-09-26 12:06:35"
         },
         {
             "name": "openbuildings/jam-auth",
@@ -573,12 +573,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "e9fdd9a03bc8c8009f36eed446affdf18536cda1"
+                "reference": "b8afc9d5a5ac108ee4666a9d87a4bc311a6ab20a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/e9fdd9a03bc8c8009f36eed446affdf18536cda1",
-                "reference": "e9fdd9a03bc8c8009f36eed446affdf18536cda1",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/b8afc9d5a5ac108ee4666a9d87a4bc311a6ab20a",
+                "reference": "b8afc9d5a5ac108ee4666a9d87a4bc311a6ab20a",
                 "shasum": ""
             },
             "require": {
@@ -619,7 +619,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2013-09-26 07:21:54"
+            "time": "2013-09-26 17:11:32"
         },
         {
             "name": "paypal/rest-api-sdk-php",

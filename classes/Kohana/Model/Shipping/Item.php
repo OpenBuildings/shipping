@@ -37,23 +37,32 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	 * @param  Model_Shipping_Method $method         
 	 * @return array                 an array of Model_Shipping_Item objects
 	 */
-	public static function build_from(array $purchase_items, $location, $method = NULL)
+	public static function build_array_from(array $purchase_items, Model_Location $location, $method = NULL)
 	{
-		$items = array();
-
 		Array_Util::validate_instance_of($purchase_items, 'Model_Purchase_Item');
 
-		foreach ($purchase_items as $purchase_item) 
-		{
-			$shipping = $purchase_item->get_insist('reference')->shipping();
+		return array_map(function($purchase_item) use ($location, $method) {
+			return Model_Shipping_Item::build_from($purchase_item, $location, $method);
+		}, $purchase_items);
+	}
 
-			$items []= Jam::build('shipping_item', array(
-				'purchase_item' => $purchase_item,
-				'shipping_group' => $method ? $shipping->group_for($location, $method) : $shipping->cheapest_group_in($location),
-			));
-		}
+	/**
+	 * Build a Model_Shipping_Item based on a Model_Purchase_Item, Model_Location and an optional Model_Shipping_Method
+	 * If Method is given it will find the most appropriate combination of method / location
+	 * otherwise will select the cheapest.
+	 * @param  Model_Purchase_Item $purchase_item 
+	 * @param  Model_Location $location 
+	 * @param  Model_Shipping_Method $method
+	 * @return Model_Shipping_Item
+	 */
+	public static function build_from(Model_Purchase_Item $purchase_item, Model_Location $location, $method = NULL)
+	{
+		$shipping = $purchase_item->get_insist('reference')->shipping();
 
-		return $items;
+		return Jam::build('shipping_item', array(
+			'purchase_item' => $purchase_item,
+			'shipping_group' => $method ? $shipping->group_for($location, $method) : $shipping->cheapest_group_in($location),
+		));
 	}
 
 	/**

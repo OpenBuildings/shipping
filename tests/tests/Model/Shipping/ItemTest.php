@@ -15,9 +15,9 @@ use OpenBuildings\Monetary\Source_Static;
 class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 	/**
-	 * @covers Model_Shipping_Item::build_from
+	 * @covers Model_Shipping_Item::build_array_from
 	 */
-	public function test_build_from()
+	public function test_build_array_from()
 	{
 		$store_purchase = Jam::find('store_purchase', 1);
 		$france = Jam::find('location', 'France');
@@ -25,7 +25,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 		$items = array($store_purchase->items[0], $store_purchase->items[2]);
 
-		$shipping_items = Model_Shipping_Item::build_from($items, $france, $post);
+		$shipping_items = Model_Shipping_Item::build_array_from($items, $france, $post);
 
 		$this->assertCount(2, $shipping_items);
 
@@ -38,6 +38,27 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 		$this->assertSame($items[0], $shipping_items[0]->purchase_item);
 		$this->assertSame($items[1], $shipping_items[1]->purchase_item);
+	}
+
+	/**
+	 * @covers Model_Shipping_Item::build_from
+	 */
+	public function test_build_from()
+	{
+		$store_purchase = Jam::find('store_purchase', 1);
+		$france = Jam::find('location', 'France');
+		$post = Jam::find('shipping_method', 1);
+
+		$purchase_item = $store_purchase->items[0];
+
+		$shipping_item = Model_Shipping_Item::build_from($purchase_item, $france, $post);
+
+		$this->assertINstanceOf('Model_Shipping_Item', $shipping_item);
+		$this->assertEquals($france, $shipping_item->shipping_group->location);
+		$this->assertEquals($post, $shipping_item->shipping_group->method);
+
+		$this->assertSame($purchase_item, $shipping_item->purchase_item);
+		$this->assertEquals($post, $shipping_item->shipping_group->method);
 	}
 
 	public function data_filter_discounted_items()
