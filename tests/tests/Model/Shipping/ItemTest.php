@@ -57,7 +57,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 		$this->assertINstanceOf('Model_Shipping_Item', $shipping_item);
 		$this->assertEquals($france, $shipping_item->shipping_group->location);
-		$this->assertSame('Model_Store_Purchase_Shipping', $shipping_item->store_purchase_shipping);
+		$this->assertSame($shipping, $shipping_item->store_purchase_shipping);
 		$this->assertEquals($post, $shipping_item->shipping_group->method);
 
 		$this->assertSame($purchase_item, $shipping_item->purchase_item);
