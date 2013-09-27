@@ -60,11 +60,20 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	public function items_from(array $purchase_items)
 	{
 		Array_Util::validate_instance_of($purchase_items, 'Model_Purchase_Item');
-		$purchase_item_ids = array_map(function($purchase_item){ return $purchase_item->id; }, $purchase_items);
-	
-		$items = $this->items->as_array('purchase_item_id');
-	
-		return array_intersect_key($items, array_flip($purchase_item_ids));
+
+		$purchase_item_ids = array_map(function($purchase_item){ return $purchase_item->id(); }, $purchase_items);
+
+		$items = array();
+
+		foreach ($this->items->as_array() as $index => $item) 
+		{
+			if (in_array($item->purchase_item_id, $purchase_item_ids))
+			{
+				$items[$index] = $item;
+			}
+		}
+
+		return $items;
 	}
 
 	/**

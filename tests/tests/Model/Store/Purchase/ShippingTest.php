@@ -326,8 +326,8 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$result = $store_purchase_shipping->items_from($purchase_items);
 	
 		$expected = array(
-			1 => $items[0],
-			5 => $items[2],
+			0 => $items[0],
+			2 => $items[2],
 		);
 	
 		$this->assertEquals($expected, $result);	
