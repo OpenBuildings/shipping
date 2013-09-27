@@ -37,14 +37,6 @@ class Kohana_Purchase_Item_Group {
 		return $store_purchase_shipping;
 	}
 
-	public function shipping_items_ids(Model_Shipping_Method $method)
-	{
-		$items = $this->shipping_items_for($method);
-		return array_map(function($item) {
-			return $item->id();
-		}, $items);
-	}
-
 	public function shipping_items_for(Model_Shipping_Method $method)
 	{
 		return $this->store_purchase->get_insist('shipping')->items_from($this->purchase_items);

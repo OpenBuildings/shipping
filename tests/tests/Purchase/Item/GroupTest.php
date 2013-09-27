@@ -94,40 +94,4 @@ class Purchase_Item_GroupTest extends Testcase_Shipping {
 
 		$this->assertEquals($expected, $group->is_method_selected(Jam::find('shipping_method', $method_id)));
 	}
-
-	public function data_shipping_items_ids()
-	{
-		return array(
-			array(array(1, 2, 5), array(1, 2, 5)),
-		);
-	}
-
-	/**
-	 * @dataProvider data_shipping_items_ids
-	 */
-	public function test_shipping_items_ids($shipping_item_ids, $expected)
-	{
-		$shipping = $this->getMock('Model_Store_Purchase_Shipping', array('items_from'), array('store_purchase_shipping'));
-		$store_purchase = Jam::build('store_purchase', array('shipping' => $shipping));
-
-		$purchase_items = array(Jam::build('purchase_item'));
-		$methods = array(Jam::build('shipping_method'));
-
-		$group = new Purchase_Item_Group($store_purchase, $methods, $purchase_items);
-
-		$items = array();
-
-		foreach ($shipping_item_ids as $id) 
-		{
-			$items []= Jam::build('shipping_item', array('id' => $id));
-		}
-
-		$shipping
-			->expects($this->once())
-			->method('items_from')
-			->with($this->identicalTo($purchase_items))
-			->will($this->returnValue($items));
-
-		$this->assertEquals($expected, $group->shipping_items_ids(Jam::build('shipping_method')));
-	}
 }
