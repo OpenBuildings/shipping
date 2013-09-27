@@ -60,6 +60,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 		$shipping = $purchase_item->get_insist('reference')->shipping();
 
 		return Jam::build('shipping_item', array(
+			'store_purchase_shipping' => $purchase_item->store_purchase ? $purchase_item->store_purchase->shipping : NULL,
 			'purchase_item' => $purchase_item,
 			'shipping_group' => $method ? $shipping->group_for($location, $method) : $shipping->cheapest_group_in($location),
 		));
