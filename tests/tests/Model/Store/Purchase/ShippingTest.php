@@ -258,7 +258,35 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$this->assertSame($items[1], $shipping_items[1]->purchase_item);
 	}
 
-	public static function data_total_price()
+	public function data_items_method()
+	{
+		return array(
+			array(array(1, 1, 1), 1),
+			array(array(1), 1),
+			array(array(2), 2),
+			array(array(1, 2), NULL),
+			array(array(1, 1, 2, 2, 1), NULL),
+		);
+	}
+
+	/**
+	 * @dataProvider data_items_method
+	 */
+	public function test_items_method($method_ids, $expected)
+	{
+		$items = array();
+
+		foreach ($method_ids as $id) 
+		{
+			$items []= array('shipping_group' => array('method' => $id));
+		}
+
+		$store_purchase_shipping = Jam::build('store_purchase_shipping', array('items' => $items));
+
+		$this->assertEquals($store_purchase_shipping->items_method(), $expected ? Jam::find('shipping_method', $expected) : $expected);
+	}
+
+	public function data_total_price()
 	{
 		$monetary = new Monetary('GBP', new Source_Static());
 		return array(

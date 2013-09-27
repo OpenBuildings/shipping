@@ -57,6 +57,21 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		return Jam_Price::sum($group_prices, $total->currency(), $total->monetary());
 	}
 
+	public function items_method()
+	{
+		$methods = array_map(function($item){
+			return $item->get_insist('shipping_group')->method;
+		}, $this->items->as_array());
+
+		return array_reduce($methods, function ( & $result, $item){
+			if ($result AND $item AND $result != $item)
+			{
+				return NULL;
+			}
+			return $item;
+		});
+	}
+
 	/**
 	 * Get the merge of all total_delivery_time ranges from the items
 	 * By getting the maximum min and max amounts.
