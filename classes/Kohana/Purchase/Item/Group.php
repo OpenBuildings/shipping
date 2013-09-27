@@ -24,7 +24,9 @@ class Kohana_Purchase_Item_Group {
 
 	public function build_shipping_for(Model_Shipping_Method $method)
 	{
+		$shipping = $this->store_purchase->shipping;
 		$store_purchase_shipping = Jam::build('store_purchase_shipping', array('store_purchase' => $this->store_purchase));
+		$this->store_purchase->shipping = $shipping;
 
 		$store_purchase_shipping
 			->build_items_from($this->purchase_items, $method);
