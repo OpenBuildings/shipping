@@ -94,4 +94,46 @@ class Purchase_Item_GroupTest extends Testcase_Shipping {
 
 		$this->assertEquals($expected, $group->is_method_selected(Jam::find('shipping_method', $method_id)));
 	}
+
+	public function data_explode_indexes()
+	{
+		return array(
+			array(
+				array(1, 2, 3), 
+				array(1, 2, 3),
+			),
+			array(
+				array(1, array(1, 2, 5), 3), 
+				array(1, array(1, 2, 5), 3),
+			),
+			array(
+				array('1,2,3' => 10), 
+				array(1 => 10, 2 => 10, 3 => 10),
+			),
+			array(
+				array('1,2,3' => 10, 0 => 10, 13 => 20), 
+				array(0 => 10, 1 => 10, 2 => 10, 3 => 10, 13 => 20),
+			),
+			array(
+				array('1,2,3' => 10, '12,15' => 20, 13 => 20), 
+				array(1 => 10, 2 => 10, 3 => 10, 12 => 20, 15 => 20, 13 => 20),
+			),
+			array(
+				array('1,2,3' => 10, '12,15' => array('5,6' => 4), 13 => 20), 
+				array(1 => 10, 2 => 10, 3 => 10, 12 => array(5 => 4, 6 => 4), 15 => array(5 => 4, 6 => 4), 13 => 20),
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider data_explode_indexes
+	 */
+	public function test_explode_indexes($array, $expected)
+	{
+		$result = Purchase_Item_Group::explode_indexes($array);
+
+		$this->assertEquals($expected, $result);
+	}
+
+
 }

@@ -8,6 +8,31 @@
  */
 class Kohana_Purchase_Item_Group {
 
+	public static function explode_indexes($array)
+	{
+		if ( ! is_array($array)) 
+			return $array;
+		
+		$new_array = array();
+		
+		foreach ($array as $key => & $value) 
+		{
+			if (strpos($key, ',') !== FALSE)
+			{
+				foreach (explode(',', $key) as $single_key) 
+				{
+					$new_array[$single_key] = Purchase_Item_Group::explode_indexes($value);
+				}
+			}
+			else
+			{
+				$new_array[$key] = Purchase_Item_Group::explode_indexes($value);
+			}
+		}
+
+		return $new_array;
+	}
+	
 	public $methods = array();
 	public $purchase_items = array();
 	public $store_purchase;
