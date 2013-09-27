@@ -54,4 +54,45 @@ class Purchase_Item_GroupTest extends Testcase_Shipping {
 		$this->assertSame($purchase_items[1], $store_purchase_shipping->items[1]->purchase_item);
 	}
 
+	public function data_is_method_selected()
+	{
+		return array(
+			array(array(1, 1, 1), 1, TRUE),
+			array(array(1), 1, TRUE),
+			array(array(2), 2, TRUE),
+			array(array(1, 2), 1, FALSE),
+			array(array(1, 1, 2, 2, 1), 1, FALSE),
+			array(array(1, 1), 2, FALSE),
+		);
+	}
+
+	/**
+	 * @dataProvider data_is_method_selected
+	 */
+	public function test_is_method_selected($item_method_ids, $method_id, $expected)
+	{
+		$shipping = $this->getMock('Model_Store_Purchase_Shipping', array('items_from'), array('store_purchase_shipping'));
+		$store_purchase = Jam::build('store_purchase', array('shipping' => $shipping));
+
+		$methods = array(Jam::build('shipping_method'));
+		$purchase_items = array(Jam::build('purchase_item'));
+
+		$group = new Purchase_Item_Group($store_purchase, $methods, $purchase_items);
+
+		$items = array();
+
+		foreach ($item_method_ids as $id) 
+		{
+			$items []= Jam::build('shipping_item', array('shipping_group' => array('method' => $id)));
+		}
+
+		$shipping
+			->expects($this->once())
+			->method('items_from')
+			->with($this->identicalTo($purchase_items))
+			->will($this->returnValue($items));
+
+		$this->assertEquals($group->is_method_selected(Jam::find('shipping_method', $method_id)), $expected);
+	}
+
 }

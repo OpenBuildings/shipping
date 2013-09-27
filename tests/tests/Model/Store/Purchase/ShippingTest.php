@@ -258,34 +258,6 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$this->assertSame($items[1], $shipping_items[1]->purchase_item);
 	}
 
-	public function data_items_method()
-	{
-		return array(
-			array(array(1, 1, 1), 1),
-			array(array(1), 1),
-			array(array(2), 2),
-			array(array(1, 2), NULL),
-			array(array(1, 1, 2, 2, 1), NULL),
-		);
-	}
-
-	/**
-	 * @dataProvider data_items_method
-	 */
-	public function test_items_method($method_ids, $expected)
-	{
-		$items = array();
-
-		foreach ($method_ids as $id) 
-		{
-			$items []= array('shipping_group' => array('method' => $id));
-		}
-
-		$store_purchase_shipping = Jam::build('store_purchase_shipping', array('items' => $items));
-
-		$this->assertEquals($store_purchase_shipping->items_method(), $expected ? Jam::find('shipping_method', $expected) : $expected);
-	}
-
 	public function data_total_price()
 	{
 		$monetary = new Monetary('GBP', new Source_Static());
@@ -331,6 +303,34 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 				)
 			),
 		);
+	}
+
+	/**
+	 * @covers Model_Store_Purchase_Shipping::items_from
+	 */
+	public function test_items_from()
+	{
+		$purchase_items = array(
+			Jam::build('purchase_item', array('id' => 1)),
+			Jam::build('purchase_item', array('id' => 5)),
+		);
+	
+		$items = array(
+			Jam::build('shipping_item', array('purchase_item_id' => 1)),
+			Jam::build('shipping_item', array('purchase_item_id' => 3)),
+			Jam::build('shipping_item', array('purchase_item_id' => 5)),
+		);
+	
+		$store_purchase_shipping = Jam::build('store_purchase_shipping', array('items' => $items));
+	
+		$result = $store_purchase_shipping->items_from($purchase_items);
+	
+		$expected = array(
+			1 => $items[0],
+			5 => $items[2],
+		);
+	
+		$this->assertEquals($expected, $result);	
 	}
 
 	/**

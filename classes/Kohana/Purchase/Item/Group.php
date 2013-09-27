@@ -31,4 +31,19 @@ class Kohana_Purchase_Item_Group {
 
 		return $store_purchase_shipping;
 	}
+
+	public function is_method_selected(Model_Shipping_Method $method)
+	{
+		$items = $this->store_purchase->get_insist('shipping')->items_from($this->purchase_items);
+
+		foreach ($items as $item) 
+		{
+			if ($item->get_insist('shipping_group')->method_id !== $method->id()) 
+			{
+				return FALSE;
+			}
+		}
+
+		return TRUE;
+	}
 }
