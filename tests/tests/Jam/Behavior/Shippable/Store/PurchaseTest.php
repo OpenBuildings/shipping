@@ -46,9 +46,9 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 	}
 
 	/**
-	 * @covers Jam_Behavior_Shippable_Store_Purchase::model_call_items_by_shipping_method
+	 * @covers Jam_Behavior_Shippable_Store_Purchase::model_call_purchase_item_groups
 	 */
-	public function test_items_by_shipping_method()
+	public function test_purchase_item_groups()
 	{
 		$shipping = $this->getMock('Model_Shipping', array('methods_group_key', 'ships_to'), array('shipping'));
 
@@ -75,14 +75,16 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 			->with($this->equalTo(array('can_ship' => TRUE)))
 			->will($this->returnValue($items->as_array()));
 
-		$groups = $store_purchase->items_by_shipping_method();
+		$groups = $store_purchase->purchase_item_groups();
 
 		$this->assertCount(2, $groups);
-		$this->assertArrayHasKey('group1', $groups);
-		$this->assertArrayHasKey('group2', $groups);
-
-		$this->assertEquals(array(10, 11), $this->ids($groups['group1']));
-		$this->assertEquals(array(12), $this->ids($groups['group2']));
+		$this->assertInstanceOf('Purchase_Item_Group', $groups['group1']);
+		$this->assertInstanceOf('Purchase_Item_Group', $groups['group2']);
+		
+		$this->assertEquals(array(10, 11), $this->ids($groups['group1']->purchase_items));
+		$this->assertEquals(array(12), $this->ids($groups['group2']->purchase_items));
+		$this->assertSame($store_purchase, $groups['group1']->store_purchase);
+		$this->assertSame($store_purchase, $groups['group2']->store_purchase);
 	}
 
 	public function data_filter_shipping_items()

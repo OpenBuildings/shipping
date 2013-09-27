@@ -93,40 +93,6 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 		$this->assertEquals($expected_ids, $this->ids($sorted));
 	}
 
-	public function data_compute_delivery_time()
-	{
-		return array(
-			array(
-				array(
-					10 => array('total_delivery_time' => new Jam_Range(array(3, 10))), 
-					12 => array('total_delivery_time' => new Jam_Range(array(2, 12))), 
-					14 => array('total_delivery_time' => new Jam_Range(array(5, 22))), 
-				),
-				new Jam_range(array(5, 22)),
-			),
-			array(
-				array(
-					20 => array('total_delivery_time' => new Jam_Range(array(5, 5))), 
-					11 => array('total_delivery_time' => new Jam_Range(array(5, 6))), 
-					12 => array('total_delivery_time' => new Jam_Range(array(7, 10))), 
-				),
-				new Jam_range(array(7, 10)),
-			),
-		);
-	}
-
-	/**
-	 * @dataProvider data_compute_delivery_time
-	 */
-	public function test_compute_delivery_time($params, $expected)
-	{
-		$items = $this->getMockModelArray('shipping_item', $params);
-		
-		$computed = Model_Shipping_Item::compute_delivery_time($items);
-
-		$this->assertEquals($expected, $computed);
-	}
-
 	public function data_relative_prices()
 	{
 		$monetary = new Monetary('GBP', new Source_Static());
@@ -437,40 +403,40 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 		$this->assertEquals($expected, $total_price);
 	}
 
-		public function data_total_additional_item_price()
-		{
-			$monetary = new Monetary('GBP', new Source_Static());
+	public function data_total_additional_item_price()
+	{
+		$monetary = new Monetary('GBP', new Source_Static());
 
-			return array(
+		return array(
+			array(
 				array(
-					array(
-						'additional_item_price' => new Jam_Price(5, 'GBP', $monetary),
-						'quantity' => 3,
-					),
-					new Jam_Price(5*3, 'GBP', $monetary),
-				),			
-				array(
-					array(
-						'additional_item_price' => new Jam_Price(8, 'GBP', $monetary),
-						'quantity' => 1,
-					),
-					new Jam_Price(8*1, 'GBP', $monetary),
+					'additional_item_price' => new Jam_Price(5, 'GBP', $monetary),
+					'quantity' => 3,
 				),
-			);
-		}
+				new Jam_Price(5*3, 'GBP', $monetary),
+			),			
+			array(
+				array(
+					'additional_item_price' => new Jam_Price(8, 'GBP', $monetary),
+					'quantity' => 1,
+				),
+				new Jam_Price(8*1, 'GBP', $monetary),
+			),
+		);
+	}
 
-		/**
-		 * @covers Model_Shipping_Item::total_additional_item_price
-	 	 * @dataProvider data_total_additional_item_price
-		 */
-		public function test_total_additional_item_price($params, $expected)
-		{
-			$item = $this->getMockFromParams('Model_Shipping_Item', $params, array('shipping_item'));
+	/**
+	 * @covers Model_Shipping_Item::total_additional_item_price
+ 	 * @dataProvider data_total_additional_item_price
+	 */
+	public function test_total_additional_item_price($params, $expected)
+	{
+		$item = $this->getMockFromParams('Model_Shipping_Item', $params, array('shipping_item'));
 
-			$total_additional_item_price = $item->total_additional_item_price();
+		$total_additional_item_price = $item->total_additional_item_price();
 
-			$this->assertEquals($expected, $total_additional_item_price);
-		}
+		$this->assertEquals($expected, $total_additional_item_price);
+	}
 
 
 }

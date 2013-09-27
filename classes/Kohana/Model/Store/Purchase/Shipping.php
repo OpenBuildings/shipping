@@ -35,9 +35,26 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	 */
 	public function price_for_purchase_item(Model_Purchase_Item $item)
 	{
+		return $this->total_price();
+	}
+
+	public function total_price()
+	{
+		$total = $this->total_purchase_price();
 		$items = $this->items->as_array();
 
-		return $this->compute_price($items);
+		$items = Model_Shipping_Item::filter_discounted_items($items, $total);
+
+		$groups = Array_Util::group_by($items, function($item){
+			return $item->group_key();
+		});
+
+		$group_prices = array_map(function($grouped_items) use ($total) {
+			$prices = Model_Shipping_Item::relative_prices($grouped_items);
+			return Jam_Price::sum($prices, $total->currency(), $total->monetary());
+		}, $groups);
+
+		return Jam_Price::sum($group_prices, $total->currency(), $total->monetary());
 	}
 
 	/**
@@ -100,16 +117,6 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 				->monetary();
 	}
 
-	public function items_from(array $purchase_items)
-	{
-		Array_Util::validate_instance_of($purchase_items, 'Model_Purchase_Item');
-		$purchase_item_ids = array_map(function($purchase_item){ return $purchase_item->id; }, $purchase_items);
-
-		$items = $this->items->as_array('purchase_item_id');
-
-		return array_intersect_key($items, array_flip($purchase_item_ids));
-	}
-
 	/**
 	 * Build Shipping_Items based on purchase items and method, as well as the ship_to() method
 	 * @param  array                 $purchase_items array of Model_Purchase_Item objects
@@ -136,19 +143,6 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		return $this;
 	}
 
-	/**
-	 * Compute the price of shipping items, generated from the purchase_items.
-	 * This method does not change the store_purchase_shipping object in any way.
-	 * @param  array                 $purchase_items 
-	 * @param  Model_Shipping_Method $method         
-	 * @return Jam_Price
-	 */
-	public function compute_price_from(array $purchase_items, Model_Shipping_Method $method)
-	{
-		$shipping_items = $this->new_items_from($purchase_items, $this->ship_to(), $method);
-		return $this->compute_price($shipping_items);
-	}
-
 	public function new_items_from(array $purchase_items, Model_Location $location, $method = NULL)
 	{
 		Array_Util::validate_instance_of($purchase_items, 'Model_Purchase_Item');
@@ -170,31 +164,4 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 			'shipping_group' => $method ? $shipping->group_for($location, $method) : $shipping->cheapest_group_in($location),
 		));
 	}
-
-	/**
-	 * Compute prices of Model_Shipping_Item filtering out discounted items,
-	 * grouping by method and shipping_from, and calculating their relative prices
-	 * @param  array     $items 
-	 * @return Jam_Price
-	 */
-	public function compute_price(array $items)
-	{
-		$total = $this->total_purchase_price();
-
-		Array_Util::validate_instance_of($items, 'Model_Shipping_Item');
-
-		$items = Model_Shipping_Item::filter_discounted_items($items, $total);
-
-		$groups = Array_Util::group_by($items, function($item){
-			return $item->group_key();
-		});
-
-		$group_prices = array_map(function($grouped_items) use ($total) {
-			$prices = Model_Shipping_Item::relative_prices($grouped_items);
-			return Jam_Price::sum($prices, $total->currency(), $total->monetary());
-		}, $groups);
-
-		return Jam_Price::sum($group_prices, $total->currency(), $total->monetary());
-	}
-
 }
