@@ -104,9 +104,9 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		);
 
 		$items = array(
-			Jam::build('shipping_item', array('purchase_id' => 1)),
-			Jam::build('shipping_item', array('purchase_id' => 3)),
-			Jam::build('shipping_item', array('purchase_id' => 5)),
+			Jam::build('shipping_item', array('purchase_item_id' => 1)),
+			Jam::build('shipping_item', array('purchase_item_id' => 3)),
+			Jam::build('shipping_item', array('purchase_item_id' => 5)),
 		);
 
 		$store_purchase_shipping = Jam::build('store_purchase_shipping', array('items' => $items));

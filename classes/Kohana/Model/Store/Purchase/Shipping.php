@@ -105,7 +105,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		Array_Util::validate_instance_of($purchase_items, 'Model_Purchase_Item');
 		$purchase_item_ids = array_map(function($purchase_item){ return $purchase_item->id; }, $purchase_items);
 
-		$items = $this->items->as_array('purchase_id');
+		$items = $this->items->as_array('purchase_item_id');
 
 		return array_intersect_key($items, array_flip($purchase_item_ids));
 	}
