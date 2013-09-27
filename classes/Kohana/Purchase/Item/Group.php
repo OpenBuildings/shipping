@@ -40,7 +40,7 @@ class Kohana_Purchase_Item_Group {
 	public function shipping_items_ids(Model_Shipping_Method $method)
 	{
 		$items = $this->shipping_items_for($method);
-		return array_map(function($items) {
+		return array_map(function($item) {
 			return $item->id();
 		}, $items);
 	}
