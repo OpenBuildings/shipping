@@ -36,9 +36,8 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	public function price_for_purchase_item(Model_Purchase_Item $item)
 	{
 		$items = $this->items->as_array();
-		$total_price = $this->total_purchase_price();
 
-		return Model_Shipping_Item::compute_price($items, $total_price);
+		return $this->compute_price($items);
 	}
 
 	/**
@@ -109,16 +108,77 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	 */
 	public function build_items_from(array $purchase_items, Model_Shipping_Method $method = NULL)
 	{
-		$this->items = Model_Shipping_Item::build_array_from($purchase_items, $this->ship_to(), $method);
+		$this->items = $this->new_items_from($purchase_items, $this->ship_to(), $method);
 
 		return $this;
 	}
 
+	/**
+	 * Build a single shipping_item and add it to the items of this store_purchase_shipping.
+	 * @param  Model_Purchase_Item $purchase_item 
+	 * @param  Model_Shipping_Method              $method
+	 * @return Model_Store_Purchase_Shipping
+	 */
 	public function build_item_from(Model_Purchase_Item $purchase_item, Model_Shipping_Method $method = NULL)
 	{
-		$this->items []= Model_Shipping_Item::build_from($purchase_item, $this->ship_to(), $method);
+		$this->items []= $this->new_item_from($purchase_item, $this->ship_to(), $method);
 
 		return $this;
+	}
+
+	public function compute_price_from(array $purchase_items, Model_Shipping_Method $method)
+	{
+		$shipping_items = $this->new_items_from($purchase_items, $this->ship_to(), $method);
+		return $this->compute_price($shipping_items);
+	}
+
+	public function new_items_from(array $purchase_items, Model_Location $location, $method = NULL)
+	{
+		Array_Util::validate_instance_of($purchase_items, 'Model_Purchase_Item');
+
+		$self = $this;
+
+		return array_map(function($purchase_item) use ($location, $method, $self) {
+			return $self->new_item_from($purchase_item, $location, $method);
+		}, $purchase_items);
+	}
+
+	public function new_item_from(Model_Purchase_Item $purchase_item, Model_Location $location, Model_Shipping_Method $method = NULL)
+	{
+		$shipping = $purchase_item->get_insist('reference')->shipping();
+
+		return Jam::build('shipping_item', array(
+			'store_purchase_shipping' => $this,
+			'purchase_item' => $purchase_item,
+			'shipping_group' => $method ? $shipping->group_for($location, $method) : $shipping->cheapest_group_in($location),
+		));
+	}
+
+	/**
+	 * Compute prices of Model_Shipping_Item filtering out discounted items,
+	 * grouping by method and shipping_from, and calculating their relative prices
+	 * @param  array     $items 
+	 * @param  Jam_Price $total 
+	 * @return Jam_Price
+	 */
+	public function compute_price(array $items)
+	{
+		$total = $this->total_purchase_price();
+
+		Array_Util::validate_instance_of($items, 'Model_Shipping_Item');
+
+		$items = Model_Shipping_Item::filter_discounted_items($items, $total);
+
+		$groups = Array_Util::group_by($items, function($item){
+			return $item->group_key();
+		});
+
+		$group_prices = array_map(function($grouped_items) use ($total) {
+			$prices = Model_Shipping_Item::relative_prices($grouped_items);
+			return Jam_Price::sum($prices, $total->currency(), $total->monetary());
+		}, $groups);
+
+		return Jam_Price::sum($group_prices, $total->currency(), $total->monetary());
 	}
 
 }

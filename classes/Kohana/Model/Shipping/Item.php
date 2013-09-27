@@ -30,43 +30,6 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	}
 
 	/**
-	 * Build an array of Model_Shipping_Item objects based on the purchase_items given, location and a method
-	 * uses each purchase_item's shipping to get the appropriate shipping_group for the location / method
-	 * @param  array                 $purchase_items array of Shippable Model_Purchase_Item objects
-	 * @param  Model_Location        $location       
-	 * @param  Model_Shipping_Method $method         
-	 * @return array                 an array of Model_Shipping_Item objects
-	 */
-	public static function build_array_from(array $purchase_items, Model_Location $location, $method = NULL)
-	{
-		Array_Util::validate_instance_of($purchase_items, 'Model_Purchase_Item');
-
-		return array_map(function($purchase_item) use ($location, $method) {
-			return Model_Shipping_Item::build_from($purchase_item, $location, $method);
-		}, $purchase_items);
-	}
-
-	/**
-	 * Build a Model_Shipping_Item based on a Model_Purchase_Item, Model_Location and an optional Model_Shipping_Method
-	 * If Method is given it will find the most appropriate combination of method / location
-	 * otherwise will select the cheapest.
-	 * @param  Model_Purchase_Item $purchase_item 
-	 * @param  Model_Location $location 
-	 * @param  Model_Shipping_Method $method
-	 * @return Model_Shipping_Item
-	 */
-	public static function build_from(Model_Purchase_Item $purchase_item, Model_Location $location, $method = NULL)
-	{
-		$shipping = $purchase_item->get_insist('reference')->shipping();
-
-		return Jam::build('shipping_item', array(
-			'store_purchase_shipping' => $purchase_item->store_purchase ? $purchase_item->store_purchase->shipping : NULL,
-			'purchase_item' => $purchase_item,
-			'shipping_group' => $method ? $shipping->group_for($location, $method) : $shipping->cheapest_group_in($location),
-		));
-	}
-
-	/**
 	 * Filter out Model_Shipping_Item's of shipping_groups that are discounted, 
 	 * based on the provided total price 
 	 * @param  array     $items array of Model_Shipping_Item objects
@@ -117,31 +80,6 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 		}, $items, array_keys($items));
 
 		return $prices;
-	}
-
-	/**
-	 * Compute prices of Model_Shipping_Item filtering out discounted items,
-	 * grouping by method and shipping_from, and calculating their relative prices
-	 * @param  array     $items 
-	 * @param  Jam_Price $total 
-	 * @return Jam_Price
-	 */
-	public static function compute_price(array $items, Jam_Price $total)
-	{
-		Array_Util::validate_instance_of($items, 'Model_Shipping_Item');
-
-		$items = Model_Shipping_Item::filter_discounted_items($items, $total);
-
-		$groups = Array_Util::group_by($items, function($item){
-			return $item->group_key();
-		});
-
-		$group_prices = array_map(function($grouped_items) use ($total) {
-			$prices = Model_Shipping_Item::relative_prices($grouped_items);
-			return Jam_Price::sum($prices, $total->currency(), $total->monetary());
-		}, $groups);
-
-		return Jam_Price::sum($group_prices, $total->currency(), $total->monetary());
 	}
 
 	public static function compute_delivery_time(array $items)

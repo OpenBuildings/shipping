@@ -1,37 +1,36 @@
 <?php
 
 use OpenBuildings\Monetary\Monetary;
+use OpenBuildings\Monetary\Source_Static;
+
 /**
- * Functest_TestsTest 
- *
  * @group model.purchase
- * 
- * @package Functest
- * @author Ivan Kerin
- * @copyright  (c) 2011-2013 Despark Ltd.
  */
 class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 
 	/**
-	 * @dataProvider Model_Shipping_ItemTest::data_compute_price
 	 * @covers Model_Store_Purchase_Shipping::price_for_purchase_item
 	 */
-	public function test_compute_price($params, $total, $expected)
+	public function test_price_for_purchase_item()
 	{
-		$items = $this->getMockModelArray('shipping_item', $params);
+		$expected = new Jam_Price(10, 'GBP');
+		$items = array(
+			Jam::build('shipping_item'),
+		);
 
-		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('total_purchase_price'), array('store_purchase_shipping'));
-
-		$store_purchase_shipping
-			->expects($this->once())
-				->method('total_purchase_price')
-				->will($this->returnValue($total));
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('compute_price'), array('store_purchase_shipping'));
 
 		$store_purchase_shipping->items = $items;
 
-		$price = $store_purchase_shipping->price_for_purchase_item(Jam::build('purchase_item'));
+		$store_purchase_shipping
+			->expects($this->once())
+				->method('compute_price')
+				->with($this->equalTo($items))
+				->will($this->returnValue($expected));
 
-		$this->assertEquals($expected, $price);
+		$result = $store_purchase_shipping->price_for_purchase_item(Jam::build('purchase_item'));
+
+		$this->assertEquals($expected, $result);
 	}
 
 
@@ -114,132 +113,6 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 	}
 
 	/**
-	 * @covers Model_Store_Purchase_Shipping::build_items_from
-	 */
-	public function test_build_items_from()
-	{
-		$france = Jam::find('location', 'France');
-		$post = Jam::find('shipping_method', 1);
-		$group = Jam::build('shipping_group');
-
-		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('ship_to'), array('store_purchase_shipping'));
-
-		$store_purchase_shipping
-			->expects($this->once())
-				->method('ship_to')
-				->will($this->returnValue($france));
-
-		$shipping = $this->getMock('Model_Shipping', array('group_for'), array('shipping'));
-
-		$shipping
-			->expects($this->exactly(2))
-				->method('group_for')
-				->with($this->identicalTo($france), $this->identicalTo($post))
-				->will($this->returnValue($group));
-
-		$purchase_items = array(
-			Jam::build('purchase_item', array(
-				'reference' => Jam::build('product', array(
-					'shipping' => $shipping
-				))
-			)),
-			Jam::build('purchase_item', array(
-				'reference' => Jam::build('product', array(
-					'shipping' => $shipping
-				))
-			)),
-		);
-
-		$store_purchase_shipping->build_items_from($purchase_items, $post);
-
-		$items = $store_purchase_shipping->items;
-		
-		$this->assertCount(2, $items);
-
-		foreach ($items as $i => $item) 
-		{
-			$this->assertInstanceOf('Model_Shipping_Item', $item);
-			$this->assertSame($purchase_items[$i], $item->purchase_item);
-			$this->assertSame($group, $item->shipping_group);
-			$this->assertSame($store_purchase_shipping, $item->store_purchase_shipping);
-		}
-	}
-
-	/**
-	 * @covers Model_Store_Purchase_Shipping::build_item_from
-	 */
-	public function test_build_item_from()
-	{
-		$france = Jam::find('location', 'France');
-		$post = Jam::find('shipping_method', 1);
-		$group = Jam::build('shipping_group');
-
-		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('ship_to'), array('store_purchase_shipping'));
-
-		$store_purchase_shipping
-			->expects($this->once())
-				->method('ship_to')
-				->will($this->returnValue($france));
-
-		$shipping = $this->getMock('Model_Shipping', array('group_for'), array('shipping'));
-
-		$shipping
-			->expects($this->once())
-				->method('group_for')
-				->with($this->identicalTo($france), $this->identicalTo($post))
-				->will($this->returnValue($group));
-
-		$purchase_item = Jam::build('purchase_item', array(
-			'reference' => Jam::build('product', array(
-				'shipping' => $shipping
-			))
-		));
-
-		$store_purchase_shipping->build_item_from($purchase_item, $post);
-
-		$item = $store_purchase_shipping->items[0];
-		
-		$this->assertInstanceOf('Model_Shipping_Item', $item);
-		$this->assertSame($purchase_item, $item->purchase_item);
-		$this->assertSame($group, $item->shipping_group);
-		$this->assertSame($store_purchase_shipping, $item->store_purchase_shipping);
-	}
-
-	public function data_build_items_from_errors()
-	{
-		return array(
-			array(array('asd'), 'The array must be of Model_Purchase_Item object, item [1] was "array"'),
-			array(Jam::build('product'), 'The array must be of Model_Purchase_Item object, item [1] was "Model_Product"'),
-		);
-	}
-
-	/**
-	 * @covers Model_Store_Purchase_Shipping::build_items_from
-	 * @dataProvider data_build_items_from_errors
-	 */
-	public function test_build_items_from_errors($wrong_object, $expected_exception_message)
-	{
-		$france = Jam::find('location', 'France');
-
-		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('ship_to'), array('store_purchase_shipping'));
-
-		$store_purchase_shipping
-			->expects($this->once())
-				->method('ship_to')
-				->will($this->returnValue($france));
-
-
-		$purchase_items = array(
-			Jam::build('purchase_item'),
-			$wrong_object,
-		);
-
-		$this->setExpectedException('Kohana_Exception', $expected_exception_message);
-
-		$store_purchase_shipping->build_items_from($purchase_items);
-	}
-
-	/**
 	 * @covers Model_Store_Purchase_Shipping::total_delivery_time
 	 */
 	public function test_total_delivery_time()
@@ -263,5 +136,228 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		));
 
 		$this->assertEquals(new Jam_Range(array(10, 34)), $shipping->total_delivery_time());
+	}
+
+	/**
+	 * @covers Model_Store_Purchase_Shipping::build_item_from
+	 */
+	public function test_build_item_from()
+	{
+		$purchase_item = Jam::build('purchase_item');
+		$location = Jam::build('location');
+		$method = Jam::build('shipping_method');
+		$expected = Jam::build('shipping_item');
+
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('ship_to', 'new_item_from'), array('store_purchase_shipping'));
+
+		$store_purchase_shipping
+			->expects($this->once())
+				->method('ship_to')
+				->will($this->returnValue($location));
+
+		$store_purchase_shipping
+			->expects($this->once())
+				->method('new_item_from')
+				->with($this->identicalTo($purchase_item), $this->identicalTo($location), $this->identicalTo($method))
+				->will($this->returnValue($expected));
+
+		$store_purchase_shipping->build_item_from($purchase_item, $method);
+
+		$this->assertEquals($expected, $store_purchase_shipping->items[0]);
+	}
+
+	/**
+	 * @covers Model_Store_Purchase_Shipping::build_items_from
+	 */
+	public function test_build_items_from()
+	{
+		$location = Jam::build('location');
+		$method = Jam::build('shipping_method');
+
+		$expected = array(
+			Jam::build('shipping_item'),
+		);
+
+		$purchase_items = array(
+			Jam::build('purchase_item'),
+		);
+
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('ship_to', 'new_items_from'), array('store_purchase_shipping'));
+
+		$store_purchase_shipping
+			->expects($this->once())
+				->method('ship_to')
+				->will($this->returnValue($location));
+
+		$store_purchase_shipping
+			->expects($this->once())
+				->method('new_items_from')
+				->with($this->identicalTo($purchase_items), $this->identicalTo($location), $this->identicalTo($method))
+				->will($this->returnValue($expected));
+
+		$store_purchase_shipping->build_items_from($purchase_items, $method);
+
+		$this->assertEquals($expected, $store_purchase_shipping->items->as_array());
+	}
+
+	/**
+	 * @covers Model_Store_Purchase_Shipping::compute_price_from
+	 */
+	public function test_compute_price_from()
+	{
+		$location = Jam::build('location');
+		$method = Jam::build('shipping_method');
+		$expected = new Jam_Price(10, 'GBP');
+
+		$shipping_items = array(
+			Jam::build('shipping_item'),
+		);
+
+		$purchase_items = array(
+			Jam::build('purchase_item'),
+		);
+
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('ship_to', 'new_items_from', 'compute_price'), array('store_purchase_shipping'));
+
+		$store_purchase_shipping
+			->expects($this->once())
+				->method('ship_to')
+				->will($this->returnValue($location));
+
+		$store_purchase_shipping
+			->expects($this->once())
+				->method('new_items_from')
+				->with($this->identicalTo($purchase_items), $this->identicalTo($location), $this->identicalTo($method))
+				->will($this->returnValue($shipping_items));
+
+		$store_purchase_shipping
+			->expects($this->once())
+				->method('compute_price')
+				->with($this->identicalTo($shipping_items))
+				->will($this->returnValue($expected));
+
+		$result = $store_purchase_shipping->compute_price_from($purchase_items, $method);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @covers Model_Store_Purchase_Shipping::new_item_from
+	 */
+	public function test_new_item_from()
+	{
+		$store_purchase = Jam::find('store_purchase', 1);
+		$shipping = $store_purchase->build('shipping');
+
+		$france = Jam::find('location', 'France');
+		$post = Jam::find('shipping_method', 1);
+
+		$purchase_item = $store_purchase->items[0];
+
+		$shipping_item = $shipping->new_item_from($purchase_item, $france, $post);
+
+		$this->assertINstanceOf('Model_Shipping_Item', $shipping_item);
+		$this->assertEquals($france, $shipping_item->shipping_group->location);
+		$this->assertSame($shipping, $shipping_item->store_purchase_shipping);
+		$this->assertEquals($post, $shipping_item->shipping_group->method);
+
+		$this->assertSame($purchase_item, $shipping_item->purchase_item);
+		$this->assertEquals($post, $shipping_item->shipping_group->method);
+	}
+	
+
+	/**
+	 * @covers Model_Store_Purchase_Shipping::new_items_from
+	 */
+	public function test_new_items_from()
+	{
+		$store_purchase = Jam::find('store_purchase', 1);
+		$france = Jam::find('location', 'France');
+		$post = Jam::find('shipping_method', 1);
+		$shipping = $store_purchase->build('shipping');
+
+		$items = array($store_purchase->items[0], $store_purchase->items[2]);
+
+		$shipping_items = $shipping->new_items_from($items, $france, $post);
+
+		$this->assertCount(2, $shipping_items);
+
+		foreach ($shipping_items as $item)
+		{
+			$this->assertINstanceOf('Model_Shipping_Item', $item);
+			$this->assertEquals($france, $item->shipping_group->location);
+			$this->assertEquals($post, $item->shipping_group->method);
+			$this->assertSame($shipping, $item->store_purchase_shipping);
+		}
+
+		$this->assertSame($items[0], $shipping_items[0]->purchase_item);
+		$this->assertSame($items[1], $shipping_items[1]->purchase_item);
+	}
+
+	public static function data_compute_price()
+	{
+		$monetary = new Monetary('GBP', new Source_Static());
+		return array(
+			array(
+				array(
+					10 => array(
+						'price' => new Jam_Price(20, 'EUR', $monetary),
+						'additional_item_price' => new Jam_Price(70, 'EUR', $monetary),
+						'is_discounted' => TRUE,
+						'quantity' => 2,
+						'group_key' => 'group1',
+					),
+					11 => array(
+						'price' => new Jam_Price(18, 'EUR', $monetary),
+						'additional_item_price' => new Jam_Price(10, 'EUR', $monetary),
+						'is_discounted' => FALSE,
+						'quantity' => 2,
+						'group_key' => 'group2',
+					),
+					12 => array(
+						'price' => new Jam_Price(25, 'EUR', $monetary),
+						'additional_item_price' => new Jam_Price(12, 'EUR', $monetary),
+						'is_discounted' => FALSE,
+						'quantity' => 5,
+						'group_key' => 'group2',
+					),
+					13 => array(
+						'price' => new Jam_Price(30, 'EUR', $monetary),
+						'additional_item_price' => new Jam_Price(22, 'EUR', $monetary),
+						'is_discounted' => FALSE,
+						'quantity' => 3,
+						'group_key' => 'group3',
+					),
+				),
+				new Jam_Price(300, 'EUR', $monetary),
+				new Jam_Price(
+					0 
+					+ 10*2 
+					+ 25+12*4
+					+ 30+22*2
+					, 'EUR', $monetary
+				)
+			),			
+		);
+	}
+
+	/**
+	 * @dataProvider data_compute_price
+	 * @covers Model_Store_Purchase_Shipping::compute_price
+	 */
+	public function test_compute_price($params, $total, $expected)
+	{
+		$items = $this->getMockModelArray('shipping_item', $params);
+
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('total_purchase_price'), array('store_purchase_shipping'));
+
+		$store_purchase_shipping
+			->expects($this->once())
+				->method('total_purchase_price')
+				->will($this->returnValue($total));
+
+		$computed_price = $store_purchase_shipping->compute_price($items);
+
+		$this->assertEquals($expected, $computed_price);
 	}
 }

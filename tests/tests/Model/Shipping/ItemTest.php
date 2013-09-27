@@ -14,56 +14,6 @@ use OpenBuildings\Monetary\Source_Static;
  */
 class Model_Shipping_ItemTest extends Testcase_Shipping {
 
-	/**
-	 * @covers Model_Shipping_Item::build_array_from
-	 */
-	public function test_build_array_from()
-	{
-		$store_purchase = Jam::find('store_purchase', 1);
-		$france = Jam::find('location', 'France');
-		$post = Jam::find('shipping_method', 1);
-
-		$items = array($store_purchase->items[0], $store_purchase->items[2]);
-
-		$shipping_items = Model_Shipping_Item::build_array_from($items, $france, $post);
-
-		$this->assertCount(2, $shipping_items);
-
-		foreach ($shipping_items as $item)
-		{
-			$this->assertINstanceOf('Model_Shipping_Item', $item);
-			$this->assertEquals($france, $item->shipping_group->location);
-			$this->assertEquals($post, $item->shipping_group->method);
-		}
-
-		$this->assertSame($items[0], $shipping_items[0]->purchase_item);
-		$this->assertSame($items[1], $shipping_items[1]->purchase_item);
-	}
-
-	/**
-	 * @covers Model_Shipping_Item::build_from
-	 */
-	public function test_build_from()
-	{
-		$store_purchase = Jam::find('store_purchase', 1);
-		$shipping = $store_purchase->build('shipping');
-
-		$france = Jam::find('location', 'France');
-		$post = Jam::find('shipping_method', 1);
-
-		$purchase_item = $store_purchase->items[0];
-
-		$shipping_item = Model_Shipping_Item::build_from($purchase_item, $france, $post);
-
-		$this->assertINstanceOf('Model_Shipping_Item', $shipping_item);
-		$this->assertEquals($france, $shipping_item->shipping_group->location);
-		$this->assertSame($shipping, $shipping_item->store_purchase_shipping);
-		$this->assertEquals($post, $shipping_item->shipping_group->method);
-
-		$this->assertSame($purchase_item, $shipping_item->purchase_item);
-		$this->assertEquals($post, $shipping_item->shipping_group->method);
-	}
-
 	public function data_filter_discounted_items()
 	{
 		return array(
@@ -216,66 +166,6 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 		$prices = Model_Shipping_Item::relative_prices($items);
 
 		$this->assertEquals($expected, $prices);
-	}
-
-	public static function data_compute_price()
-	{
-		$monetary = new Monetary('GBP', new Source_Static());
-		return array(
-			array(
-				array(
-					10 => array(
-						'price' => new Jam_Price(20, 'EUR', $monetary),
-						'additional_item_price' => new Jam_Price(70, 'EUR', $monetary),
-						'is_discounted' => TRUE,
-						'quantity' => 2,
-						'group_key' => 'group1',
-					),
-					11 => array(
-						'price' => new Jam_Price(18, 'EUR', $monetary),
-						'additional_item_price' => new Jam_Price(10, 'EUR', $monetary),
-						'is_discounted' => FALSE,
-						'quantity' => 2,
-						'group_key' => 'group2',
-					),
-					12 => array(
-						'price' => new Jam_Price(25, 'EUR', $monetary),
-						'additional_item_price' => new Jam_Price(12, 'EUR', $monetary),
-						'is_discounted' => FALSE,
-						'quantity' => 5,
-						'group_key' => 'group2',
-					),
-					13 => array(
-						'price' => new Jam_Price(30, 'EUR', $monetary),
-						'additional_item_price' => new Jam_Price(22, 'EUR', $monetary),
-						'is_discounted' => FALSE,
-						'quantity' => 3,
-						'group_key' => 'group3',
-					),
-				),
-				new Jam_Price(300, 'EUR', $monetary),
-				new Jam_Price(
-					0 
-					+ 10*2 
-					+ 25+12*4
-					+ 30+22*2
-					, 'EUR', $monetary
-				)
-			),			
-		);
-	}
-
-	/**
-	 * @dataProvider data_compute_price
-	 * @covers Model_Shipping_Item::compute_price
-	 */
-	public function test_compute_price($params, $total, $expected)
-	{
-		$items = $this->getMockModelArray('shipping_item', $params);
-
-		$computed_price = Model_Shipping_Item::compute_price($items, $total);
-
-		$this->assertEquals($expected, $computed_price);
 	}
 
 	/**
