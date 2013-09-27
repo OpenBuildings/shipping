@@ -94,6 +94,34 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 	}
 
 	/**
+	 * @covers Model_Store_Purchase_Shipping::items_from
+	 */
+	public function test_items_from()
+	{
+		$purchase_items = array(
+			Jam::build('purchase_item', array('id' => 1)),
+			Jam::build('purchase_item', array('id' => 5)),
+		);
+
+		$items = array(
+			Jam::build('shipping_item', array('purchase_id' => 1)),
+			Jam::build('shipping_item', array('purchase_id' => 3)),
+			Jam::build('shipping_item', array('purchase_id' => 5)),
+		);
+
+		$store_purchase_shipping = Jam::build('store_purchase_shipping', array('items' => $items));
+
+		$result = $store_purchase_shipping->items_from($purchase_items);
+
+		$expected = array(
+			1 => $items[0],
+			5 => $items[2],
+		);
+
+		$this->assertEquals($expected, $result);	
+	}
+
+	/**
 	 * @covers Model_Store_Purchase_Shipping::total_purchase_price
 	 */
 	public function test_total_purchase_price()

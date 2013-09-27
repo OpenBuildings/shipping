@@ -100,6 +100,16 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 				->monetary();
 	}
 
+	public function items_from(array $purchase_items)
+	{
+		Array_Util::validate_instance_of($purchase_items, 'Model_Purchase_Item');
+		$purchase_item_ids = array_map(function($purchase_item){ return $purchase_item->id; }, $purchase_items);
+
+		$items = $this->items->as_array('purchase_id');
+
+		return array_intersect_key($items, array_flip($purchase_item_ids));
+	}
+
 	/**
 	 * Build Shipping_Items based on purchase items and method, as well as the ship_to() method
 	 * @param  array                 $purchase_items array of Model_Purchase_Item objects
@@ -126,6 +136,13 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		return $this;
 	}
 
+	/**
+	 * Compute the price of shipping items, generated from the purchase_items.
+	 * This method does not change the store_purchase_shipping object in any way.
+	 * @param  array                 $purchase_items 
+	 * @param  Model_Shipping_Method $method         
+	 * @return Jam_Price
+	 */
 	public function compute_price_from(array $purchase_items, Model_Shipping_Method $method)
 	{
 		$shipping_items = $this->new_items_from($purchase_items, $this->ship_to(), $method);
@@ -158,7 +175,6 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	 * Compute prices of Model_Shipping_Item filtering out discounted items,
 	 * grouping by method and shipping_from, and calculating their relative prices
 	 * @param  array     $items 
-	 * @param  Jam_Price $total 
 	 * @return Jam_Price
 	 */
 	public function compute_price(array $items)
