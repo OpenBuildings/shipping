@@ -57,6 +57,18 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		return Jam_Price::sum($group_prices, $total->currency(), $total->monetary());
 	}
 
+	public function duplicate()
+	{
+		$duplicate = Jam::build('store_purchase_shipping', array(
+			'store_purchase' => $this->store_purchase
+		));
+
+		// This is needed to counteract inverse_of store_purchase in store_purchase_shipping
+		$this->store_purchase->shipping = $this;
+
+		return $duplicate;
+	}
+
 	public function items_from(array $purchase_items)
 	{
 		Array_Util::validate_instance_of($purchase_items, 'Model_Purchase_Item');

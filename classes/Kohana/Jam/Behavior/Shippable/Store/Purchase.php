@@ -27,7 +27,7 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 		$behaviors['freezable']->_associations[] = 'shipping';
 	}
 
-	public function model_call_purchase_item_groups(Model_Store_Purchase $store_purchase, Jam_Event_Data $data)
+	public function model_call_group_shipping_methods(Model_Store_Purchase $store_purchase, Jam_Event_Data $data)
 	{
 		$items = $store_purchase->items(array('can_ship' => TRUE));
 
@@ -38,7 +38,7 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 		$data->return = array_map(function($group) use ($store_purchase) {
 			$methods = $group[0]->get_insist('reference')->shipping()->methods->as_array('id');
 
-			return new Purchase_Item_Group($store_purchase, $methods, $group);
+			return new Group_Shipping_Methods($store_purchase->shipping, $methods, $group);
 		}, $groups);
 	}
 
