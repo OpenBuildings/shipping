@@ -111,7 +111,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	{
 		return $this
 			->get_insist('store_purchase')
-				->total_price(array('is_payable' => TRUE));
+				->total_price(array('is_payable' => TRUE, 'not' => 'shipping'));
 	}
 
 	/**

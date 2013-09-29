@@ -573,12 +573,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "84c777c13c225cc459fe5f8fecd686551c8d76bf"
+                "reference": "63ccef12531b26346a5d8a0ed42c6727299f6fb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/84c777c13c225cc459fe5f8fecd686551c8d76bf",
-                "reference": "84c777c13c225cc459fe5f8fecd686551c8d76bf",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/63ccef12531b26346a5d8a0ed42c6727299f6fb3",
+                "reference": "63ccef12531b26346a5d8a0ed42c6727299f6fb3",
                 "shasum": ""
             },
             "require": {
@@ -619,7 +619,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2013-09-29 08:21:56"
+            "time": "2013-09-29 09:22:35"
         },
         {
             "name": "paypal/rest-api-sdk-php",
