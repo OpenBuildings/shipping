@@ -5,6 +5,77 @@
  */
 class Group_Shipping_ItemsTest extends Testcase_Shipping {
 
+	public function test_parse_values()
+	{
+		$value = array(
+			'id' => 10,
+			'store_purchases' => array(
+				array(
+					'id' => 20,
+					'shipping' => array(
+						'id' => 50,
+						'items' => array(
+							'0%5Bid%5D=10392&0%5Bshipping_group_id%5D=323701',
+							'0%5Bid%5D=10395&0%5Bshipping_group_id%5D=350012',
+						)
+					)
+				),
+				array(
+					'id' => 20,
+					'shipping' => array(
+						'id' => 50,
+						'items' => array(
+							'0%5Bid%5D=10331&0%5Bshipping_group_id%5D=323701',
+							'0%5Bid%5D=10395&0%5Bshipping_group_id%5D=350012',
+						)
+					)
+				)
+			)
+		);
+
+		$expected = array(
+			'id' => 10,
+			'store_purchases' => array(
+				array(
+					'id' => 20,
+					'shipping' => array(
+						'id' => 50,
+						'items' => array(
+							array(
+								'id' => '10392',
+								'shipping_group_id' => '323701',
+							),
+							array(
+								'id' => '10395',
+								'shipping_group_id' => '350012',
+							),
+						)
+					)
+				),
+				array(
+					'id' => 20,
+					'shipping' => array(
+						'id' => 50,
+						'items' => array(
+							array(
+								'id' => '10331',
+								'shipping_group_id' => '323701',
+							),
+							array(
+								'id' => '10395',
+								'shipping_group_id' => '350012',
+							),
+						)
+					)
+				)
+			)
+		);
+
+		$result = Group_Shipping_Items::parse_form_values($value, 'store_purchases.*.shipping.items');
+
+		$this->assertEquals($expected, $result);
+	}
+
 	public function test_construct()
 	{
 		$store_purchase_shipping = Jam::build('store_purchase_shipping');

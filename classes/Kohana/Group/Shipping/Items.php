@@ -15,6 +15,36 @@ class Kohana_Group_Shipping_Items {
 	protected $_shipping_for_method;
 	protected $_existing_shipping_items;
 
+	public static function parse_form_values(array $array, $path)
+	{
+		if (strpos($path, '*') !== FALSE) 
+		{
+			foreach (Arr::path($array, $path) as $i => $items) 
+			{
+				Group_Shipping_Items::set_array_values($array, str_replace('*', $i, $path), $items);
+			}
+		}
+		else
+		{
+			Group_Shipping_Items::set_array_values($array, $path, $items);
+		}
+		
+		return $array;
+	}
+
+	private static function set_array_values( & $array, $path, $values)
+	{
+		$new = array();
+		foreach ($values as $item) 
+		{
+			parse_str($item, $item);
+			$new = Arr::merge($new, $item);
+		}
+
+		Arr::set_path($array, $path, $new);
+	}
+
+
 	function __construct(Model_Store_Purchase_Shipping $store_purchase_shipping, $purchase_items, $shipping_method)
 	{
 		Array_Util::validate_instance_of($purchase_items, 'Model_Purchase_Item');
@@ -87,7 +117,7 @@ class Kohana_Group_Shipping_Items {
 				);
 			}
 		}
-		
+
 		return http_build_query($array);
 	}
 
