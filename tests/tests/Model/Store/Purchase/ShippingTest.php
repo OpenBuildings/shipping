@@ -97,7 +97,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$store_purchase
 			->expects($this->once())
 				->method('total_price')
-				->with($this->equalTo(array('is_payable' => TRUE)))
+				->with($this->equalTo(array('is_payable' => TRUE, 'not' => 'shipping')))
 				->will($this->returnValue($price));
 
 		$item = Jam::build('store_purchase_shipping', array('store_purchase' => $store_purchase));
