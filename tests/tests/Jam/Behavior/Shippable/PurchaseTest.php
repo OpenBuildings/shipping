@@ -82,4 +82,39 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 		$this->assertInstanceOf('Model_Shipping_Group', $item->shipping_group);
 	}
 
+	/**
+	 * @covers Jam_Behavior_Shippable_Purchase::model_before_check
+	 */
+	public function test_model_before_check()
+	{
+		$purchase = Jam::build('purchase');
+
+		$this->assertTrue($purchase->shipping_same_as_billing);
+
+		$purchase->shipping_required = TRUE;
+
+		$purchase->check();
+
+		$this->assertEquals(array('billing_address' => array('present' => array())), $purchase->errors()->as_array());
+
+		$purchase->billing_address = array('first_name' => 10);
+
+		$purchase->check();
+
+		$this->assertEquals(array('billing_address' => array('association' => array(':errors' => $purchase->billing_address->errors()))), $purchase->errors()->as_array());
+
+		$purchase = Jam::build('purchase');
+		$purchase->shipping_required = TRUE;
+		$purchase->shipping_same_as_billing = FALSE;
+		$purchase->check();
+		
+		$this->assertEquals(array('shipping_address' => array('present' => array())), $purchase->errors()->as_array());
+
+		$purchase->shipping_address = array('first_name' => 10);
+
+		$purchase->check();
+		
+		$this->assertEquals(array('shipping_address' => array('association' => array(':errors' => $purchase->shipping_address->errors()))), $purchase->errors()->as_array());
+	}
+
 }

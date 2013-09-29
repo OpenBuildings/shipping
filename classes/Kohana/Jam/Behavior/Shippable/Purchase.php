@@ -20,10 +20,30 @@ class Kohana_Jam_Behavior_Shippable_Purchase extends Jam_Behavior {
 				'shipping_address' => Jam::association('belongsto', array('foreign_model' => 'address')),
 			))
 			->fields(array(
-				'shipping_same_as_billing' => Jam::field('boolean', array('default' => 1)),
+				'shipping_same_as_billing' => Jam::field('boolean', array('default' => TRUE)),
+				'shipping_required' => Jam::field('boolean', array('in_db' => FALSE)),
 			))
 			->events()
 				->bind('model.add_item', array($this, 'add_item'));
+	}
+
+	public function model_before_check(Model_Purchase $purchase, Jam_Event_Data $data)
+	{
+		if ($purchase->shipping_required) 
+		{
+			if ($purchase->shipping_same_as_billing AND ! $purchase->billing_address) 
+			{
+				$purchase->errors()->add('billing_address', 'present');
+			}
+			elseif ( ! $purchase->shipping_same_as_billing AND ! $purchase->shipping_address) 
+			{
+				$purchase->errors()->add('shipping_address', 'present');
+			}
+			else
+			{
+				$purchase->shipping_address()->fields_required = TRUE;	
+			}
+		}
 	}
 
 	public function model_call_shipping_country(Model_Purchase $purchase, Jam_Event_Data $data, Model_Location $shipping_country = NULL)

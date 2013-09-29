@@ -56,10 +56,4 @@ Kohana::$config
 			),
 		));
 
-Kohana::$config
-	->load('auth')
-		->set('session_type', 'Auth_Test')
-		->set('session_key', 'auth_user')
-		->set('hash_key', '11111');
-
 Kohana::$environment = Kohana::TESTING;
