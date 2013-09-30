@@ -38,6 +38,11 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		return $this->total_price();
 	}
 
+	public function name()
+	{
+		return 'Shipping';
+	}
+
 	public function total_price()
 	{
 		$total = $this->total_purchase_price();
