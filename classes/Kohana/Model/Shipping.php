@@ -135,6 +135,13 @@ class Kohana_Model_Shipping extends Jam_Model {
 		return Jam_Range::merge($delivery_times);
 	}
 
+	public function delivery_time()
+	{
+		$delivery_times = $this->groups->as_array(NULL, 'delivery_time');
+		
+		return Jam_Range::merge(array_filter($delivery_times));
+	}
+
 	public function locations_containing(Model_Location $location)
 	{
 		// Get by unique id (flattening duplicates)
