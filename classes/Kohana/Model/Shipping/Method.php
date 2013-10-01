@@ -27,6 +27,6 @@ class Kohana_Model_Shipping_Method extends Jam_Model {
 				'id'         => Jam::field('primary'),
 				'name'       => Jam::field('string'),
 			))
-			->validator('name', 'shipping', array('present' => TRUE));
+			->validator('name', array('present' => TRUE));
 	}
 }
