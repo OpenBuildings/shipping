@@ -44,7 +44,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 				'id' => Jam::field('primary'),
 				'name' => Jam::field('string'),
 				'currency' => Jam::field('string'),
-				'processing_time' => Jam::field('range'),
+				'processing_time' => Jam::field('range', array('format' => ':min - :max days')),
 			))
 
 			->validator('name', 'currency', array('present' => TRUE))
@@ -117,8 +117,10 @@ class Kohana_Model_Shipping extends Jam_Model {
 
 		if ( ! $delivery_time OR ! $this->processing_time) 
 			return NULL;
+
+		$format = $this->meta()->field('processing_time')->format;
 		
-		return Jam_Range::sum(array($this->processing_time, $delivery_time));
+		return Jam_Range::sum(array($this->processing_time, $delivery_time), $format);
 	}
 
 	public function delivery_time_for(Model_Location $location)
@@ -132,14 +134,14 @@ class Kohana_Model_Shipping extends Jam_Model {
 			return $group->delivery_time;
 		}, $groups);
 
-		return Jam_Range::merge($delivery_times);
+		return Jam_Range::merge($delivery_times, ':min - :max days');
 	}
 
 	public function delivery_time()
 	{
 		$delivery_times = $this->groups->as_array(NULL, 'delivery_time');
 		
-		return Jam_Range::merge(array_filter($delivery_times));
+		return Jam_Range::merge(array_filter($delivery_times), ':min - :max days');
 	}
 
 	public function locations_containing(Model_Location $location)

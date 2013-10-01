@@ -24,7 +24,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 			))
 			->fields(array(
 				'id' => Jam::field('primary'),
-				'total_delivery_time' => Jam::field('range'),
+				'total_delivery_time' => Jam::field('range', array('format' => ':min - :max days')),
 			))
 			->validator('purchase_item', 'shipping_group', array('present' => TRUE));
 	}
@@ -221,7 +221,9 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 		}
 		else
 		{
-			$total_delivery_time = Jam_Range::sum(array($this->delivery_time(), $this->processing_time()));
+			$format = $this->meta()->field('total_delivery_time')->format;
+			
+			$total_delivery_time = Jam_Range::sum(array($this->delivery_time(), $this->processing_time()), $format);
 		}
 
 		return $total_delivery_time;

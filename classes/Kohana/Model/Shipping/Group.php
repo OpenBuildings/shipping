@@ -24,7 +24,7 @@ class Kohana_Model_Shipping_Group extends Jam_Model {
 			->fields(array(
 				'id'            => Jam::field('primary'),
 				'price'         => Jam::field('price'),
-				'delivery_time' => Jam::field('range'),
+				'delivery_time' => Jam::field('range', array('format' => ':min - :max days')),
 				'additional_item_price' => Jam::field('price'),
 				'discount_threshold' => Jam::field('price'),
 			))

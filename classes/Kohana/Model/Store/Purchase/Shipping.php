@@ -104,7 +104,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 			return $item->total_delivery_time();
 		}, $this->items->as_array());
 
-		return Jam_Range::merge($times);
+		return Jam_Range::merge($times, ':min - :max days');
 	}
 
 	/**
