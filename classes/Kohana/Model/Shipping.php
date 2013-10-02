@@ -26,8 +26,8 @@ class Kohana_Model_Shipping extends Jam_Model {
 					'readonly' => TRUE,
 				)),
 				'locations' => Jam::association('manytomany', array(
-					'join_table' => 'shipping_groups', '
-					readonly' => TRUE,
+					'join_table' => 'shipping_groups', 
+					'readonly' => TRUE,
 				)),
 				'products' => Jam::association('hasmany', array(
 					'inverse_of' => 'shipping',
