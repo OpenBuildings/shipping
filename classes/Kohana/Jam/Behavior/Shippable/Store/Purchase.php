@@ -105,7 +105,7 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 		$data->return = $filtered;
 	}
 
-	public function update_shipping_items(Model_Store_Purchase $store_purchase, Jam_Event_Data $data)
+	public function update_shipping_items(Model_Store_Purchase $store_purchase)
 	{
 		if ($store_purchase->shipping AND ! $store_purchase->items('shipping'))
 		{
@@ -116,4 +116,15 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 			));
 		}
 	}
+
+	public function model_call_shipping_country(Model_Store_Purchase $store_purchase, Jam_Event_Data $data)
+	{
+		$data->return = $store_purchase->get_insist('purchase')->shipping_country();
+	}
+
+	public function model_call_shipping_address(Model_Store_Purchase $store_purchase, Jam_Event_Data $data)
+	{
+		$data->return = $store_purchase->get_insist('purchase')->shipping_address();
+	}
+
 }
