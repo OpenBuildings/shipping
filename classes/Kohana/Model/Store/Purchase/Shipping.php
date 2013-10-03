@@ -19,7 +19,12 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 			))
 			->associations(array(
 				'store_purchase' => Jam::association('belongsto', array('inverse_of' => 'shipping')),
-				'items' => Jam::association('hasmany', array('foreign_model' => 'shipping_item', 'inverse_of' => 'store_purchase_shipping')),
+				'items' => Jam::association('hasmany', array(
+					'foreign_model' => 'shipping_item', 
+					'inverse_of' => 'store_purchase_shipping',
+					'delete_on_remove' => Jam_Association::DELETE,
+					'dependent' => Jam_Association::DELETE,
+				)),
 			))
 			->fields(array(
 				'id' => Jam::field('primary'),

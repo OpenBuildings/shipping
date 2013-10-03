@@ -17,7 +17,10 @@ class Kohana_Jam_Behavior_Shippable_Purchase extends Jam_Behavior {
 
 		$meta
 			->associations(array(
-				'shipping_address' => Jam::association('belongsto', array('foreign_model' => 'address')),
+				'shipping_address' => Jam::association('belongsto', array(
+					'foreign_model' => 'address',
+					'dependent' => Jam_Association::DELETE,
+				)),
 			))
 			->fields(array(
 				'shipping_same_as_billing' => Jam::field('boolean', array('default' => TRUE)),
