@@ -123,7 +123,12 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	 */
 	public function group_key()
 	{
-		return $this->get_insist('shipping_group')->method_id.'-'.$this->shipping_insist()->ships_from_id;
+		$group = $this->shipping_group;
+		
+		if ( ! $group OR ! $group->shipping) 
+			return NULL;
+
+		return $group->method_id.'-'.$group->shipping->ships_from_id;
 	}
 
 	/**

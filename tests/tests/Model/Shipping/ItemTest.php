@@ -330,6 +330,18 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_group_key()
 	{
+		$item = Jam::build('shipping_item');
+
+		$this->assertNull($item->group_key());
+
+		$item = Jam::build('shipping_item', array(
+			'shipping_group' => array(
+				'method_id' => 123,
+			)
+		));
+
+		$this->assertNull($item->group_key());
+
 		$item = Jam::build('shipping_item', array(
 			'shipping_group' => array(
 				'method_id' => 123,
