@@ -257,6 +257,48 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 		$this->assertEquals(new Jam_Range(array(4, 5)), $item->total_delivery_time());
 	}
 
+
+	/**
+	 * @covers Model_Shipping_Item::shipping_date
+	 */
+	public function test_total_shipping_date()
+	{
+		$shipping_item = $this->getMock('Model_Shipping_Item', array('total_delivery_time', 'paid_at'), array('shipping_item'));
+
+		$shipping_item
+			->expects($this->once())
+			->method('paid_at')
+			->will($this->returnValue('2013-01-01'));
+
+		$shipping_item
+			->expects($this->once())
+			->method('total_delivery_time')
+			->will($this->returnValue(new Jam_Range(array(3, 10))));
+
+		$date = $shipping_item->shipping_date();
+		$expected = new Jam_Range(array(strtotime('2013-01-04'), strtotime('2013-01-15')));
+
+		$this->assertEquals($expected, $date);
+	}
+
+	/**
+	 * @covers Model_Shipping_Item::paid_at
+	 */
+	public function test_paid_at()
+	{
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('paid_at'), array('store_purchase_shipping'));
+		$date = '2013-01-01';
+
+		$store_purchase_shipping
+			->expects($this->once())
+			->method('paid_at')
+			->will($this->returnValue($date));
+
+		$shipping_item = Jam::build('shipping_item', array('store_purchase_shipping' => $store_purchase_shipping));
+
+		$this->assertEquals($date, $shipping_item->paid_at());
+	}
+
 	/**
 	 * @covers Model_Shipping_Item::additional_item_price
 	 */

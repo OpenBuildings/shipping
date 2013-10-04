@@ -19,7 +19,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 			))
 			->associations(array(
 				'store_purchase_shipping' => Jam::association('belongsto', array('inverse_of' => 'items')),
-				'purchase_item' => Jam::association('belongsto'),
+				'purchase_item' => Jam::association('belongsto', array('inverse_of' => 'shipping_item')),
 				'shipping_group' => Jam::association('belongsto', array('inverse_of' => 'shipping_items')),
 			))
 			->fields(array(
@@ -90,6 +90,14 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	public function shipping_insist()
 	{
 		return $this->get_insist('shipping_group')->get_insist('shipping');
+	}
+
+	/**
+	 * Return the date the purchase was paid
+	 */
+	public function paid_at()
+	{
+		return $this->get_insist('store_purchase_shipping')->paid_at();
 	}
 
 	/**
@@ -232,6 +240,21 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 		}
 
 		return $total_delivery_time;
+	}
+
+	/**
+	 * Return the shipping date for this item
+	 * @return Jam_Range
+	 */
+	public function shipping_date()
+	{
+		$paid_at = $this->paid_at();
+		$days = $this->total_delivery_time();
+
+		$from_day = strtotime("{$paid_at} + {$days->min()} weekdays");
+		$to_day = strtotime("{$paid_at} + {$days->max()} weekdays");
+
+		return new Jam_Range(array($from_day, $to_day));
 	}
 
 	/**

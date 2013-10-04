@@ -145,9 +145,9 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 	}
 
 	/**
-	 * @covers Model_Store_Purchase_Shipping::shipping_date
+	 * @covers Model_Store_Purchase_Shipping::total_shipping_date
 	 */
-	public function test_shipping_date()
+	public function test_total_shipping_date()
 	{
 		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('total_delivery_time', 'paid_at'), array('store_purchase_shipping'));
 
@@ -161,7 +161,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 			->method('total_delivery_time')
 			->will($this->returnValue(new Jam_Range(array(3, 10))));
 
-		$date = $store_purchase_shipping->shipping_date();
+		$date = $store_purchase_shipping->total_shipping_date();
 		$expected = new Jam_Range(array(strtotime('2013-01-04'), strtotime('2013-01-15')));
 
 		$this->assertEquals($expected, $date);

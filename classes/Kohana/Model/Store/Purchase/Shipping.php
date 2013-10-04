@@ -116,7 +116,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	 * Return the day all the items should be shipped
 	 * @return Jam_Range
 	 */
-	public function shipping_date()
+	public function total_shipping_date()
 	{
 		$paid_at = $this->paid_at();
 		$days = $this->total_delivery_time();
