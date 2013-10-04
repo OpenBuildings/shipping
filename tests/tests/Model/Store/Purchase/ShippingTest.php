@@ -144,6 +144,47 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$this->assertEquals($expected, $total_delivery_time);
 	}
 
+	/**
+	 * @covers Model_Store_Purchase_Shipping::shipping_date
+	 */
+	public function test_shipping_date()
+	{
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('total_delivery_time', 'paid_at'), array('store_purchase_shipping'));
+
+		$store_purchase_shipping
+			->expects($this->once())
+			->method('paid_at')
+			->will($this->returnValue('2013-01-01'));
+
+		$store_purchase_shipping
+			->expects($this->once())
+			->method('total_delivery_time')
+			->will($this->returnValue(new Jam_Range(array(3, 10))));
+
+		$date = $store_purchase_shipping->shipping_date();
+		$expected = new Jam_Range(array(strtotime('2013-01-04'), strtotime('2013-01-15')));
+
+		$this->assertEquals($expected, $date);
+	}
+
+	/**
+	 * @covers Model_Store_Purchase_Shipping::paid_at
+	 */
+	public function test_paid_at()
+	{
+		$store_purchase = $this->getMock('Model_Store_Purchase', array('paid_at'), array('store_purchase'));
+		$date = '2013-01-01';
+
+		$store_purchase
+			->expects($this->once())
+			->method('paid_at')
+			->will($this->returnValue($date));
+
+		$store_purchase_shipping = Jam::build('store_purchase_shipping', array('store_purchase' => $store_purchase));
+
+		$this->assertEquals($date, $store_purchase->paid_at());
+	}
+
 
 	/**
 	 * @covers Model_Store_Purchase_Shipping::build_item_from

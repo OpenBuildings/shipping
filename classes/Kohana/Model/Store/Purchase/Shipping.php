@@ -113,6 +113,21 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	}
 
 	/**
+	 * Return the day all the items should be shipped
+	 * @return Jam_Range
+	 */
+	public function shipping_date()
+	{
+		$paid_at = $this->paid_at();
+		$days = $this->total_delivery_time();
+
+		$from_day = strtotime("{$paid_at} + {$days->min()} weekdays");
+		$to_day = strtotime("{$paid_at} + {$days->max()} weekdays");
+
+		return new Jam_Range(array($from_day, $to_day));
+	}
+
+	/**
 	 * Total price for the purchased items
 	 * @throws Kohana_Exception If store_purchase is NULL
 	 * @return Jam_Price
@@ -122,6 +137,15 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		return $this
 			->get_insist('store_purchase')
 				->total_price(array('is_payable' => TRUE, 'not' => 'shipping'));
+	}
+
+	/**
+	 * Return the paid at date
+	 * @return string
+	 */
+	public function paid_at()
+	{
+		return $this->get_insist('store_purchase')->paid_at();
 	}
 
 	/**
