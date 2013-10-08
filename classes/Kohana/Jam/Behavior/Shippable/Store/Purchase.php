@@ -15,11 +15,14 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 	{
 		parent::initialize($meta, $name);
 
-		$shipping = Jam::association('hasone', array('foreign_model' => 'store_purchase_shipping', 'inverse_of' => 'store_purchase', 'dependent' => Jam_Association::DELETE));
-
 		$meta
-			->association('shipping', $shipping, TRUE)
-
+			->association(array(
+				'shipping' => Jam::association('hasone', array(
+					'foreign_model' => 'store_purchase_shipping', 
+					'inverse_of' => 'store_purchase', 
+					'dependent' => Jam_Association::DELETE,
+				))
+			))
 			->events()
 				->bind('model.update_items', array($this, 'update_shipping_items'))
 				->bind('model.filter_items', array($this, 'filter_shipping_items'));
@@ -108,12 +111,12 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 
 	public function update_shipping_items(Model_Store_Purchase $store_purchase)
 	{
-		if ($store_purchase->shipping AND ! $store_purchase->items('shipping'))
+		if ($store_purchase->shipping AND ! $store_purchase->items_count('shipping'))
 		{
 			$store_purchase->items->build(array(
 				'type' => 'shipping', 
 				'is_payable' => TRUE,
-				'reference' => $store_purchase->shipping
+				'reference' => $store_purchase->shipping,
 			));
 		}
 	}

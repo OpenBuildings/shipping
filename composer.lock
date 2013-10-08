@@ -264,16 +264,16 @@
         },
         {
             "name": "openbuildings/jam",
-            "version": "0.4.23",
+            "version": "0.4.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/jam.git",
-                "reference": "7e3bc549a0854c4a92744551853862a5c3ee1ac7"
+                "reference": "00c5aec81b3a8278fda9095650ed100eb79e4ae9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/7e3bc549a0854c4a92744551853862a5c3ee1ac7",
-                "reference": "7e3bc549a0854c4a92744551853862a5c3ee1ac7",
+                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/00c5aec81b3a8278fda9095650ed100eb79e4ae9",
+                "reference": "00c5aec81b3a8278fda9095650ed100eb79e4ae9",
                 "shasum": ""
             },
             "require": {
@@ -313,7 +313,7 @@
                 "upload",
                 "validation"
             ],
-            "time": "2013-10-02 09:51:40"
+            "time": "2013-10-08 09:00:10"
         },
         {
             "name": "openbuildings/jam-auth",
@@ -460,16 +460,16 @@
         },
         {
             "name": "openbuildings/jam-monetary",
-            "version": "0.1.9",
+            "version": "0.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/jam-monetary.git",
-                "reference": "b98bc740e78249e13893f4c4b8e90445386c2592"
+                "reference": "7a0529048bdb3d9e0d0c491ef93cf50f4fd41f24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam-monetary/zipball/b98bc740e78249e13893f4c4b8e90445386c2592",
-                "reference": "b98bc740e78249e13893f4c4b8e90445386c2592",
+                "url": "https://api.github.com/repos/OpenBuildings/jam-monetary/zipball/7a0529048bdb3d9e0d0c491ef93cf50f4fd41f24",
+                "reference": "7a0529048bdb3d9e0d0c491ef93cf50f4fd41f24",
                 "shasum": ""
             },
             "require": {
@@ -504,7 +504,7 @@
                 "money",
                 "price"
             ],
-            "time": "2013-09-20 18:41:23"
+            "time": "2013-10-04 14:32:18"
         },
         {
             "name": "openbuildings/monetary",
@@ -574,12 +574,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "080978e140fc89f0a9843c7ba8a15c8367969c67"
+                "reference": "9fecaa02c42b47a68eb4fb74cd5be7c9fed7bc9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/080978e140fc89f0a9843c7ba8a15c8367969c67",
-                "reference": "080978e140fc89f0a9843c7ba8a15c8367969c67",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/9fecaa02c42b47a68eb4fb74cd5be7c9fed7bc9f",
+                "reference": "9fecaa02c42b47a68eb4fb74cd5be7c9fed7bc9f",
                 "shasum": ""
             },
             "require": {
@@ -620,7 +620,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2013-10-02 14:48:51"
+            "time": "2013-10-08 08:53:19"
         },
         {
             "name": "paypal/rest-api-sdk-php",
