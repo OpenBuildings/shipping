@@ -16,7 +16,7 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 		parent::initialize($meta, $name);
 
 		$meta
-			->association(array(
+			->associations(array(
 				'shipping' => Jam::association('hasone', array(
 					'foreign_model' => 'store_purchase_shipping', 
 					'inverse_of' => 'store_purchase', 
