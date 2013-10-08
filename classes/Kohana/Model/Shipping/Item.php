@@ -15,7 +15,13 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	{
 		$meta
 			->behaviors(array(
-				'freezable' => Jam::behavior('freezable', array('fields' => 'total_delivery_time', 'parent' => 'store_purchase_shipping')),
+				'freezable' => Jam::behavior('freezable', array(
+					'fields' => array(
+						'processing_time',
+						'delivery_time'
+					),
+					'parent' => 'store_purchase_shipping'
+				)),
 			))
 			->associations(array(
 				'store_purchase_shipping' => Jam::association('belongsto', array('inverse_of' => 'items')),
@@ -24,7 +30,12 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 			))
 			->fields(array(
 				'id' => Jam::field('primary'),
-				'total_delivery_time' => Jam::field('range', array('format' => ':min - :max days')),
+				'processing_time' => Jam::field('range', array(
+					'format' => ':min - :max days'
+				)),
+				'delivery_time' => Jam::field('range', array(
+					'format' => ':min - :max days'
+				)),
 			))
 			->validator('purchase_item', 'shipping_group', array('present' => TRUE));
 	}
@@ -204,42 +215,45 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	}
 
 	/**
-	 * Shipping group's delivery_time
-	 * @return Jam_Range 
-	 */
-	public function delivery_time()
-	{
-		return $this->get_insist('shipping_group')->delivery_time;
-	}
-
-	/**
 	 * Shipping's processing_time
+	 * Freezable
+	 *
 	 * @return Jam_Range 
 	 */
 	public function processing_time()
 	{
-		return $this->shipping_insist()->processing_time;
+		return ($this->processing_time AND $this->processing_time->min() !== NULL)
+			? $this->processing_time
+			: $this->shipping_insist()->processing_time;
 	}
 
 	/**
-	 * Return the delivary time min / max days - summed processing and delivery times
+	 * Shipping group's delivery_time
 	 * Freezable
+	 *
+	 * @return Jam_Range 
+	 */
+	public function delivery_time()
+	{
+		return ($this->delivery_time AND $this->delivery_time->min() !== NULL)
+			? $this->delivery_time
+			: $this->get_insist('shipping_group')->delivery_time;
+	}
+
+	/**
+	 * Return the delivery time min / max days
+	 * Summed processing and delivery times.
+	 *
 	 * @return Jam_Range
 	 */
 	public function total_delivery_time()
 	{
-		if ($this->delivery_time) 
-		{
-			$total_delivery_time = $this->delivery_time;
-		}
-		else
-		{
-			$format = $this->meta()->field('total_delivery_time')->format;
-			
-			$total_delivery_time = Jam_Range::sum(array($this->delivery_time(), $this->processing_time()), $format);
-		}
-
-		return $total_delivery_time;
+		$format = $this->meta()->field('delivery_time')->format;
+		
+		return Jam_Range::sum(array(
+			$this->processing_time(),
+			$this->delivery_time(),
+		), $format);
 	}
 
 	/**

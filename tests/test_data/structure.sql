@@ -185,6 +185,7 @@ CREATE TABLE `shipping_items` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `purchase_item_id` int(11) UNSIGNED NOT NULL,
   `shipping_group_id` int(11) UNSIGNED NOT NULL,
+  `processing_time` varchar(100) NOT NULL,
   `delivery_time` varchar(100) NOT NULL,
   `store_purchase_shipping_id` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY  (`id`)
