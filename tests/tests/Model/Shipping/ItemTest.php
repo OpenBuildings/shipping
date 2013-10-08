@@ -204,7 +204,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_delivery_time()
 	{
-		$range = new Jam_Range(array(10, 12));
+		$range = new Jam_Range(array(10, 12), ':min - :max days');
 
 		$item = Jam::build('shipping_item', array(
 			'shipping_group' => array(
@@ -212,7 +212,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 			),
 		));
 
-		$this->assertEquals($range, $item->delivery_time());
+		$this->assertSame($range, $item->delivery_time());
 	}
 
 	/**
@@ -220,7 +220,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_processing_time()
 	{
-		$range = new Jam_Range(array(10, 12));
+		$range = new Jam_Range(array(10, 12), ':min - :max days');
 
 		$item = Jam::build('shipping_item', array(
 			'shipping_group' => array(
@@ -230,7 +230,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 			),
 		));
 
-		$this->assertEquals($range, $item->processing_time());
+		$this->assertSame($range, $item->processing_time());
 	}
 
 	/**
@@ -238,23 +238,36 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_total_delivery_time()
 	{
-		$item = $this->getMock('Model_Shipping_Item', array('processing_time', 'delivery_time'), array('shipping_item'));
+		$item = $this->getMock('Model_Shipping_Item', array(
+			'processing_time',
+			'delivery_time'
+		), array(
+			'shipping_item'
+		));
 
 		$item
-			->expects($this->once())
+			->expects($this->at(0))
 				->method('processing_time')
 				->will($this->returnValue(new Jam_Range(array(10, 23))));
 
 		$item
-			->expects($this->once())
+			->expects($this->at(1))
 				->method('delivery_time')
 				->will($this->returnValue(new Jam_Range(array(2, 13))));
 
-		$this->assertEquals(new Jam_Range(array(12, 36)), $item->total_delivery_time());
+		$this->assertEquals(new Jam_Range(array(12, 36), ':min - :max'), $item->total_delivery_time());
 
-		$item->delivery_time = new Jam_Range(array(4, 5));
+		$item
+			->expects($this->at(0))
+				->method('processing_time')
+				->will($this->returnValue(new Jam_Range(array(1, 2))));
 
-		$this->assertEquals(new Jam_Range(array(4, 5)), $item->total_delivery_time());
+		$item
+			->expects($this->at(1))
+				->method('delivery_time')
+				->will($this->returnValue(new Jam_Range(array(4, 5))));
+
+		$this->assertEquals(new Jam_Range(array(5, 7), ':min - :max'), $item->total_delivery_time());
 	}
 
 

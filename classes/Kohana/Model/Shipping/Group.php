@@ -52,8 +52,12 @@ class Kohana_Model_Shipping_Group extends Jam_Model {
 	public function total_delivery_time()
 	{
 		$processing_time = $this->get_insist('shipping')->processing_time;
+		$format = $this->meta()->field('delivery_time')->format;
 		
-		return Jam_Range::sum(array($this->delivery_time, $processing_time));
+		return Jam_Range::sum(array(
+			$this->delivery_time,
+			$processing_time
+		), $format);
 	}
 
 
