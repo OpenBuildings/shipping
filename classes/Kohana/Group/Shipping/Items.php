@@ -19,9 +19,14 @@ class Kohana_Group_Shipping_Items {
 	{
 		if (strpos($path, '*') !== FALSE) 
 		{
-			foreach (Arr::path($array, $path) as $i => $items) 
+			$paths = Arr::path($array, $path);
+			
+			if ($paths) 
 			{
-				Group_Shipping_Items::set_array_values($array, str_replace('*', $i, $path), $items);
+				foreach (Arr::path($array, $path) as $i => $items) 
+				{
+					Group_Shipping_Items::set_array_values($array, str_replace('*', $i, $path), $items);
+				}
 			}
 		}
 		else

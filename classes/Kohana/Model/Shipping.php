@@ -81,7 +81,6 @@ class Kohana_Model_Shipping extends Jam_Model {
 
 		$groups = Model_Shipping_Group::sort_by_price($groups);
 
-
 		return end($groups);
 	}
 
