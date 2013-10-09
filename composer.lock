@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "bc679298cc01eb10987165849ddf8db1",
+    "hash": "9fc0ebfaaa193249e94ca82500887d83",
     "packages": [
         {
             "name": "composer/installers",
@@ -570,16 +570,16 @@
         },
         {
             "name": "openbuildings/purchases",
-            "version": "dev-master",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "9fecaa02c42b47a68eb4fb74cd5be7c9fed7bc9f"
+                "reference": "42d262b4286faf88d2664d7c33739b2b64d70997"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/9fecaa02c42b47a68eb4fb74cd5be7c9fed7bc9f",
-                "reference": "9fecaa02c42b47a68eb4fb74cd5be7c9fed7bc9f",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/42d262b4286faf88d2664d7c33739b2b64d70997",
+                "reference": "42d262b4286faf88d2664d7c33739b2b64d70997",
                 "shasum": ""
             },
             "require": {
@@ -596,6 +596,10 @@
                 "openbuildings/environment-backup": "0.1.*",
                 "openbuildings/kohana-test-bootsrap": "0.1.*",
                 "openbuildings/phpunit-spiderling": "0.1.*"
+            },
+            "suggest": {
+                "openbuildings/promotions": "Extends purchases functionality with promotions and gift cards",
+                "openbuildings/shipping": "Extends purchases functionality with shipping and delivery"
             },
             "type": "kohana-module",
             "notification-url": "https://packagist.org/downloads/",
@@ -620,7 +624,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2013-10-08 08:53:19"
+            "time": "2013-10-09 13:48:37"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -840,9 +844,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "openbuildings/purchases": 20
-    },
+    "stability-flags": [
+
+    ],
     "platform": {
         "php": ">=5.3.0"
     },
