@@ -49,7 +49,6 @@ class Kohana_Group_Shipping_Items {
 		Arr::set_path($array, $path, $new);
 	}
 
-
 	function __construct(Model_Store_Purchase_Shipping $store_purchase_shipping, $purchase_items, $shipping_method)
 	{
 		Array_Util::validate_instance_of($purchase_items, 'Model_Purchase_Item');

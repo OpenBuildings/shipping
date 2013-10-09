@@ -115,6 +115,26 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 		$purchase->check();
 		
 		$this->assertEquals(array('shipping_address' => array('association' => array(':errors' => $purchase->shipping_address->errors()))), $purchase->errors()->as_array());
+
+		$purchase = $this->getMock('Model_Purchase', array('items_count'), array('purchase'));
+
+		$purchase
+			->expects($this->exactly(2))
+			->method('items_count')
+			->with($this->equalTo(array('can_ship' => FALSE)))
+			->will($this->onConsecutiveCalls(0, 1));
+
+		$purchase->billing_address = array('first_name' => 'asd', 'last_name' => 'asd', 'email' => 'test@email.com', 'line1' => 'asd', 'country' => 'France', 'city' => 'Paris', 'zip' => '123', 'phone' => '123');
+
+		$purchase->shipping_required = TRUE;
+
+		$purchase->check();
+		
+		$this->assertEquals(array(), $purchase->errors()->as_array());
+		
+		$purchase->check();
+		
+		$this->assertEquals(array('store_purchases' => array('cannot_ship' => array())), $purchase->errors()->as_array());
 	}
 
 }

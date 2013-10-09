@@ -46,6 +46,11 @@ class Kohana_Jam_Behavior_Shippable_Purchase extends Jam_Behavior {
 			{
 				$purchase->shipping_address()->fields_required = TRUE;	
 			}
+
+			if ($purchase->items_count(array('can_ship' => FALSE))) 
+			{
+				$purchase->errors()->add('store_purchases', 'cannot_ship');
+			}
 		}
 	}
 	
