@@ -61,10 +61,10 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 
 		$group_prices = array_map(function($grouped_items) use ($total) {
 			$prices = Model_Shipping_Item::relative_prices($grouped_items);
-			return Jam_Price::sum($prices, $total->currency(), $total->monetary());
+			return Jam_Price::sum($prices, $total->currency(), $total->monetary(), $total->display_currency());
 		}, $groups);
 
-		return Jam_Price::sum($group_prices, $total->currency(), $total->monetary());
+		return Jam_Price::sum($group_prices, $total->currency(), $total->monetary(), $total->display_currency());
 	}
 
 	public function duplicate()

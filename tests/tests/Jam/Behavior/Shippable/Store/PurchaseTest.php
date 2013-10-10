@@ -34,7 +34,7 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 
 		$this->assertEquals(1, $store_purchase->items_count('shipping'));
 
-		$this->assertEquals(new Jam_Price(10, 'GBP'), $store_purchase->total_price('shipping'));
+		$this->assertEquals(new Jam_Price(10, 'GBP', $store_purchase->monetary(), 'GBP'), $store_purchase->total_price('shipping'));
 
 		$shippings = $store_purchase->items('shipping');
 
