@@ -148,6 +148,8 @@ class Model_ShippingTest extends Testcase_Shipping {
 	{
 		$monetary = new Monetary('GBP', new Source_Static());
 		$france = Jam::find('location', 'France');
+		$australia = Jam::find('location', 'Australia');
+		$uk = Jam::find('location', 'United Kingdom');
 		$shipping = $this->getMock('Model_Shipping', array('groups_in'), array('shipping'));
 
 		$params = array(
@@ -159,15 +161,26 @@ class Model_ShippingTest extends Testcase_Shipping {
 		$groups = $this->buildModelArray('shipping_group', $params);
 
 		$shipping
-			->expects($this->once())
+			->expects($this->exactly(3))
 			->method('groups_in')
-			->with($this->identicalTo($france))
-			->will($this->returnValue($groups));
+			->will($this->returnValueMap(array(
+				array($france, $groups),
+				array($australia, NULL),
+				array($uk, array()),
+			)));
 
 		$group = $shipping->cheapest_group_in($france);
 
 		$this->assertInstanceOf('Model_Shipping_Group', $group);
 		$this->assertEquals(12, $group->id());
+
+		$group = $shipping->cheapest_group_in($australia);
+
+		$this->assertNull($group);
+
+		$group = $shipping->cheapest_group_in($uk);
+
+		$this->assertNull($group);
 	}
 
 	public function data_group_for()
