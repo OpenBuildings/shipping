@@ -6,7 +6,7 @@
 
 ## Usage
 
-You want to ship must implement Shippable, like this:
+Purchase_items that you want to ship must implement Shippable, like this:
 
 ```php
 class Model_Product extends Jam_Model implements Sellable, Shippable {
@@ -48,7 +48,7 @@ class Model_Product extends Jam_Model implements Sellable, Shippable {
 	}
 
 	// Implement Shippable
-	// Must return a boolean whether or not the product ships can ship to that 
+	// Must return a boolean whether or not the product ships can to that location
 	public function ships_to(Model_Location $location)
 	{
 		return $this->shipping ? $this->shipping->ships_to($location) : FALSE;
@@ -56,10 +56,22 @@ class Model_Product extends Jam_Model implements Sellable, Shippable {
 }
 ```
 
-Also you need to add the shippable purchase to your store purchase model:
+Also you need to add the shippable purchase to your purchase, store purchase and purchase item model:
 
 ```php
 class Model_Store_Purchase extends Kohana_Model_Store_Purchase {
+
+	public static function initialize(Jam_Meta $meta)
+	{
+		parent::initialize($meta);
+		$meta
+			->behaviors(array(
+				'shippable_store_purchase' => Jam::behavior('shippable_store_purchase'),
+			));
+	}
+}
+
+class Model_Purchase extends Kohana_Model_Purchase {
 
 	public static function initialize(Jam_Meta $meta)
 	{
@@ -70,9 +82,21 @@ class Model_Store_Purchase extends Kohana_Model_Store_Purchase {
 			));
 	}
 }
+
+class Model_Purchase_Item extends Kohana_Model_Purchase_Item {
+
+	public static function initialize(Jam_Meta $meta)
+	{
+		parent::initialize($meta);
+		$meta
+			->behaviors(array(
+				'shippable_purchase_item' => Jam::behavior('shippable_purchase_item'),
+			));
+	}
+}
 ```
 
-This behavior will add the 'shipping' association to the store_pruchase, also listen update_items event and add a shipping purchase_item, and listen to the filter_items event, adding some more flags to filter by.
+This behaviors will add the 'shipping' association to the store_pruchase, also listen update_items event and add a shipping purchase_item, and listen to the filter_items event, adding some more flags to filter by.
 
 Once you have added the shipping data to your products:
 
@@ -164,16 +188,19 @@ $not_shippable = $store_purchase->items(array('can_ship' => FALSE));
 If you want to be more precise, you can get available items, but grouped by available shipping methods, so that if you have purchase_items that can ship with both _post_ and _courier_ and other that can ship only with _post_, they will be in different groups:
 
 ```php
-$available = $store_purchase->items_by_shipping_method();
-foreach ($available as $methods => $purchase_items)
+$group_shipping_methods = $store_purchase->group_shipping_methods()
+foreach ($group_shipping_methods as $group)
 {
-	foreach ($purchae_items[0]->methods as $method)
+	foreach ($group->group_shipping_items() as $items)
 	{
-		// Get all the shipping items for these purchases, shippable to this location by this method.
-		$shipping_items = Model_Shipping_Item::build_from($purchase_items, $store_purchase->shipping->location, $method);
+		// Get all the purchase items, shippable to this location by this method.
+		$items->purchase_items;
 
 		// Calculate the price of these items, provide a total price to remove ones that are discounted based on it.
-		echo Model_Shipping_Item::compute_price($shipping_items, $store_purchase->total_price(array('is_payable')));
+		$items->total_price();
+
+		// Delivery
+		$items->total_delivery_time();
 	}
 }
 ```

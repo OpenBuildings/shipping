@@ -31,7 +31,7 @@ class Kohana_Group_Shipping_Items {
 		}
 		else
 		{
-			Group_Shipping_Items::set_array_values($array, $path, $items);
+			Group_Shipping_Items::set_array_values($array, $path, Arr::path($array, $path));
 		}
 		
 		return $array;

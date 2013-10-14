@@ -33,15 +33,6 @@ class Model_ShippingTest extends Testcase_Shipping {
 		$this->assertEquals($currency, $shipping->currency());
 	}
 
-	public function data_locations_containing()
-	{
-		return array(
-			array('Everywhere', array(1)),
-			array('Europe', array(1, 2)),
-			array('France', array(1, 2, 3)),
-		);
-	}
-
 	/**
 	 * @covers Model_Shipping::methods_group_key
 	 */
@@ -50,6 +41,15 @@ class Model_ShippingTest extends Testcase_Shipping {
 		$shipping = Jam::find('shipping', 1);
 
 		$this->assertEquals('1,2,3', $shipping->methods_group_key());
+	}
+
+	public function data_locations_containing()
+	{
+		return array(
+			array('Everywhere', array(1)),
+			array('Europe', array(1, 2)),
+			array('France', array(1, 2, 3)),
+		);
 	}
 
 	/**
@@ -256,5 +256,22 @@ class Model_ShippingTest extends Testcase_Shipping {
 		$this->assertNull($shipping->total_delivery_time_for($france));
 
 		$this->assertEquals(new Jam_Range(array(15, 37)), $shipping->total_delivery_time_for($france));
+	}
+
+
+	/**
+	 * @covers Model_Shipping::delivery_time
+	 */
+	public function test_delivery_time()
+	{
+		$shipping = Jam::build('shipping', array(
+			'groups' => array(
+				array('id' => 10, 'delivery_time' => array(10, 20)),
+				array('id' => 11, 'delivery_time' => array(5, 30)),
+				array('id' => 12, 'delivery_time' => NULL),
+			)
+		));
+
+		$this->assertEquals(new Jam_Range(array(10, 30)), $shipping->delivery_time());
 	}
 }

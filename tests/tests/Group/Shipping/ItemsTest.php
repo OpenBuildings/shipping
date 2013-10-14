@@ -36,6 +36,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 						)
 					)
 				),
+				'store_purchases.*.shipping.items',
 				// Expected 1
 				array(
 					'id' => 10,
@@ -95,6 +96,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 						)
 					)
 				),
+				'store_purchases.*.shipping.items',
 				// Expected 2
 				array(
 					'id' => 10,
@@ -110,20 +112,55 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 							'shipping' => array(
 								'id' => 50,
 							)
-						)
-					)
+						),
+					),
 				),
-			)
+			),
+			// Test 2
+			array(
+				// Value 2
+				array(
+					'id' => 10,
+					'store_purchases' => array(
+						'items' => array(
+							'0%5Bid%5D=10392&0%5Bshipping_group_id%5D=323701',
+							'0%5Bid%5D=10395&0%5Bshipping_group_id%5D=350012',
+						),
+					),
+				),
+				'store_purchases.items',
+				// Expected 2
+				array(
+					'id' => 10,
+					'store_purchases' => array(
+						'items' => array(
+							array(
+								'id' => '10392',
+								'shipping_group_id' => '323701',
+							),
+							array(
+								'id' => '10395',
+								'shipping_group_id' => '350012',
+							),
+						),
+					),
+				),
+			),
 		);
 	}
+
+
+
+
 
 	/**
 	 * @dataProvider data_test_parse_values
 	 * @covers Group_Shipping_Items::parse_form_values
+	 * @covers Group_Shipping_Items::set_array_values
 	 */
-	public function test_parse_values($value, $expected)
+	public function test_parse_values($value, $path, $expected)
 	{
-		$result = Group_Shipping_Items::parse_form_values($value, 'store_purchases.*.shipping.items');
+		$result = Group_Shipping_Items::parse_form_values($value, $path);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -142,6 +179,61 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 		$this->assertSame($store_purchase_shipping, $group_items->store_purchase_shipping);
 		$this->assertSame($method, $group_items->shipping_method);
 		$this->assertSame($purchase_items, $group_items->purchase_items);
+	}
+
+	/**
+	 * @covers Group_Shipping_Items::total_price
+	 */
+	public function test_total_price()
+	{
+		$store_purchase_shipping = Jam::build('store_purchase_shipping');
+		$method = Jam::build('shipping_method');
+		$purchase_items = array(Jam::build('purchase_item'));
+
+		$price = new Jam_Price(10, 'GBP');
+
+		$shipping = $this->getMock('Model_Shipping', array('total_price'), array('shipping'));
+		$shipping
+			->expects($this->once())
+			->method('total_price')
+			->will($this->returnValue($price));
+
+		$group_items = $this->getMock('Group_Shipping_Items', array('shipping'), array($store_purchase_shipping, $purchase_items, $method));
+
+		$group_items
+			->expects($this->once())
+			->method('shipping')
+			->will($this->returnValue($shipping));
+
+		$this->assertSame($price, $group_items->total_price());
+	}
+
+
+	/**
+	 * @covers Group_Shipping_Items::total_delivery_time
+	 */
+	public function test_total_delivery_time()
+	{
+		$store_purchase_shipping = Jam::build('store_purchase_shipping');
+		$method = Jam::build('shipping_method');
+		$purchase_items = array(Jam::build('purchase_item'));
+
+		$range = new Jam_Range(array(10, 20));
+
+		$shipping = $this->getMock('Model_Shipping', array('total_delivery_time'), array('shipping'));
+		$shipping
+			->expects($this->once())
+			->method('total_delivery_time')
+			->will($this->returnValue($range));
+
+		$group_items = $this->getMock('Group_Shipping_Items', array('shipping'), array($store_purchase_shipping, $purchase_items, $method));
+
+		$group_items
+			->expects($this->once())
+			->method('shipping')
+			->will($this->returnValue($shipping));
+
+		$this->assertSame($range, $group_items->total_delivery_time());
 	}
 
 	/**

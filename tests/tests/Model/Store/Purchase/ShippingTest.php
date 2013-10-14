@@ -182,7 +182,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 
 		$store_purchase_shipping = Jam::build('store_purchase_shipping', array('store_purchase' => $store_purchase));
 
-		$this->assertEquals($date, $store_purchase->paid_at());
+		$this->assertEquals($date, $store_purchase_shipping->paid_at());
 	}
 
 
@@ -393,4 +393,30 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 
 		$this->assertEquals($expected, $total_price);
 	}
+
+
+	/**
+	 * @covers Model_Store_Purchase_Shipping::name
+	 */
+	public function test_name()
+	{
+		$shipping = Jam::find('store_purchase_shipping', 1);
+
+		$this->assertEquals('Shipping', $shipping->name());
+	}
+
+	/**
+	 * @covers Model_Store_Purchase_Shipping::duplicate
+	 */
+	public function test_duplicate()
+	{
+		$shipping = Jam::find('store_purchase_shipping', 1);
+
+		$duplicated = $shipping->duplicate();
+
+		$this->assertNotSame($shipping, $duplicated);
+		$this->assertSame($shipping->store_purchase, $duplicated->store_purchase);
+	}
+
+
 }

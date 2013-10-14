@@ -165,6 +165,41 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 	}
 
 	/**
+	 * @covers Jam_Behavior_Shippable_Store_Purchase::model_call_shipping_country
+	 */
+	public function test_model_call_shipping_country()
+	{
+		$location = Jam::find('location', 'France');
+		$purchase = $this->getMock('Model_Purchase', array('shipping_country'), array('model_purchase'));
+		$purchase
+			->expects($this->once())
+				->method('shipping_country')
+				->will($this->returnValue($location));
+
+		$store_purchase = Jam::build('store_purchase', array('purchase' => $purchase));
+
+		$this->assertSame($location, $store_purchase->shipping_country());
+	}
+
+	/**
+	 * @covers Jam_Behavior_Shippable_Store_Purchase::model_call_shipping_address
+	 */
+	public function test_model_call_shipping_address()
+	{
+		$address = Jam::find('address', 1);
+		$purchase = $this->getMock('Model_Purchase', array('shipping_address'), array('model_purchase'));
+		$purchase
+			->expects($this->once())
+				->method('shipping_address')
+				->will($this->returnValue($address));
+
+		$store_purchase = Jam::build('store_purchase', array('purchase' => $purchase));
+
+		$this->assertSame($address, $store_purchase->shipping_address());
+	}
+
+
+	/**
 	 * Jam_Behavior_Shippable_Store_Purchase::model_call_delivery_time_dates
 	 */
 	public function test_model_call_delivery_time_dates()
