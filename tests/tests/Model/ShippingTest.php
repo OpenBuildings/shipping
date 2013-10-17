@@ -268,7 +268,7 @@ class Model_ShippingTest extends Testcase_Shipping {
 
 		$this->assertNull($shipping->total_delivery_time_for($france));
 
-		$this->assertEquals(new Jam_Range(array(15, 37)), $shipping->total_delivery_time_for($france));
+		$this->assertEquals(new Jam_Range(array(15, 37), ':min - :max days'), $shipping->total_delivery_time_for($france));
 	}
 
 

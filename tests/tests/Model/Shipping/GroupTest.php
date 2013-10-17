@@ -112,7 +112,7 @@ class Model_Shipping_GroupTest extends Testcase_Shipping {
 			)
 		));
 
-		$expects = new Jam_Range(array(12, 23));
+		$expects = new Jam_Range(array(12, 23), ':min - :max days');
 
 		$this->assertEquals($expects, $shipping_group->total_delivery_time());
 	}
