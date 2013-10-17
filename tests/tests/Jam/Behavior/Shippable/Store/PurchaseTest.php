@@ -22,11 +22,11 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 
 		$this->assertEquals(0, $store_purchase->items_count('shipping'));
 
-		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('update_location'), array('store_purchase_shipping'));
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('update_items_location'), array('store_purchase_shipping'));
 
 		$store_purchase_shipping
 			->expects($this->once())
-			->method('update_location')
+			->method('update_items_location')
 			->with($this->identicalTo($france));
 
 		$store_purchase_shipping->items = array(
