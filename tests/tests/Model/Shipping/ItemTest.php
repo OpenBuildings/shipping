@@ -381,6 +381,29 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	}
 
 	/**
+	 * @covers Model_Shipping_Item::purchase_item_shipping
+	 */
+	public function test_purchase_item_shipping()
+	{
+		$shipping = Jam::build('shipping');
+
+		$item = Jam::build('shipping_item', array(
+			'purchase_item' => array(
+				'reference' => Jam::build('product', array(
+					'shipping' => $shipping,
+				)),
+			),
+		));
+
+		$this->assertSame($shipping, $item->purchase_item_shipping());
+
+		$this->setExpectedException('Kohana_Exception');
+		$item->purchase_item->reference = NULL;
+
+		$item->purchase_item_shipping();
+	}
+
+	/**
 	 * @covers Model_Shipping_Item::group_key
 	 */
 	public function test_group_key()

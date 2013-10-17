@@ -15,20 +15,28 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 	/**
 	 * @covers Jam_Behavior_Shippable_Store_Purchase::update_shipping_items
 	 */
-	public function test_update_items()
+	public function test_update_shipping_items()
 	{
 		$store_purchase = Jam::find('store_purchase', 2);
+		$france = Jam::find('location', 'France');
 
 		$this->assertEquals(0, $store_purchase->items_count('shipping'));
-		
-		$store_purchase->build('shipping', array(
-			'items' => array(
-				array(
-					'purchase_item' => $store_purchase->items[0],
-					'shipping_group' => $store_purchase->items[0]->reference->shipping()->groups[0],
-				)
+
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('update_location'), array('store_purchase_shipping'));
+
+		$store_purchase_shipping
+			->expects($this->once())
+			->method('update_location')
+			->with($this->identicalTo($france));
+
+		$store_purchase_shipping->items = array(
+			array(
+				'purchase_item' => $store_purchase->items[0],
+				'shipping_group' => $store_purchase->items[0]->reference->shipping()->groups[0],
 			)
-		));
+		);
+		
+		$store_purchase->shipping = $store_purchase_shipping;
 
 		$store_purchase->update_items();
 
@@ -37,6 +45,8 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 		$this->assertEquals(new Jam_Price(10, 'GBP', $store_purchase->monetary(), 'GBP'), $store_purchase->total_price('shipping'));
 
 		$shippings = $store_purchase->items('shipping');
+
+		$store_purchase->shipping_address()->country = $france;
 
 		$store_purchase->update_items();
 

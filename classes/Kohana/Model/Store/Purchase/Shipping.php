@@ -51,7 +51,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	public function total_price()
 	{
 		$total = $this->total_purchase_price();
-		$items = $this->items->as_array();
+		$items = $this->available_items();
 
 		$items = Model_Shipping_Item::filter_discounted_items($items, $total);
 
@@ -65,6 +65,13 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		}, $groups);
 
 		return Jam_Price::sum($group_prices, $total->currency(), $total->monetary(), $total->display_currency());
+	}
+
+	public function available_items()
+	{
+		return array_filter($this->items->as_array(), function($item){
+			return ($item->shipping_group AND $item->purchase_item);
+		});
 	}
 
 	public function duplicate()
@@ -217,6 +224,17 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		return array_map(function($purchase_item) use ($location, $method, $self) {
 			return $self->new_item_from($purchase_item, $location, $method);
 		}, $purchase_items);
+	}
+
+	public function update_items_location(Model_Location $location)
+	{
+		foreach ($this->items->as_array() as $item) 
+		{
+			if ( ! $item->shipping_group OR $item->shipping_group->location_id != $location->id()) 
+			{
+				$item->shipping_group = $item->purchase_item_shipping()->cheapest_group_in($location);
+			}
+		}
 	}
 
 	public function new_item_from(Model_Purchase_Item $purchase_item, Model_Location $location, Model_Shipping_Method $method = NULL)

@@ -111,13 +111,21 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 
 	public function update_shipping_items(Model_Store_Purchase $store_purchase)
 	{
-		if ($store_purchase->shipping AND ! $store_purchase->items_count('shipping'))
+		if ($store_purchase->shipping)
 		{
-			$store_purchase->items->build(array(
-				'type' => 'shipping', 
-				'is_payable' => TRUE,
-				'reference' => $store_purchase->shipping,
-			));
+			if ( ! $store_purchase->items_count('shipping')) 
+			{
+				$store_purchase->items->build(array(
+					'type' => 'shipping', 
+					'is_payable' => TRUE,
+					'reference' => $store_purchase->shipping,
+				));
+			}
+
+			if ($store_purchase->shipping_address()->changed('country'))
+			{
+				$store_purchase->shipping->update_location($store_purchase->purchase->shipping_address()->country);
+			}
 		}
 	}
 

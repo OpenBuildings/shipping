@@ -37,7 +37,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 					'format' => ':min - :max days'
 				)),
 			))
-			->validator('purchase_item', 'shipping_group', array('present' => TRUE));
+			->validator('purchase_item', array('present' => TRUE));
 	}
 
 	/**
@@ -101,6 +101,11 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	public function shipping_insist()
 	{
 		return $this->get_insist('shipping_group')->get_insist('shipping');
+	}
+
+	public function purchase_item_shipping()
+	{
+		return $this->get_insist('purchase_item')->get_insist('reference')->shipping();
 	}
 
 	/**
