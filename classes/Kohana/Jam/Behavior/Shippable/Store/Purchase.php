@@ -111,7 +111,11 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 	{
 		if ($store_purchase->shipping)
 		{
-			if ( ! $store_purchase->items_count('shipping')) 
+			if (($items = $store_purchase->items('shipping'))) 
+			{
+				$items[0]->reference = $store_purchase->shipping;
+			}
+			else
 			{
 				$store_purchase->items->build(array(
 					'type' => 'shipping', 
@@ -119,6 +123,7 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 					'reference' => $store_purchase->shipping,
 				));
 			}
+			$store_purchase->items = $store_purchase->items;
 
 			if ($store_purchase->shipping_address()->changed('country'))
 			{
