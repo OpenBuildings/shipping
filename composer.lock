@@ -264,16 +264,16 @@
         },
         {
             "name": "openbuildings/jam",
-            "version": "0.4.25",
+            "version": "0.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/jam.git",
-                "reference": "6e03bca9a6fbdd24430d34ac471c4213093c9a23"
+                "reference": "af7306d5aeb92088a69e75d61b6030cace1968e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/6e03bca9a6fbdd24430d34ac471c4213093c9a23",
-                "reference": "6e03bca9a6fbdd24430d34ac471c4213093c9a23",
+                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/af7306d5aeb92088a69e75d61b6030cace1968e5",
+                "reference": "af7306d5aeb92088a69e75d61b6030cace1968e5",
                 "shasum": ""
             },
             "require": {
@@ -313,7 +313,7 @@
                 "upload",
                 "validation"
             ],
-            "time": "2013-10-15 12:46:08"
+            "time": "2013-10-21 15:16:48"
         },
         {
             "name": "openbuildings/jam-auth",
@@ -570,16 +570,16 @@
         },
         {
             "name": "openbuildings/purchases",
-            "version": "0.3.7",
+            "version": "0.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "d14a0885b491ef94d928b574bcdf0997d8afb7f0"
+                "reference": "1cf15c6066f5d575410378ff651c3a55db3977db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/d14a0885b491ef94d928b574bcdf0997d8afb7f0",
-                "reference": "d14a0885b491ef94d928b574bcdf0997d8afb7f0",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/1cf15c6066f5d575410378ff651c3a55db3977db",
+                "reference": "1cf15c6066f5d575410378ff651c3a55db3977db",
                 "shasum": ""
             },
             "require": {
@@ -624,7 +624,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2013-10-21 09:46:18"
+            "time": "2013-10-21 12:27:52"
         },
         {
             "name": "paypal/rest-api-sdk-php",

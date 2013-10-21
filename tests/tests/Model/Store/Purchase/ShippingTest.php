@@ -535,13 +535,15 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 			'reference' => $new_product2,
 		)));
 
-		$purchase->update_items();
+		$purchase
+			->update_items()
+			->freeze()
+			->save();
 
-		$purchase->save();
-		$purchase->freeze();
-		$purchase->save();
+		$result = Jam::find('purchase', 2);
 
-		$this->assertEquals($purchase->store_purchases[0]->shipping->items[1]->purchase_item, $purchase->store_purchases[0]->items[2]);
-	}	
+		$this->assertEquals($result->store_purchases[0]->items[3]->reference->id(), $purchase->store_purchases[0]->shipping->id());
+		$this->assertEquals($result->store_purchases[0]->items[2]->id(), $purchase->store_purchases[0]->shipping->items[1]->purchase_item->id());
+	}
 
 }
