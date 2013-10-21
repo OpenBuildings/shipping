@@ -516,4 +516,32 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$store_purchase_shipping->update_items_location($location);
 	}
 
+	public function test_complex_association()
+	{
+		$purchase = Jam::find('purchase', 2);
+		$purchase->shipping_country(Jam::find('location', 'France'));
+		$new_product = Jam::find('product', 3);
+		$new_product2 = Jam::find('product', 4);
+
+		$purchase->add_item($new_product->store, Jam::build('purchase_item', array(
+			'type' => 'product', 
+			'is_payable' => TRUE,
+			'reference' => $new_product,
+		)));
+
+		$purchase->add_item($new_product2->store, Jam::build('purchase_item', array(
+			'type' => 'product', 
+			'is_payable' => TRUE,
+			'reference' => $new_product2,
+		)));
+
+		$purchase->update_items();
+
+		$purchase->save();
+		$purchase->freeze();
+		$purchase->save();
+
+		$this->assertEquals($purchase->store_purchases[0]->shipping->items[1]->purchase_item, $purchase->store_purchases[0]->items[2]);
+	}	
+
 }

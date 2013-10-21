@@ -570,16 +570,16 @@
         },
         {
             "name": "openbuildings/purchases",
-            "version": "0.3.4",
+            "version": "0.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "bf7dab4debfe1cb8d6ff984d1645bb733592a159"
+                "reference": "d14a0885b491ef94d928b574bcdf0997d8afb7f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/bf7dab4debfe1cb8d6ff984d1645bb733592a159",
-                "reference": "bf7dab4debfe1cb8d6ff984d1645bb733592a159",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/d14a0885b491ef94d928b574bcdf0997d8afb7f0",
+                "reference": "d14a0885b491ef94d928b574bcdf0997d8afb7f0",
                 "shasum": ""
             },
             "require": {
@@ -624,7 +624,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2013-10-14 10:47:17"
+            "time": "2013-10-21 09:46:18"
         },
         {
             "name": "paypal/rest-api-sdk-php",

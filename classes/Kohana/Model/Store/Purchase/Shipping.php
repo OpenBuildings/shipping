@@ -15,7 +15,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	{
 		$meta
 			->behaviors(array(
-				'freezable' => Jam::behavior('freezable', array('children' => 'items', 'parent' => 'store_purchase')),
+				'freezable' => Jam::behavior('freezable', array('associations' => 'items', 'parent' => 'store_purchase')),
 			))
 			->associations(array(
 				'store_purchase' => Jam::association('belongsto', array('inverse_of' => 'shipping')),

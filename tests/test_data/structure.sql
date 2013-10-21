@@ -183,10 +183,10 @@ CREATE TABLE `store_purchase_shippings` (
 DROP TABLE IF EXISTS `shipping_items`;
 CREATE TABLE `shipping_items` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `purchase_item_id` int(11) UNSIGNED NOT NULL,
-  `shipping_group_id` int(11) UNSIGNED NOT NULL,
-  `processing_time` varchar(100) NOT NULL,
-  `delivery_time` varchar(100) NOT NULL,
+  `purchase_item_id` int(11) UNSIGNED NULL,
+  `shipping_group_id` int(11) UNSIGNED NULL,
+  `delivery_time` varchar(100) NULL,
+  `processing_time` varchar(100) NULL,
   `store_purchase_shipping_id` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -333,7 +333,8 @@ VALUES
   (3, '15.00', '2|4', 1, 3, 4),
   (4, '15.00', '2|4', 1, 2, 3),
   (5, '12.00', '2|4', 1, 1, 3),
-  (6, '5.00', '2|3', 2, 1, 3);
+  (6, '5.00', '2|3', 2, 1, 3),
+  (7, '15.00', '2|3', 3, 1, 3);
 
 INSERT INTO `store_purchase_shippings` (`id`, `store_purchase_id`, `location_id`)
 VALUES
