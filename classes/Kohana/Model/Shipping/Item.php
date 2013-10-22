@@ -162,7 +162,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	 */
 	public function price()
 	{
-		$price = $this->get_insist('shipping_group')->price;
+		$price = $this->get_insist('shipping_group')->price ?: new Jam_Price(0, $this->currency());
 
 		return $price
 			->monetary($this->monetary())
