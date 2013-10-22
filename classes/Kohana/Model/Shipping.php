@@ -71,7 +71,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 			return NULL;
 
 		return array_filter($this->groups->as_array(), function($group) use ($location) {
-			return $group->location_id == $location->id();
+			return ($group->location_id == $location->id() AND $group->price);
 		});
 	}
 
