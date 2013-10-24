@@ -56,6 +56,26 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 	}
 
 	/**
+	 * @covers Jam_Behavior_Shippable_Store_Purchase::add_store_purchase_shipping
+	 */
+	public function test_add_store_purchase_shipping()
+	{
+		$store_purchase = Jam::find('store_purchase', 2);
+		$france = Jam::find('location', 'France');
+
+		$this->assertNull($store_purchase->shipping);
+
+		$store_purchase->update_items();
+
+		$this->assertNotNull($store_purchase->shipping);
+		$this->assertFalse($store_purchase->shipping->loaded());
+		$this->assertEquals(1, $store_purchase->items_count('shipping'));
+
+		$this->assertCount(1, $store_purchase->shipping->items);
+		$this->assertSame($store_purchase->items[0], $store_purchase->shipping->items[0]->purchase_item);
+	}
+
+	/**
 	 * @covers Jam_Behavior_Shippable_Store_Purchase::model_call_group_shipping_methods
 	 */
 	public function test_group_shipping_methods()
@@ -119,7 +139,7 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 		$shipping = $this->getMock('Model_Shipping', array('ship_to'), array('shipping'));
 
 		$shipping
-			->expects($this->exactly(3))
+			->expects($this->exactly(6))
 				->method('ship_to')
 				->will($this->returnValue($location));
 

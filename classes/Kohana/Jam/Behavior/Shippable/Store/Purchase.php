@@ -22,6 +22,7 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 				'dependent' => Jam_Association::DELETE,
 			)))
 			->events()
+				->bind('model.update_items', array($this, 'add_store_purchase_shipping'))
 				->bind('model.update_items', array($this, 'update_shipping_items'))
 				->bind('model.filter_items', array($this, 'filter_shipping_items'));
 
@@ -92,19 +93,28 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 			{
 				$shipping = $item->get_insist('store_purchase')->shipping;
 
-				if ( ! $shipping)
-					continue; 
+				$can_ship = ($shipping AND $shipping->ship_to() AND $item->reference->ships_to($shipping->ship_to()));
 
-				if ($item->reference->ships_to($shipping->ship_to()) !== $filter['can_ship'])
-				{
+				if ($can_ship !== $filter['can_ship'])
 					continue;
-				}
 			}
 
 			$filtered [] = $item;
 		}
 
 		$data->return = $filtered;
+	}
+
+	public function add_store_purchase_shipping(Model_Store_Purchase $store_purchase)
+	{
+		if ( ! $store_purchase->shipping AND $store_purchase->shipping_country())
+		{
+			$store_purchase->build('shipping');
+			foreach ($store_purchase->items(array('shippable' => TRUE)) as $purchase_item) 
+			{
+				$store_purchase->shipping->build_item_from($purchase_item);
+			}
+		}
 	}
 
 	public function update_shipping_items(Model_Store_Purchase $store_purchase)

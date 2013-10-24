@@ -112,13 +112,22 @@ class Kohana_Group_Shipping_Items {
 		$array = array();
 		foreach ($this->existing_shipping_items() as $item) 
 		{
-
 			if (isset($items[$item->purchase_item_id])) 
 			{
-				$array []= array(
-					'id' => $item->id(),
+				$item_attributes = array(
 					'shipping_group_id' => $items[$item->purchase_item_id]->shipping_group_id,
 				);
+
+				if ($item->loaded()) 
+				{
+					$item_attributes['id'] = $item->id();
+				}
+				else
+				{
+					$item_attributes['purchase_item_id'] = $item->purchase_item_id;
+				}
+
+				$array []= $item_attributes;
 			}
 		}
 

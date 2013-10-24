@@ -341,12 +341,14 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 			'items' => array(
 				array('purchase_item_id' => 1, 'shipping_group_id' => 11),
 				array('purchase_item_id' => 2, 'shipping_group_id' => 12),
+				array('purchase_item_id' => 3, 'shipping_group_id' => 13),
 			)
 		));
 
 		$existing_shipping_items = array(
-			Jam::build('shipping_item', array('id' => 5, 'purchase_item_id' => 1)),
-			Jam::build('shipping_item', array('id' => 6, 'purchase_item_id' => 2)),
+			Jam::build('shipping_item')->load_fields(array('id' => 5, 'purchase_item_id' => 1)),
+			Jam::build('shipping_item')->load_fields(array('id' => 6, 'purchase_item_id' => 2)),
+			Jam::build('shipping_item', array('purchase_item_id' => 3)),
 		);
 
 		$group_items = $this->getMock('Group_Shipping_Items', array('shipping', 'existing_shipping_items'), array($store_purchase_shipping, $purchase_items, $method));
@@ -368,6 +370,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 		$expected = array(
     	array('id' => 5, 'shipping_group_id' => 11),
     	array('id' => 6, 'shipping_group_id' => 12),
+    	array('purchase_item_id' => 3, 'shipping_group_id' => 13),
     );
 
 		$this->assertEquals($expected, $value);
