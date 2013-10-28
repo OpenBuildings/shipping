@@ -8,6 +8,20 @@
  */
 class Kohana_Model_Shipping extends Jam_Model {
 
+	public static function format_shipping_time($min, $max) 
+	{
+		if ($min === NULL AND $max === NULL) 
+			return '-';
+
+		if ($min == 0 AND $max == 0) 
+			return 'same day';
+
+		if ($min == 1 AND $max == 1) 
+			return '1 day';
+		
+		return $min == $max ? "{$min} days" : "{$min} - {$max} days";
+	}
+
 	/**
 	 * @codeCoverageIgnore
 	 */
@@ -46,7 +60,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 				'id' => Jam::field('primary'),
 				'name' => Jam::field('string'),
 				'currency' => Jam::field('string'),
-				'processing_time' => Jam::field('range', array('format' => ':min - :max days')),
+				'processing_time' => Jam::field('range', array('format' => 'Model_Shipping::format_shipping_time')),
 			))
 
 			->validator('name', 'currency', array('present' => TRUE))

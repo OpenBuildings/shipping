@@ -204,7 +204,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_delivery_time()
 	{
-		$range = new Jam_Range(array(10, 12), ':min - :max days');
+		$range = new Jam_Range(array(10, 12), 'Model_Shipping::format_shipping_time');
 
 		$item = Jam::build('shipping_item', array(
 			'shipping_group' => array(
@@ -220,7 +220,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_processing_time()
 	{
-		$range = new Jam_Range(array(10, 12), ':min - :max days');
+		$range = new Jam_Range(array(10, 12), 'Model_Shipping::format_shipping_time');
 
 		$item = Jam::build('shipping_item', array(
 			'shipping_group' => array(
@@ -255,7 +255,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 				->method('delivery_time')
 				->will($this->returnValue(new Jam_Range(array(2, 13))));
 
-		$this->assertEquals(new Jam_Range(array(12, 36), ':min - :max days'), $item->total_delivery_time());
+		$this->assertEquals(new Jam_Range(array(12, 36), 'Model_Shipping::format_shipping_time'), $item->total_delivery_time());
 
 		$item
 			->expects($this->at(0))
@@ -267,7 +267,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 				->method('delivery_time')
 				->will($this->returnValue(new Jam_Range(array(4, 5))));
 
-		$this->assertEquals(new Jam_Range(array(5, 7), ':min - :max days'), $item->total_delivery_time());
+		$this->assertEquals(new Jam_Range(array(5, 7), 'Model_Shipping::format_shipping_time'), $item->total_delivery_time());
 	}
 
 

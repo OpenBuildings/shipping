@@ -31,10 +31,10 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 			->fields(array(
 				'id' => Jam::field('primary'),
 				'processing_time' => Jam::field('range', array(
-					'format' => ':min - :max days'
+					'format' => 'Model_Shipping::format_shipping_time'
 				)),
 				'delivery_time' => Jam::field('range', array(
-					'format' => ':min - :max days'
+					'format' => 'Model_Shipping::format_shipping_time'
 				)),
 			))
 			->validator('purchase_item', array('present' => TRUE));

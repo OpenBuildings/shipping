@@ -14,6 +14,25 @@ use OpenBuildings\Monetary\Source_Static;
  */
 class Model_ShippingTest extends Testcase_Shipping {
 
+	public function data_format_shipping_time()
+	{
+		return array(
+			array(3, 5, '3 - 5 days'),
+			array(5, 5, '5 days'),
+			array(NULL, NULL, '-'),
+			array(0, 0, 'same day'),
+		);
+	}
+
+	/**
+	 * @covers Model_Shipping::format_shipping_time
+	 * @dataProvider data_format_shipping_time
+	 */
+	public function test_format_shipping_time($min, $max, $expected)
+	{
+		$this->assertEquals($expected, Model_Shipping::format_shipping_time($min, $max));
+	}
+
 	public function data_currency()
 	{
 		return array(
@@ -268,7 +287,7 @@ class Model_ShippingTest extends Testcase_Shipping {
 
 		$this->assertNull($shipping->total_delivery_time_for($france));
 
-		$this->assertEquals(new Jam_Range(array(15, 37), ':min - :max days'), $shipping->total_delivery_time_for($france));
+		$this->assertEquals(new Jam_Range(array(15, 37), 'Model_Shipping::format_shipping_time'), $shipping->total_delivery_time_for($france));
 	}
 
 
