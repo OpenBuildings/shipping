@@ -84,9 +84,12 @@ class Kohana_Group_Shipping_Items {
 		if ( ! ($items = $this->existing_shipping_items()))
 			return FALSE;
 
+		if ( ! $this->shipping_method) 
+			return FALSE;
+
 		foreach ($items as $item) 
 		{
-			if ($item->get_insist('shipping_group')->method_id != $this->shipping_method->id()) 
+			if ( ! $item->shipping_group OR $item->shipping_group->method_id != $this->shipping_method->id()) 
 			{
 				return FALSE;
 			}
