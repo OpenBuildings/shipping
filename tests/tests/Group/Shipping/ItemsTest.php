@@ -116,9 +116,9 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 					),
 				),
 			),
-			// Test 2
+			// Test 3
 			array(
-				// Value 2
+				// Value 3
 				array(
 					'id' => 10,
 					'store_purchases' => array(
@@ -129,7 +129,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 					),
 				),
 				'store_purchases.items',
-				// Expected 2
+				// Expected 3
 				array(
 					'id' => 10,
 					'store_purchases' => array(
@@ -146,12 +146,62 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 					),
 				),
 			),
+			// Test 4
+			array(
+				// Value 4
+				array(
+					'id' => 10,
+					'store_purchases' => array(
+						array(
+							'id' => 12535,
+							'shipping' => array(
+								'id' => 12435,
+							),
+						),
+						array(
+							'id' => 12536,
+							'shipping' => array(
+								'id' => 12436,
+								'items' => array(
+									0 => '0%5Bshipping_group_id%5D=395731&0%5Bid%5D=15237',
+									1 => '0%5Bshipping_group_id%5D=395421&0%5Bid%5D=15238',
+								),
+							),
+						),
+					),
+				),
+				'store_purchases.*.shipping.items',
+				// Expected 4
+				array(
+					'id' => 10,
+					'store_purchases' => array(
+						array(
+							'id' => 12535,
+							'shipping' => array(
+								'id' => 12435,
+							),
+						),
+						array(
+							'id' => 12536,
+							'shipping' => array(
+								'id' => 12436,
+								'items' => array(
+									array(
+										'id' => '15237',
+										'shipping_group_id' => '395731',
+									),
+									array(
+										'id' => '15238',
+										'shipping_group_id' => '395421',
+									),
+								),
+							),
+						),
+					),
+				),
+			),
 		);
 	}
-
-
-
-
 
 	/**
 	 * @dataProvider data_test_parse_values
@@ -161,7 +211,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 	public function test_parse_values($value, $path, $expected)
 	{
 		$result = Group_Shipping_Items::parse_form_values($value, $path);
-
+		
 		$this->assertEquals($expected, $result);
 	}
 
@@ -368,10 +418,10 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 		parse_str($value, $value);
 
 		$expected = array(
-    	array('id' => 5, 'shipping_group_id' => 11),
-    	array('id' => 6, 'shipping_group_id' => 12),
-    	array('purchase_item_id' => 3, 'shipping_group_id' => 13),
-    );
+			array('id' => 5, 'shipping_group_id' => 11),
+			array('id' => 6, 'shipping_group_id' => 12),
+			array('purchase_item_id' => 3, 'shipping_group_id' => 13),
+		);
 
 		$this->assertEquals($expected, $value);
 	}

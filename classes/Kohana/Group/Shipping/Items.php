@@ -15,15 +15,141 @@ class Kohana_Group_Shipping_Items {
 	protected $_shipping_for_method;
 	protected $_existing_shipping_items;
 
+	/**
+	 * Modified to take wildcard positions into account.
+	 * 
+	 * Gets a value from an array using a dot separated path.
+	 *
+	 *     // Get the value of $array['foo']['bar']
+	 *     $value = Arr::path($array, 'foo.bar');
+	 *
+	 * Using a wildcard "*" will search intermediate arrays and return an array.
+	 *
+	 *     // Get the values of "color" in theme
+	 *     $colors = Arr::path($array, 'theme.*.color');
+	 *
+	 *     // Using an array of keys
+	 *     $colors = Arr::path($array, array('theme', '*', 'color'));
+	 *
+	 * @param   array   $array      array to search
+	 * @param   mixed   $path       key path string (delimiter separated) or array of keys
+	 * @param   mixed   $default    default value if the path is not set
+	 * @param   string  $delimiter  key path delimiter
+	 * @return  mixed
+	 */
+	public static function arr_path($array, $path, $default = NULL, $delimiter = NULL)
+	{
+		if ( ! Arr::is_array($array))
+		{
+			// This is not an array!
+			return $default;
+		}
+
+		if (is_array($path))
+		{
+			// The path has already been separated into keys
+			$keys = $path;
+		}
+		else
+		{
+			if (array_key_exists($path, $array))
+			{
+				// No need to do extra processing
+				return $array[$path];
+			}
+
+			if ($delimiter === NULL)
+			{
+				// Use the default delimiter
+				$delimiter = Arr::$delimiter;
+			}
+
+			// Remove starting delimiters and spaces
+			$path = ltrim($path, "{$delimiter} ");
+
+			// Remove ending delimiters, spaces, and wildcards
+			$path = rtrim($path, "{$delimiter} *");
+
+			// Split the keys by delimiter
+			$keys = explode($delimiter, $path);
+		}
+
+		do
+		{
+			$key = array_shift($keys);
+
+			if (ctype_digit($key))
+			{
+				// Make the key an integer
+				$key = (int) $key;
+			}
+
+			if (isset($array[$key]))
+			{
+				if ($keys)
+				{
+					if (Arr::is_array($array[$key]))
+					{
+						// Dig down into the next part of the path
+						$array = $array[$key];
+					}
+					else
+					{
+						// Unable to dig deeper
+						break;
+					}
+				}
+				else
+				{
+					// Found the path requested
+					return $array[$key];
+				}
+			}
+			elseif ($key === '*')
+			{
+				// Handle wildcards
+
+				$values = array();
+				foreach ($array as $index => $arr)
+				{
+					if ($value = Arr::path($arr, implode('.', $keys)))
+					{
+						$values[$index] = $value;
+					}
+				}
+
+				if ($values)
+				{
+					// Found the values requested
+					return $values;
+				}
+				else
+				{
+					// Unable to dig deeper
+					break;
+				}
+			}
+			else
+			{
+				// Unable to dig deeper
+				break;
+			}
+		}
+		while ($keys);
+
+		// Unable to find the value requested
+		return $default;
+	}
+
 	public static function parse_form_values(array $array, $path)
 	{
 		if (strpos($path, '*') !== FALSE) 
 		{
-			$paths = Arr::path($array, $path);
-			
+			$paths = self::arr_path($array, $path);
+
 			if ($paths) 
 			{
-				foreach (Arr::path($array, $path) as $i => $items) 
+				foreach ($paths as $i => $items) 
 				{
 					Group_Shipping_Items::set_array_values($array, str_replace('*', $i, $path), $items);
 				}
@@ -31,7 +157,7 @@ class Kohana_Group_Shipping_Items {
 		}
 		else
 		{
-			Group_Shipping_Items::set_array_values($array, $path, Arr::path($array, $path));
+			Group_Shipping_Items::set_array_values($array, $path, self::arr_path($array, $path));
 		}
 		
 		return $array;
