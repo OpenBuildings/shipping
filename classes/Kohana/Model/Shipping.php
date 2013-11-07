@@ -152,7 +152,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 			return $group->delivery_time;
 		}, $groups);
 
-		return Jam_Range::merge($delivery_times, ':min - :max days');
+		return Jam_Range::merge($delivery_times, 'Model_Shipping::format_shipping_time');
 	}
 
 	public function delivery_time()
@@ -162,7 +162,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 		if ( ! $delivery_times) 
 			return NULL;
 		
-		return Jam_Range::merge(array_filter($delivery_times), ':min - :max days');
+		return Jam_Range::merge(array_filter($delivery_times), 'Model_Shipping::format_shipping_time');
 	}
 
 	public function locations_containing(Model_Location $location)
