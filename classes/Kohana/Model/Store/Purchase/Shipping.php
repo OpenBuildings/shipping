@@ -230,7 +230,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	{
 		foreach ($this->items->as_array() as $item) 
 		{
-			if ( ! $item->shipping_group OR ! $item->shipping_group->location OR ! $item->shipping_group->location->contains($location->id()))
+			if ( ! $item->shipping_group OR ! $item->shipping_group->location OR ! $item->shipping_group->location->contains($location))
 			{
 				$item->shipping_group = $item->purchase_item_shipping()->cheapest_group_in($location);
 			}
