@@ -174,16 +174,16 @@
         },
         {
             "name": "openbuildings/emp",
-            "version": "0.1.6",
+            "version": "0.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/emp.git",
-                "reference": "38e49408fa3a1a9191fe774b2cfcaca5f4515ed9"
+                "reference": "84ce64e863a0cb1f73e88b0f864fb32b21cbee57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/emp/zipball/38e49408fa3a1a9191fe774b2cfcaca5f4515ed9",
-                "reference": "38e49408fa3a1a9191fe774b2cfcaca5f4515ed9",
+                "url": "https://api.github.com/repos/OpenBuildings/emp/zipball/84ce64e863a0cb1f73e88b0f864fb32b21cbee57",
+                "reference": "84ce64e863a0cb1f73e88b0f864fb32b21cbee57",
                 "shasum": ""
             },
             "require": {
@@ -222,7 +222,7 @@
                 "money",
                 "payments"
             ],
-            "time": "2013-09-30 12:47:35"
+            "time": "2013-10-31 15:07:39"
         },
         {
             "name": "openbuildings/flex-storage",
@@ -264,16 +264,16 @@
         },
         {
             "name": "openbuildings/jam",
-            "version": "0.4.29",
+            "version": "0.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/jam.git",
-                "reference": "6f921136441c1635ab2705980948431ceab92583"
+                "reference": "cda804e6c92afbc512b084d087401abaa1b3b990"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/6f921136441c1635ab2705980948431ceab92583",
-                "reference": "6f921136441c1635ab2705980948431ceab92583",
+                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/cda804e6c92afbc512b084d087401abaa1b3b990",
+                "reference": "cda804e6c92afbc512b084d087401abaa1b3b990",
                 "shasum": ""
             },
             "require": {
@@ -313,7 +313,7 @@
                 "upload",
                 "validation"
             ],
-            "time": "2013-10-28 07:56:53"
+            "time": "2013-11-13 10:06:23"
         },
         {
             "name": "openbuildings/jam-auth",
@@ -503,22 +503,22 @@
         },
         {
             "name": "openbuildings/jam-monetary",
-            "version": "0.1.13",
+            "version": "0.1.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/jam-monetary.git",
-                "reference": "ac1946e905ff83ee35a11f85be7428b680c5324b"
+                "reference": "190dfe42d280ed089c4cc4cb357394e1d59e0329"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam-monetary/zipball/ac1946e905ff83ee35a11f85be7428b680c5324b",
-                "reference": "ac1946e905ff83ee35a11f85be7428b680c5324b",
+                "url": "https://api.github.com/repos/OpenBuildings/jam-monetary/zipball/190dfe42d280ed089c4cc4cb357394e1d59e0329",
+                "reference": "190dfe42d280ed089c4cc4cb357394e1d59e0329",
                 "shasum": ""
             },
             "require": {
                 "composer/installers": "*",
                 "openbuildings/jam": "0.4.*",
-                "openbuildings/monetary": "0.3.*",
+                "openbuildings/monetary": "0.4.*",
                 "php": ">=5.3.0"
             },
             "require-dev": {
@@ -547,20 +547,20 @@
                 "money",
                 "price"
             ],
-            "time": "2013-10-14 10:35:11"
+            "time": "2013-10-29 16:40:22"
         },
         {
             "name": "openbuildings/monetary",
-            "version": "0.3.1",
+            "version": "0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/monetary.git",
-                "reference": "401f0c306a775280d31a526b0064c037cb087f7e"
+                "reference": "f05bc74cadc6d850b199705f10ee590aaf3bbd59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/monetary/zipball/401f0c306a775280d31a526b0064c037cb087f7e",
-                "reference": "401f0c306a775280d31a526b0064c037cb087f7e",
+                "url": "https://api.github.com/repos/OpenBuildings/monetary/zipball/f05bc74cadc6d850b199705f10ee590aaf3bbd59",
+                "reference": "f05bc74cadc6d850b199705f10ee590aaf3bbd59",
                 "shasum": ""
             },
             "require": {
@@ -591,11 +591,13 @@
                 },
                 {
                     "name": "Haralan Dobrev",
-                    "email": "hdobrev@despark.com"
+                    "email": "hdobrev@despark.com",
+                    "role": "Author"
                 },
                 {
                     "name": "Yasen Yanev",
-                    "email": "yasen@openbuildings.com"
+                    "email": "yasen@openbuildings.com",
+                    "role": "Author"
                 }
             ],
             "description": "Useful tool for formatting and converting currencies",
@@ -609,7 +611,7 @@
                 "money",
                 "yahoo"
             ],
-            "time": "2013-08-23 13:23:09"
+            "time": "2013-10-28 11:21:15"
         },
         {
             "name": "openbuildings/purchases",
@@ -799,99 +801,6 @@
             ],
             "description": "Kohana core classes repackaged with composer, used to test modules",
             "time": "2013-10-01 08:57:54"
-        },
-        {
-            "name": "paypal/rest-api-sdk-php",
-            "version": "v0.7.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/paypal/rest-api-sdk-php.git",
-                "reference": "4193ae100a8de6fc4e62f94f6c895e0a1f10c956"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/paypal/rest-api-sdk-php/zipball/4193ae100a8de6fc4e62f94f6c895e0a1f10c956",
-                "reference": "4193ae100a8de6fc4e62f94f6c895e0a1f10c956",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "paypal/sdk-core-php": "2.4.*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*",
-                "satooshi/php-coveralls": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "PayPal": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache2"
-            ],
-            "authors": [
-                {
-                    "name": "PayPal",
-                    "homepage": "https://github.com/paypal/rest-api-sdk-php/contributors"
-                }
-            ],
-            "description": "PayPal's PHP SDK for REST APIs",
-            "homepage": "https://github.com/paypal/rest-api-sdk-php",
-            "keywords": [
-                "payments",
-                "paypal",
-                "rest",
-                "sdk"
-            ],
-            "time": "2013-07-31 15:21:19"
-        },
-        {
-            "name": "paypal/sdk-core-php",
-            "version": "v2.4.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/paypal/sdk-core-php.git",
-                "reference": "226d3492f80847f09c99debb4d3220d5e744ddc8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/paypal/sdk-core-php/zipball/226d3492f80847f09c99debb4d3220d5e744ddc8",
-                "reference": "226d3492f80847f09c99debb4d3220d5e744ddc8",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "PayPal": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache2"
-            ],
-            "authors": [
-                {
-                    "name": "PayPal",
-                    "homepage": "https://github.com/paypal/sdk-core-php/contributors"
-                }
-            ],
-            "description": "PayPal Core SDK for PHP",
-            "homepage": "https://github.com/paypal/sdk-core-php",
-            "keywords": [
-                "paypal",
-                "php",
-                "sdk"
-            ],
-            "time": "2013-09-11 14:27:58"
         }
     ],
     "aliases": [

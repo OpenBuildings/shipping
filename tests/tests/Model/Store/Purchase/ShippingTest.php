@@ -114,7 +114,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 					12 => array('total_delivery_time' => new Jam_Range(array(2, 12))), 
 					14 => array('total_delivery_time' => new Jam_Range(array(5, 22))), 
 				),
-				new Jam_range(array(5, 22)),
+				new Jam_range(array(5, 22), 'Model_Shipping::format_shipping_time'),
 			),
 			array(
 				array(
@@ -122,7 +122,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 					11 => array('total_delivery_time' => new Jam_Range(array(5, 6))), 
 					12 => array('total_delivery_time' => new Jam_Range(array(7, 10))), 
 				),
-				new Jam_range(array(7, 10)),
+				new Jam_range(array(7, 10), 'Model_Shipping::format_shipping_time'),
 			),
 		);
 	}

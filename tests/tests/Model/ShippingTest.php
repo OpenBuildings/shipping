@@ -261,7 +261,7 @@ class Model_ShippingTest extends Testcase_Shipping {
 
 		$this->assertNull($shipping->delivery_time_for($france));
 
-		$this->assertEquals(new Jam_Range(array(13, 20)), $shipping->delivery_time_for($france));
+		$this->assertEquals(new Jam_Range(array(13, 20), 'Model_Shipping::format_shipping_time'), $shipping->delivery_time_for($france));
 	}
 
 	/**
@@ -271,7 +271,7 @@ class Model_ShippingTest extends Testcase_Shipping {
 	{
 		$france = Jam::find('location', 'France');
 		$shipping = $this->getMock('Model_Shipping', array('delivery_time_for'), array('shipping'));
-		$shipping->processing_time = new Jam_Range(array(3, 5));
+		$shipping->processing_time = new Jam_Range(array(3, 5), 'Model_Shipping::format_shipping_time');
 
 		$shipping
 			->expects($this->at(0))
@@ -283,7 +283,7 @@ class Model_ShippingTest extends Testcase_Shipping {
 			->expects($this->at(1))
 			->method('delivery_time_for')
 			->with($this->identicalTo($france))
-			->will($this->returnValue(new Jam_Range(array(12, 32))));
+			->will($this->returnValue(new Jam_Range(array(12, 32), 'Model_Shipping::format_shipping_time')));
 
 		$this->assertNull($shipping->total_delivery_time_for($france));
 
@@ -304,6 +304,6 @@ class Model_ShippingTest extends Testcase_Shipping {
 			)
 		));
 
-		$this->assertEquals(new Jam_Range(array(10, 30)), $shipping->delivery_time());
+		$this->assertEquals(new Jam_Range(array(10, 30), 'Model_Shipping::format_shipping_time'), $shipping->delivery_time());
 	}
 }
