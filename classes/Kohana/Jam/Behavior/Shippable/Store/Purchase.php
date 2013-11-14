@@ -17,8 +17,8 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 
 		$meta
 			->association('shipping', Jam::association('hasone', array(
-				'foreign_model' => 'store_purchase_shipping', 
-				'inverse_of' => 'store_purchase', 
+				'foreign_model' => 'store_purchase_shipping',
+				'inverse_of' => 'store_purchase',
 				'dependent' => Jam_Association::DELETE,
 			)))
 			->events()
@@ -73,7 +73,7 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 				continue;
 			}
 
-			if ((array_key_exists('can_ship_to', $filter) OR array_key_exists('cannot_ship_to', $filter) OR array_key_exists('can_ship', $filter)) 
+			if ((array_key_exists('can_ship_to', $filter) OR array_key_exists('cannot_ship_to', $filter) OR array_key_exists('can_ship', $filter))
 				AND ! ($item->reference instanceof Shippable))
 			{
 				continue;
@@ -110,7 +110,7 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 		if ( ! $store_purchase->shipping AND $store_purchase->shipping_country())
 		{
 			$store_purchase->build('shipping');
-			foreach ($store_purchase->items(array('shippable' => TRUE)) as $purchase_item) 
+			foreach ($store_purchase->items(array('shippable' => TRUE)) as $purchase_item)
 			{
 				$store_purchase->shipping->build_item_from($purchase_item);
 			}
@@ -121,14 +121,14 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 	{
 		if ($store_purchase->shipping)
 		{
-			if (($items = $store_purchase->items('shipping'))) 
+			if (($items = $store_purchase->items('shipping')))
 			{
 				$items[0]->reference = $store_purchase->shipping;
 			}
 			else
 			{
-				$store_purchase->items->build(array(
-					'type' => 'shipping', 
+				$store_purchase->items []= Jam::build('purchase_item_shipping', array(
+					'type' => 'shipping',
 					'is_payable' => TRUE,
 					'reference' => $store_purchase->shipping,
 				));

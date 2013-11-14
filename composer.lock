@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "2aeffef292446b0734c875b4061b7bec",
+    "hash": "383ae83a1c6f764ce692f9bee57ba1fd",
     "packages": [
         {
             "name": "composer/installers",
@@ -615,16 +615,16 @@
         },
         {
             "name": "openbuildings/purchases",
-            "version": "0.4.0",
+	    "version": "0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "8bec9961f644424509c7bb39768bc0342fd8f32c"
+		"reference": "b99d0a8eaee204dc70401f97b6ceff779e1a4e1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/8bec9961f644424509c7bb39768bc0342fd8f32c",
-                "reference": "8bec9961f644424509c7bb39768bc0342fd8f32c",
+		"url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/b99d0a8eaee204dc70401f97b6ceff779e1a4e1e",
+		"reference": "b99d0a8eaee204dc70401f97b6ceff779e1a4e1e",
                 "shasum": ""
             },
             "require": {
@@ -680,7 +680,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2013-11-13 14:48:12"
+	    "time": "2013-11-14 18:38:53"
         },
         {
             "name": "rackspace/php-opencloud",

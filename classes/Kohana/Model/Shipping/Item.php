@@ -24,9 +24,16 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 				)),
 			))
 			->associations(array(
-				'store_purchase_shipping' => Jam::association('belongsto', array('inverse_of' => 'items')),
-				'purchase_item' => Jam::association('belongsto', array('inverse_of' => 'shipping_item')),
-				'shipping_group' => Jam::association('belongsto', array('inverse_of' => 'shipping_items')),
+				'store_purchase_shipping' => Jam::association('belongsto', array(
+					'inverse_of' => 'items'
+				)),
+				'purchase_item' => Jam::association('belongsto', array(
+					'inverse_of' => 'shipping_item',
+					'foreign_model' => 'purchase_item_shipping'
+				)),
+				'shipping_group' => Jam::association('belongsto', array(
+					'inverse_of' => 'shipping_items'
+				)),
 			))
 			->fields(array(
 				'id' => Jam::field('primary'),
@@ -37,7 +44,9 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 					'format' => 'Model_Shipping::format_shipping_time'
 				)),
 			))
-			->validator('purchase_item', array('present' => TRUE));
+			->validator('purchase_item', array(
+				'present' => TRUE
+			));
 	}
 
 	/**

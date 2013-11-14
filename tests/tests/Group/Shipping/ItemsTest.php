@@ -293,7 +293,6 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 	{
 		$method = Jam::build('shipping_method');
 		$purchase_items = array(Jam::build('purchase_item'));
-		$items = array(Jam::build('shipping_item'));
 
 		$shipping = $this->getMock('Model_Store_Purchase_Shipping', array('duplicate', 'build_items_from'), array('store_purchase_shipping'));
 
@@ -425,4 +424,73 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 
 		$this->assertEquals($expected, $value);
 	}
+
+	/**
+	 * Provides test data for test_arr_path()
+	 *
+	 * @return array
+	 */
+	public function provider_arr_path()
+	{
+		$array = array(
+			'foobar' => array('definition' => 'lost'),
+			'kohana' => 'awesome',
+			'users'  => array(
+				1 => array('name' => 'matt'),
+				2 => array('name' => 'john', 'interests' => array('hocky' => array('length' => 2), 'football' => array())),
+				3 => 'frank', // Issue #3194
+			),
+			'object' => new ArrayObject(array('iterator' => TRUE)), // Iterable object should work exactly the same
+		);
+
+		return array(
+			// Test returns default value when not given an array
+			array(5, 'abc', 'xyz', 5, NULL),
+			// Tests returns normal values
+			array($array['foobar'], $array, 'foobar'),
+			array($array['kohana'], $array, 'kohana'),
+			array($array['foobar']['definition'], $array, 'foobar.definition'),
+			// Custom delimiters
+			array($array['foobar']['definition'], $array, 'foobar/definition', NULL, '/'),
+			// We should be able to use NULL as a default, returned if the key DNX
+			array(NULL, $array, 'foobar.alternatives',  NULL),
+			array(NULL, $array, 'kohana.alternatives',  NULL),
+			// Try using a string as a default
+			array('nothing', $array, 'kohana.alternatives',  'nothing'),
+			// Make sure you can use arrays as defaults
+			array(array('far', 'wide'), $array, 'cheese.origins',  array('far', 'wide')),
+			// Ensures path() casts ints to actual integers for keys
+			array($array['users'][1]['name'], $array, 'users.1.name'),
+			// Test that a wildcard returns the entire array at that "level"
+			array($array['users'], $array, 'users.*'),
+			// Now we check that keys after a wilcard will be processed
+			array(array(2 => array(0 => 2)), $array, 'users.*.interests.*.length'),
+			// See what happens when it can't dig any deeper from a wildcard
+			array(NULL, $array, 'users.*.fans'),
+			// Starting wildcards, issue #3269
+			array(array(1 => 'matt', 2 => 'john'), $array['users'], '*.name'),
+			// Path as array, issue #3260
+			array($array['users'][2]['name'], $array, array('users', 2, 'name')),
+			array($array['object']['iterator'], $array, 'object.iterator'),
+		);
+	}
+
+	/**
+	 * Tests Arr::path()
+	 *
+	 * @test
+	 * @dataProvider provider_arr_path
+	 * @param string  $path       The path to follow
+	 * @param mixed   $default    The value to return if dnx
+	 * @param boolean $expected   The expected value
+	 * @param string  $delimiter  The path delimiter
+	 */
+	public function test_arr_path($expected, $array, $path, $default = NULL, $delimiter = NULL)
+	{
+		$this->assertSame(
+			$expected,
+			Group_Shipping_Items::arr_path($array, $path, $default, $delimiter)
+		);
+	}
+
 }

@@ -8,7 +8,7 @@
 
 Purchase_items that you want to ship must implement Shippable, like this:
 
-```php
+``` php
 class Model_Product extends Jam_Model implements Sellable, Shippable {
 
 	public static function initialize(Jam_Meta $meta)
@@ -56,9 +56,9 @@ class Model_Product extends Jam_Model implements Sellable, Shippable {
 }
 ```
 
-Also you need to add the shippable purchase to your purchase, store purchase and purchase item model:
+Also you need to add the shippable purchase to your purchase and store purchase:
 
-```php
+``` php
 class Model_Store_Purchase extends Kohana_Model_Store_Purchase {
 
 	public static function initialize(Jam_Meta $meta)
@@ -82,25 +82,13 @@ class Model_Purchase extends Kohana_Model_Purchase {
 			));
 	}
 }
-
-class Model_Purchase_Item extends Kohana_Model_Purchase_Item {
-
-	public static function initialize(Jam_Meta $meta)
-	{
-		parent::initialize($meta);
-		$meta
-			->behaviors(array(
-				'shippable_purchase_item' => Jam::behavior('shippable_purchase_item'),
-			));
-	}
-}
 ```
 
-This behaviors will add the 'shipping' association to the store_pruchase, also listen update_items event and add a shipping purchase_item, and listen to the filter_items event, adding some more flags to filter by.
+This behaviors will add the 'shipping' association to the store_pruchase, also listen to update_items event and add a shipping purchase_item, and listen to the filter_items event, adding some more flags to filter by.
 
 Once you have added the shipping data to your products:
 
-```php
+``` php
 $post = Jam::find('shipping_method', 'Post');
 $europe = Jam::find('location', 'Europe');
 $france = Jam::find('location', 'France');
@@ -121,7 +109,7 @@ $product->shipping = Jam::create('shipping', array(
 
 You can start to select which shipping applies to each purchase item.
 
-```php
+``` php
 $store_purchase = Jam::find('store_purchase', 1);
 
 // If you want to set the informaction explicitly on which purchase_item what shipping_group to use
@@ -147,7 +135,7 @@ $store_purchase_shipping->build_items_from($store_purchase->items, $post);
 
 Having configured that, you can now call ``update_items()`` method on the purchase / store_purchase, adding to the purchase_items a shipping item.
 
-```php
+``` php
 $store_purchase->update_items();
 
 echo $store_purchase->items_count('shipping'); // should return 1
@@ -159,7 +147,7 @@ Each shipping group has several properties that affect how much muney the shippi
 
  - __price__ - this is the base price for shipping of 1 item.
  - __additional_item_price__ - for more than one item, the second, third, etc items require this price, instead of the base one. 
- - __discount_threshold__ - whenever the store_purchase is more than this amount - free shipping
+ - __discount\_threshold__ - whenever the store_purchase is more than this amount - free shipping
 
 Here are some examples:
 
@@ -180,14 +168,14 @@ If you want to allow people to use different methods for different products, her
 
 First of all - finding all purchase_items that can / cannot ship to your country
 
-```php
+``` php
 $available = $store_purchase->items(array('can_ship' => TRUE));
 $not_shippable = $store_purchase->items(array('can_ship' => FALSE));
 ```
 
 If you want to be more precise, you can get available items, but grouped by available shipping methods, so that if you have purchase_items that can ship with both _post_ and _courier_ and other that can ship only with _post_, they will be in different groups:
 
-```php
+``` php
 $group_shipping_methods = $store_purchase->group_shipping_methods()
 foreach ($group_shipping_methods as $group)
 {
@@ -213,7 +201,7 @@ Model_Shipping_Group has "delivery_time" - min - max workdays to deliver the ite
 
 Model_Shipping has this interface:
 
-```php
+``` php
 $france = Jam::find('locaiton', 'France');
 
 $shipping = $product->shipping();
@@ -227,7 +215,7 @@ $shipping->total_delivery_time_for($france);
 
 The shippable purchase behavior also adds some methods to the Model_Store_Purchase for handling delivery time calculations:
 
-```php
+``` php
 // Get the Jam_Range object for the delivery time for the store_purchase
 $store_purchase->total_delivery_time();
 
@@ -240,7 +228,7 @@ $store_purchase->delivery_time_dates();
 
 By default as shipping address is used the billing address of the purchase. If you want to change that address, you'll have to change the ``shipping_same_as_billing`` field and set the shipping_address association, which is the same Model_Address object. After that all the calculation will take the country of shiping_address instead of billing_address:
 
-```php
+``` php
 $purchase = Jam::find('purchase', 1);
 
 $purchase->shipping_same_as_billing = FALSE;

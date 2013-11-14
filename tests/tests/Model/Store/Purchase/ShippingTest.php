@@ -110,17 +110,17 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		return array(
 			array(
 				array(
-					10 => array('total_delivery_time' => new Jam_Range(array(3, 10))), 
-					12 => array('total_delivery_time' => new Jam_Range(array(2, 12))), 
-					14 => array('total_delivery_time' => new Jam_Range(array(5, 22))), 
+					10 => array('total_delivery_time' => new Jam_Range(array(3, 10))),
+					12 => array('total_delivery_time' => new Jam_Range(array(2, 12))),
+					14 => array('total_delivery_time' => new Jam_Range(array(5, 22))),
 				),
 				new Jam_range(array(5, 22), 'Model_Shipping::format_shipping_time'),
 			),
 			array(
 				array(
-					20 => array('total_delivery_time' => new Jam_Range(array(5, 5))), 
-					11 => array('total_delivery_time' => new Jam_Range(array(5, 6))), 
-					12 => array('total_delivery_time' => new Jam_Range(array(7, 10))), 
+					20 => array('total_delivery_time' => new Jam_Range(array(5, 5))),
+					11 => array('total_delivery_time' => new Jam_Range(array(5, 6))),
+					12 => array('total_delivery_time' => new Jam_Range(array(7, 10))),
 				),
 				new Jam_range(array(7, 10), 'Model_Shipping::format_shipping_time'),
 			),
@@ -262,7 +262,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 
 		$shipping_item = $shipping->new_item_from($purchase_item, $france, $post);
 
-		$this->assertINstanceOf('Model_Shipping_Item', $shipping_item);
+		$this->assertInstanceOf('Model_Shipping_Item', $shipping_item);
 		$this->assertEquals($france, $shipping_item->shipping_group->location);
 		$this->assertSame($shipping, $shipping_item->store_purchase_shipping);
 		$this->assertEquals($post, $shipping_item->shipping_group->method);
@@ -289,7 +289,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 
 		foreach ($shipping_items as $item)
 		{
-			$this->assertINstanceOf('Model_Shipping_Item', $item);
+			$this->assertInstanceOf('Model_Shipping_Item', $item);
 			$this->assertEquals($france, $item->shipping_group->location);
 			$this->assertEquals($post, $item->shipping_group->method);
 			$this->assertSame($shipping, $item->store_purchase_shipping);
@@ -324,7 +324,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 			2 => $items[2],
 		);
 	
-		$this->assertEquals($expected, $result);	
+		$this->assertEquals($expected, $result);
 	}
 
 	public function data_total_price()
@@ -503,7 +503,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 			),
 		));
 
-		foreach ($item_location_names as $i => $location_name) 
+		foreach ($item_location_names as $i => $location_name)
 		{
 			if ($location_name)
 			{
@@ -523,14 +523,12 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$new_product = Jam::find('product', 3);
 		$new_product2 = Jam::find('product', 4);
 
-		$purchase->add_item($new_product->store, Jam::build('purchase_item', array(
-			'type' => 'product', 
+		$purchase->add_item($new_product->store, Jam::build('purchase_item_product', array(
 			'is_payable' => TRUE,
 			'reference' => $new_product,
 		)));
 
-		$purchase->add_item($new_product2->store, Jam::build('purchase_item', array(
-			'type' => 'product', 
+		$purchase->add_item($new_product2->store, Jam::build('purchase_item_product', array(
 			'is_payable' => TRUE,
 			'reference' => $new_product2,
 		)));

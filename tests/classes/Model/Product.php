@@ -6,7 +6,9 @@ class Model_Product extends Jam_Model implements Sellable, Shippable {
 	{
 		$meta
 			->associations(array(
-				'shipping' => Jam::association('belongsto', array('inverse_of' => 'products')),
+				'shipping' => Jam::association('belongsto', array(
+					'inverse_of' => 'products'
+				)),
 				'store' => Jam::association('belongsto'),
 				'variations' => Jam::association('hasmany'),
 				'purchase_items' => Jam::association('hasmany', array(
@@ -19,10 +21,12 @@ class Model_Product extends Jam_Model implements Sellable, Shippable {
 				'currency' => Jam::field('string'),
 				'price' => Jam::field('price'),
 			))
-			->validator('type', 'price', 'quantity', array(
+			->validator('name', 'price', 'currency', array(
 				'present' => TRUE
 			))
-			->validator('price', array('numeric' => TRUE));
+			->validator('price', array(
+				'numeric' => TRUE
+			));
 	}
 
 	public function price_for_purchase_item(Model_Purchase_Item $item)
