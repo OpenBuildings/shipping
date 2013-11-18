@@ -19,6 +19,8 @@ class Model_Purchase_Item_ShippingTest extends Testcase_Shipping {
 
 		$this->assertSame('purchase_item', $association->inverse_of);
 		$this->assertSame(Jam_Association::DELETE, $association->dependent);
+
+		$this->assertTrue($meta->field('is_payable')->default);
 	}
 
 	/**

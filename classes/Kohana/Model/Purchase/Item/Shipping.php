@@ -22,6 +22,11 @@ class Kohana_Model_Purchase_Item_Shipping extends Model_Purchase_Item {
 					'inverse_of' => 'purchase_item',
 					'dependent' => Jam_Association::DELETE
 				)),
+			))
+			->fields(array(
+				'is_payable' => Jam::field('boolean', array(
+					'default' => TRUE
+				))
 			));
 	}
 
