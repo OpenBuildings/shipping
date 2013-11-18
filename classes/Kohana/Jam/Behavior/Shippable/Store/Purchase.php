@@ -128,7 +128,6 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 			else
 			{
 				$store_purchase->items []= Jam::build('purchase_item_shipping', array(
-					'type' => 'shipping',
 					'is_payable' => TRUE,
 					'reference' => $store_purchase->shipping,
 				));
