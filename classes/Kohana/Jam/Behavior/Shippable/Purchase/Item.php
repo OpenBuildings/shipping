@@ -19,6 +19,7 @@ class Kohana_Jam_Behavior_Shippable_Purchase_Item extends Jam_Behavior {
 			->associations(array(
 				'shipping_item' => Jam::association('hasone', array(
 					'inverse_of' => 'purchase_item',
+					'foreign_key' => 'purchase_item_id',
 					'dependent' => Jam_Association::DELETE
 				)),
 			));

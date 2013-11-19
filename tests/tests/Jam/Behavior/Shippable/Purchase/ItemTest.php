@@ -4,9 +4,12 @@ class Jam_Behavior_Shippable_Purchase_ItemTest extends PHPUnit_Framework_TestCas
 
 	public function test_initialize()
 	{
-		$this->assertInstanceOf(
-			'Jam_Association_Hasone',
-			Jam::meta('purchase_item_product')->association('shipping_item')
-		);
+		$association = Jam::meta('purchase_item_product')
+			->association('shipping_item');
+
+		$this->assertInstanceOf('Jam_Association_Hasone', $association);
+		$this->assertAttributeSame('purchase_item_id', 'foreign_key', $association);
+		$this->assertAttributeSame('purchase_item', 'inverse_of', $association);
+		$this->assertAttributeSame(Jam_Association::DELETE, 'dependent', $association);
 	}
 }
