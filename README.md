@@ -54,6 +54,18 @@ class Model_Product extends Jam_Model implements Sellable, Shippable {
 		return $this->shipping ? $this->shipping->ships_to($location) : FALSE;
 	}
 }
+
+class Model_Purchase_Item_Product extends Kohana_Model_Purchase_Item_Product {
+
+	public static function initialize(Jam_Meta $meta)
+	{
+		parent::initialize($meta);
+		$meta
+			->behaviors(array(
+				'shippable_purchase_item' => Jam::behavior('shippable_purchase_item'),
+			));
+	}
+}
 ```
 
 Also you need to add the shippable purchase to your purchase and store purchase:
