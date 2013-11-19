@@ -61,7 +61,6 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 	public function test_add_store_purchase_shipping()
 	{
 		$store_purchase = Jam::find('store_purchase', 2);
-		$france = Jam::find('location', 'France');
 
 		$this->assertNull($store_purchase->shipping);
 
@@ -93,9 +92,21 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 			->model('purchase_item')
 			->load_fields(array())
 			->set(array(
-				array('id' => 10, 'type' => 'product', 'reference' => $product),
-				array('id' => 11, 'type' => 'product', 'reference' => $product),
-				array('id' => 12, 'type' => 'product', 'reference' => $product),
+				array(
+					'id' => 10,
+					'model' => 'purchase_item_product',
+					'reference' => $product
+				),
+				array(
+					'id' => 11,
+					'model' => 'purchase_item_product',
+					'reference' => $product
+				),
+				array(
+					'id' => 12,
+					'model' => 'purchase_item_product',
+					'reference' => $product
+				),
 			));
 
 		$store_purchase = $this->getMock('Model_Store_Purchase', array('items'), array('store_purchase'));
@@ -145,15 +156,19 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 
 		$store_purchase = Jam::build('store_purchase', array(
 			'items' => array(
-				array('id' => 100, 'type' => 'shipping'),
-				array('id' => 101, 'type' => 'promotion'),
+				array('id' => 100, 'model' => 'purchase_item_shipping'),
+				array('id' => 101, 'model' => 'purchase_item_product'),
 			),
 			'shipping' => $shipping
 		));
 
 		foreach ($item_params as $id => $ships_to_result) 
 		{
-			$reference = $this->getMock('Model_Product', array('ships_to'), array('product'));
+			$reference = $this->getMock('Model_Product', array(
+				'ships_to'
+			), array(
+				'product'
+			));
 
 			$reference
 				->expects($this->exactly(2))
@@ -161,7 +176,11 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 					->with($this->identicalTo($location))
 					->will($this->returnValue($ships_to_result));
 
-			$store_purchase->items->build(array('id' => $id, 'type' => 'product', 'reference' => $reference));
+			$store_purchase->items->build(array(
+				'id' => $id,
+				'model' => 'purchase_item_product',
+				'reference' => $reference
+			));
 		}
 
 		$items = $store_purchase->items(array('shippable' => TRUE));

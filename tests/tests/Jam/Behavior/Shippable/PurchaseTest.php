@@ -70,7 +70,9 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 		$france = Jam::find('location', 'France');
 		$purchase->shipping_country($france);
 		$product = Jam::find('product', 2);
-		$perchase_item = Jam::build('purchase_item', array('reference' => $product, 'type' => 'product', 'is_payable' => TRUE));
+		$perchase_item = Jam::build('purchase_item_product', array(
+			'reference' => $product
+		));
 
 		$purchase->add_item($product->store, $perchase_item);
 		
