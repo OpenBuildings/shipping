@@ -20,6 +20,7 @@ class Kohana_Model_Purchase_Item_Shipping extends Model_Purchase_Item {
 			->associations(array(
 				'shipping_item' => Jam::association('hasone', array(
 					'inverse_of' => 'purchase_item',
+					'foreign_key' => 'purchase_item_id',
 					'dependent' => Jam_Association::DELETE
 				)),
 			))
