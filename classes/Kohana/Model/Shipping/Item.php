@@ -29,6 +29,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 				)),
 				'purchase_item' => Jam::association('belongsto', array(
 					'inverse_of' => 'shipping_item',
+					'foreign_key' => 'purchase_item_id',
 					'foreign_model' => 'purchase_item_shipping'
 				)),
 				'shipping_group' => Jam::association('belongsto', array(
