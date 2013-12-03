@@ -1,2 +1,12 @@
 tools:
   external_code_coverage: true
+
+filter:
+  excluded_paths: [vendor/*, web/*]
+
+tools:
+  php_cpd: true
+  php_hhvm: true
+  php_analyzer: true
+  php_pdepend:
+      excluded_dirs: [vendor]
