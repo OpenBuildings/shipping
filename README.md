@@ -1,7 +1,8 @@
 # Purchases Shipping
 
 [![Build Status](https://travis-ci.org/OpenBuildings/shipping.png?branch=master)](https://travis-ci.org/OpenBuildings/shipping)
-[![Coverage Status](https://coveralls.io/repos/OpenBuildings/shipping/badge.png?branch=master)](https://coveralls.io/r/OpenBuildings/shipping?branch=master)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/OpenBuildings/shipping/badges/quality-score.png?s=3ec5349995f65e6aee88ab38e1af589062f9f265)](https://scrutinizer-ci.com/g/OpenBuildings/shipping/)
+[![Code Coverage](https://scrutinizer-ci.com/g/OpenBuildings/shipping/badges/coverage.png?s=dd1ba06939b3622724bd5784917d61ec5d5f6ecc)](https://scrutinizer-ci.com/g/OpenBuildings/shipping/)
 [![Latest Stable Version](https://poser.pugx.org/openbuildings/shipping/v/stable.png)](https://packagist.org/packages/openbuildings/shipping)
 
 ## Usage
