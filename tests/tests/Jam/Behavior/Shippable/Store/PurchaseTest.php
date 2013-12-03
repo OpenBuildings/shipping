@@ -79,12 +79,17 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 	 */
 	public function test_group_shipping_methods()
 	{
-		$shipping = $this->getMock('Model_Shipping', array('methods_group_key', 'ships_to'), array('shipping'));
+		$location = Jam::build('location');
+		$post = Jam::build('shipping_method')->load_fields(array('id' => 1, 'name' => 'Post'));
+		$courier = Jam::build('shipping_method')->load_fields(array('id' => 1, 'name' => 'Courier'));
+		
+		$shipping = $this->getMock('Model_Shipping', array('methods_for', 'ships_to'), array('shipping'));
 
 		$shipping
 			->expects($this->exactly(3))
-				->method('methods_group_key')
-				->will($this->onConsecutiveCalls('group1', 'group1', 'group2'));
+				->method('methods_for')
+				->with($this->identicalTo($location))
+				->will($this->onConsecutiveCalls(array(1 => $post), array(1 => $post), array(1 => $post, 2 => $courier)));
 
 		$product = Jam::build('product', array('shipping' => $shipping));
 
@@ -109,9 +114,14 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 				),
 			));
 
-		$store_purchase = $this->getMock('Model_Store_Purchase', array('items'), array('store_purchase'));
+		$store_purchase = $this->getMock('Model_Store_Purchase', array('items', 'shipping_country'), array('store_purchase'));
 		$store_purchase_shipping = $store_purchase->build('shipping');
 		
+		$store_purchase
+			->expects($this->any())
+			->method('shipping_country')
+			->will($this->returnValue($location));
+
 		$store_purchase
 			->expects($this->once())
 			->method('items')
@@ -121,13 +131,13 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 		$groups = $store_purchase->group_shipping_methods();
 
 		$this->assertCount(2, $groups);
-		$this->assertInstanceOf('Group_Shipping_methods', $groups['group1']);
-		$this->assertInstanceOf('Group_Shipping_methods', $groups['group2']);
+		$this->assertInstanceOf('Group_Shipping_methods', $groups['1']);
+		$this->assertInstanceOf('Group_Shipping_methods', $groups['1,2']);
 		
-		$this->assertEquals(array(10, 11), $this->ids($groups['group1']->purchase_items));
-		$this->assertEquals(array(12), $this->ids($groups['group2']->purchase_items));
-		$this->assertSame($store_purchase_shipping, $groups['group1']->store_purchase_shipping);
-		$this->assertSame($store_purchase_shipping, $groups['group2']->store_purchase_shipping);
+		$this->assertEquals(array(10, 11), $this->ids($groups['1']->purchase_items));
+		$this->assertEquals(array(12), $this->ids($groups['1,2']->purchase_items));
+		$this->assertSame($store_purchase_shipping, $groups['1']->store_purchase_shipping);
+		$this->assertSame($store_purchase_shipping, $groups['1,2']->store_purchase_shipping);
 	}
 
 	public function data_filter_shipping_items()

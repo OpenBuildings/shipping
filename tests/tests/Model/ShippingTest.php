@@ -53,13 +53,16 @@ class Model_ShippingTest extends Testcase_Shipping {
 	}
 
 	/**
-	 * @covers Model_Shipping::methods_group_key
+	 * @covers Model_Shipping::methods_for
 	 */
-	public function test_methods_group_key()
+	public function test_methods_for()
 	{
 		$shipping = Jam::find('shipping', 1);
+		$united_kingdom = Jam::find('location', 'United Kingdom');
 
-		$this->assertEquals('1,2,3', $shipping->methods_group_key());
+		$this->assertEquals(array('1','2','3'), array_keys($shipping->methods_for(NULL)));
+
+		$this->assertEquals(array('2'), array_keys($shipping->methods_for($united_kingdom)));
 	}
 
 	public function data_locations_containing()

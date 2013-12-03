@@ -115,13 +115,15 @@ class Kohana_Model_Shipping extends Jam_Model {
 		}
 	}
 
-	public function methods_group_key()
+	public function methods_for($location)
 	{
-		$method_ids = $this->methods->as_array(NULL, 'id');
-		sort($method_ids);
-		$method_ids = array_unique($method_ids);
-
-		return join(',', $method_ids);
+		$groups = $location ? $this->groups_in($location) : $this->groups;
+		$methods = array();
+		foreach ($groups as $group) 
+		{
+			$methods[$group->method_id] = $group->method;
+		}
+		return $methods;
 	}
 
 	public function ships_to(Model_Location $location)

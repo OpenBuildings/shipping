@@ -34,12 +34,13 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 	{
 		$items = $store_purchase->items(array('can_ship' => TRUE));
 
-		$groups = Array_Util::group_by($items, function($item) {
-			return $item->get_insist('reference')->shipping()->methods_group_key();
+		$groups = Array_Util::group_by($items, function($item) use ($store_purchase) {
+			$item->methods_for_location = $item->get_insist('reference')->shipping()->methods_for($store_purchase->shipping_country());
+			return join(',', array_keys($item->methods_for_location));
 		});
 
 		$data->return = array_map(function($group) use ($store_purchase) {
-			$methods = $group[0]->get_insist('reference')->shipping()->methods->as_array('id');
+			$methods = $group[0]->methods_for_location;
 
 			return new Group_Shipping_Methods($store_purchase->shipping, $methods, $group);
 		}, $groups);
