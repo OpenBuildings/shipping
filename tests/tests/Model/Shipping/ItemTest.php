@@ -57,7 +57,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 	public function data_sort_by_price()
 	{
-		$monetary = new Monetary('GBP', new Source_Static());
+		$monetary = new Monetary('GBP', new Source_Static);
 
 		return array(
 			array(
@@ -95,7 +95,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 	public function data_relative_prices()
 	{
-		$monetary = new Monetary('GBP', new Source_Static());
+		$monetary = new Monetary('GBP', new Source_Static);
 		return array(
 			array(
 				array(
@@ -158,7 +158,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	public function test_monetary()
 	{
 		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('monetary'), array('store_purchase_shipping'));
-		$monetary = new Monetary();
+		$monetary = new Monetary;
 
 		$store_purchase_shipping
 			->expects($this->once())
@@ -175,7 +175,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_price()
 	{
-		$monetary = new Monetary('GBP', new Source_Static());
+		$monetary = new Monetary('GBP', new Source_Static);
 		$item = $this->getMock('Model_Shipping_Item', array('currency', 'monetary'), array('shipping_item'));
 
 		$item
@@ -317,7 +317,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_additional_item_price()
 	{
-		$monetary = new Monetary('GBP', new Source_Static());
+		$monetary = new Monetary('GBP', new Source_Static);
 		$item = $this->getMock('Model_Shipping_Item', array('currency', 'monetary'), array('shipping_item'));
 
 		$item
@@ -458,7 +458,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 	public function data_total_price()
 	{
-		$monetary = new Monetary('GBP', new Source_Static());
+		$monetary = new Monetary('GBP', new Source_Static);
 
 		return array(
 			array(
@@ -495,7 +495,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 	public function data_total_additional_item_price()
 	{
-		$monetary = new Monetary('GBP', new Source_Static());
+		$monetary = new Monetary('GBP', new Source_Static);
 
 		return array(
 			array(
@@ -528,5 +528,21 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 		$this->assertEquals($expected, $total_additional_item_price);
 	}
 
+	/**
+	 * @covers Model_Shipping_Item::shipping_group_insist
+	 */
+	public function test_shipping_group_insist()
+	{
+		$group = Jam::build('shipping_group');
+		$item = Jam::build('shipping_item', array(
+			'shipping_group' => $group,
+		));
 
+		$this->assertSame($group, $item->shipping_group_insist());
+
+		$this->setExpectedException('Kohana_Exception');
+		$item->shipping_group = NULL;
+
+		$this->assertSame($group, $item->shipping_group_insist());
+	}
 }

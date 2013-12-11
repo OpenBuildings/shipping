@@ -110,7 +110,11 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	 */
 	public function shipping_insist()
 	{
-		return $this->get_insist('shipping_group')->get_insist('shipping');
+		$self = $this;
+		
+		return Jam_Behavior_Paranoid::with_filter(Jam_Behavior_Paranoid::ALL, function() use ($self) {
+			return $self->get_insist('shipping_group')->get_insist('shipping');
+		});
 	}
 
 	public function purchase_item_shipping()
@@ -172,7 +176,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	 */
 	public function price()
 	{
-		$price = $this->get_insist('shipping_group')->price ?: new Jam_Price(0, $this->currency());
+		$price = $this->shipping_group_insist()->price ?: new Jam_Price(0, $this->currency());
 
 		return $price
 			->monetary($this->monetary())
@@ -187,7 +191,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	 */
 	public function additional_item_price()
 	{
-		$group = $this->get_insist('shipping_group');
+		$group = $this->shipping_group_insist();
 
 		$additional_price = $group->additional_item_price ?: $group->price;
 
@@ -204,7 +208,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	 */
 	public function is_discounted(Jam_Price $total)
 	{
-		return $this->get_insist('shipping_group')->is_discounted($total);
+		return $this->shipping_group_insist()->is_discounted($total);
 	}
 
 	/**
@@ -252,7 +256,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	{
 		return ($this->delivery_time AND $this->delivery_time->min() !== NULL)
 			? $this->delivery_time
-			: $this->get_insist('shipping_group')->delivery_time;
+			: $this->shipping_group_insist()->delivery_time;
 	}
 
 	/**
@@ -294,5 +298,17 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	public function total_additional_item_price()
 	{
 		return $this->additional_item_price()->multiply_by($this->quantity());
+	}
+
+	/**
+	 * Use paranoid for shipping group
+	 */
+	public function shipping_group_insist()
+	{
+		$self = $this;
+		
+		return Jam_Behavior_Paranoid::with_filter(Jam_Behavior_Paranoid::ALL, function() use ($self) {
+			return $self->get_insist('shipping_group');
+		});
 	}
 }
