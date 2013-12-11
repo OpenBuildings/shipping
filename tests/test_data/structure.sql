@@ -148,6 +148,7 @@ CREATE TABLE `shippings` (
   `processing_time` varchar(100) NOT NULL,
   `ships_from_id` int(11) UNSIGNED NOT NULL,
   `store_id` int(11) UNSIGNED NOT NULL,
+  `is_deleted` INT(1) UNSIGNED NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -161,6 +162,7 @@ CREATE TABLE `shipping_groups` (
   `shipping_id` int(11) UNSIGNED NOT NULL,
   `method_id` int(11) UNSIGNED NOT NULL,
   `location_id` int(11) UNSIGNED NOT NULL,
+  `is_deleted` INT(1) UNSIGNED NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

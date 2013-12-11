@@ -14,12 +14,14 @@ class Kohana_Model_Shipping_Group extends Jam_Model {
 	public static function initialize(Jam_Meta $meta)
 	{
 		$meta
+			->behaviors(array(
+				'paranoid' => Jam::behavior('paranoid'),
+			))
 			->associations(array(
 				'shipping' => Jam::association('belongsto', array('inverse_of' => 'locations')),
 				'method'   => Jam::association('belongsto', array('foreign_model' => 'shipping_method', 'inverse_of' => 'locations')),
 				'location' => Jam::association('belongsto', array('inverse_of' => 'shipping_group')),
 				'shipping_items' => Jam::association('hasmany', array('inverse_of' => 'shipping_group')),
-
 			))
 			->fields(array(
 				'id'            => Jam::field('primary'),

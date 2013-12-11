@@ -28,12 +28,14 @@ class Kohana_Model_Shipping extends Jam_Model {
 	public static function initialize(Jam_Meta $meta)
 	{
 		$meta
+			->behaviors(array(
+				'paranoid' => Jam::behavior('paranoid'),
+			))
 			->associations(array(
 				'groups' => Jam::association('hasmany', array(
 					'foreign_model' => 'shipping_group', 
 					'inverse_of' => 'shipping',
 					'delete_on_remove' => Jam_Association::DELETE,
-					'dependent' => Jam_Association::DELETE,
 				)),
 				'methods' => Jam::association('manytomany', array(
 					'foreign_model' => 'shipping_method',
