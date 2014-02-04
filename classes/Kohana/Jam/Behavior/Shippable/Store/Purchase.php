@@ -108,12 +108,23 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 
 	public function add_store_purchase_shipping(Model_Store_Purchase $store_purchase)
 	{
-		if ( ! $store_purchase->shipping AND $store_purchase->shipping_country())
+		if ($store_purchase->shipping_country())
 		{
-			$store_purchase->build('shipping');
+			if ( ! $store_purchase->shipping)
+			{
+				$store_purchase->build('shipping');
+			}
+			else
+			{
+				$store_purchase->shipping = $store_purchase->shipping;
+			}
+
 			foreach ($store_purchase->items(array('shippable' => TRUE)) as $purchase_item)
 			{
-				$store_purchase->shipping->build_item_from($purchase_item);
+				if ( ! $purchase_item->shipping_item)
+				{
+					$store_purchase->shipping->build_item_from($purchase_item);
+				}
 			}
 		}
 	}

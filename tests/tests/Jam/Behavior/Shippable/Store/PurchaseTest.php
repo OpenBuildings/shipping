@@ -35,7 +35,9 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 				'shipping_group' => $store_purchase->items[0]->reference->shipping()->groups[0],
 			)
 		);
-		
+
+		$store_purchase->items[0]->shipping_item = $store_purchase_shipping->items[0];
+
 		$store_purchase->shipping = $store_purchase_shipping;
 
 		$store_purchase->update_items();
