@@ -51,10 +51,10 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	}
 
 	/**
-	 * Filter out Model_Shipping_Item's of shipping_groups that are discounted, 
-	 * based on the provided total price 
+	 * Filter out Model_Shipping_Item's of shipping_groups that are discounted,
+	 * based on the provided total price
 	 * @param  array     $items array of Model_Shipping_Item objects
-	 * @param  Jam_Price $total 
+	 * @param  Jam_Price $total
 	 * @return array     Model_Shipping_Item objects
 	 */
 	public static function filter_discounted_items(array $items, Jam_Price $total)
@@ -67,9 +67,9 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	}
 
 	/**
-	 * Sort Model_Shipping_Item by price, biggest price first 
-	 * @param  array  $items 
-	 * @return array        
+	 * Sort Model_Shipping_Item by price, biggest price first
+	 * @param  array  $items
+	 * @return array
 	 */
 	public static function sort_by_price(array $items)
 	{
@@ -87,7 +87,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 
 	/**
 	 * Sort and get all the realtive prices of Model_Shipping_Item object (using relative_price method)
-	 * @param  array  $items 
+	 * @param  array  $items
 	 * @return array  Jam_Price objects
 	 */
 	public static function relative_prices(array $items)
@@ -105,13 +105,13 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 
 	/**
 	 * Get the shipping object associated with this item
-	 * @return Model_Shipping 
+	 * @return Model_Shipping
 	 * @throws Kohana_Exception If shipping_group or its shipping is NULL
 	 */
 	public function shipping_insist()
 	{
 		$self = $this;
-		
+
 		return Jam_Behavior_Paranoid::with_filter(Jam_Behavior_Paranoid::ALL, function() use ($self) {
 			return $self->get_insist('shipping_group')->get_insist('shipping');
 		});
@@ -152,7 +152,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 
 	/**
 	 * Generate a key based on which shipping groups will be devided.
-	 * The items in the same group are shipped toggether, allowing us to use 
+	 * The items in the same group are shipped toggether, allowing us to use
 	 * additional_item_price instead of price.
 	 *
 	 * Groups by method and ships_from
@@ -162,8 +162,8 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	public function group_key()
 	{
 		$group = $this->shipping_group;
-		
-		if ( ! $group OR ! $group->shipping) 
+
+		if ( ! $group OR ! $group->shipping)
 			return NULL;
 
 		return $group->method_id.'-'.$group->shipping->ships_from_id;
@@ -237,7 +237,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	 * Shipping's processing_time
 	 * Freezable
 	 *
-	 * @return Jam_Range 
+	 * @return Jam_Range
 	 */
 	public function processing_time()
 	{
@@ -250,7 +250,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	 * Shipping group's delivery_time
 	 * Freezable
 	 *
-	 * @return Jam_Range 
+	 * @return Jam_Range
 	 */
 	public function delivery_time()
 	{
@@ -268,7 +268,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	public function total_delivery_time()
 	{
 		$format = $this->meta()->field('delivery_time')->format;
-		
+
 		return Jam_Range::sum(array(
 			$this->processing_time(),
 			$this->delivery_time(),
@@ -306,7 +306,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	public function shipping_group_insist()
 	{
 		$self = $this;
-		
+
 		return Jam_Behavior_Paranoid::with_filter(Jam_Behavior_Paranoid::ALL, function() use ($self) {
 			return $self->get_insist('shipping_group');
 		});

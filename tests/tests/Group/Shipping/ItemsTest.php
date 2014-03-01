@@ -211,7 +211,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 	public function test_parse_values($value, $path, $expected)
 	{
 		$result = Group_Shipping_Items::parse_form_values($value, $path);
-		
+
 		$this->assertEquals($expected, $result);
 	}
 
@@ -337,7 +337,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 
 		$result = $group_items->existing_shipping_items();
 		$this->assertSame($items, $result);
-		
+
 		$result = $group_items->existing_shipping_items();
 		$this->assertSame($items, $result);
 	}
@@ -370,12 +370,12 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 
 		$result = $group_items->is_active();
 		$this->assertFalse($result);
-		
+
 		$result = $group_items->is_active();
 		$this->assertTrue($result);
-		
+
 		$result = $group_items->is_active();
-		$this->assertFalse($result);	
+		$this->assertFalse($result);
 	}
 
 	/**
@@ -492,5 +492,4 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 			Group_Shipping_Items::arr_path($array, $path, $default, $delimiter)
 		);
 	}
-
 }

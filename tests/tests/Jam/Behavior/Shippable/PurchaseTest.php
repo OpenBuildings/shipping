@@ -75,7 +75,7 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 		));
 
 		$purchase->add_item($product->store, $perchase_item);
-		
+
 		$item = $purchase->store_purchases[0]->shipping->items[0];
 
 		$this->assertInstanceOf('Model_Shipping_Item', $item);
@@ -109,13 +109,13 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 		$purchase->shipping_required = TRUE;
 		$purchase->shipping_same_as_billing = FALSE;
 		$purchase->check();
-		
+
 		$this->assertEquals(array('shipping_address' => array('present' => array())), $purchase->errors()->as_array());
 
 		$purchase->shipping_address = array('first_name' => 10);
 
 		$purchase->check();
-		
+
 		$this->assertEquals(array('shipping_address' => array('association' => array(':errors' => $purchase->shipping_address->errors()))), $purchase->errors()->as_array());
 
 		$purchase = $this->getMock('Model_Purchase', array('items_count'), array('purchase'));
@@ -131,12 +131,11 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 		$purchase->shipping_required = TRUE;
 
 		$purchase->check();
-		
+
 		$this->assertEquals(array(), $purchase->errors()->as_array());
-		
+
 		$purchase->check();
-		
+
 		$this->assertEquals(array('store_purchases' => array('cannot_ship' => array())), $purchase->errors()->as_array());
 	}
-
 }

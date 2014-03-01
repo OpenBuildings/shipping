@@ -4,10 +4,10 @@ use OpenBuildings\Monetary\Monetary;
 use OpenBuildings\Monetary\Source_Static;
 
 /**
- * Functest_TestsTest 
+ * Functest_TestsTest
  *
  * @group model.shipping
- * 
+ *
  * @package Functest
  * @author Ivan Kerin
  * @copyright  (c) 2011-2013 Despark Ltd.
@@ -175,7 +175,7 @@ class Model_ShippingTest extends Testcase_Shipping {
 		$shipping = $this->getMock('Model_Shipping', array('groups_in'), array('shipping'));
 
 		$params = array(
-			array('id' => 10, 'price' => new Jam_Price(20, 'USD', $monetary)), 
+			array('id' => 10, 'price' => new Jam_Price(20, 'USD', $monetary)),
 			array('id' => 11, 'price' => new Jam_Price(18, 'GBP', $monetary)),
 			array('id' => 12, 'price' => new Jam_Price(5, 'USD', $monetary)),
 		);
@@ -228,7 +228,7 @@ class Model_ShippingTest extends Testcase_Shipping {
 
 		$group = $shipping->group_for($location, $method);
 
-		if ($expected) 
+		if ($expected)
 		{
 			$this->assertNotNull($group);
 			$this->assertEquals($expected, $group->id());

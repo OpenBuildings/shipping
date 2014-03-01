@@ -4,10 +4,10 @@ use OpenBuildings\Monetary\Monetary;
 use OpenBuildings\Monetary\Source_Static;
 
 /**
- * Functest_TestsTest 
+ * Functest_TestsTest
  *
  * @group model.shipping_group
- * 
+ *
  * @package Functest
  * @author Ivan Kerin
  * @copyright  (c) 2011-2013 Despark Ltd.
@@ -41,7 +41,7 @@ class Model_Shipping_GroupTest extends Testcase_Shipping {
 		$shipping = $this->getMock('Model_Shipping', array('currency'), array('shipping_group'));
 
 		$shipping
-			->expects($this->at(0)) 
+			->expects($this->at(0))
 				->method('currency')
 				->will($this->returnValue('GBP'));
 
@@ -65,7 +65,7 @@ class Model_Shipping_GroupTest extends Testcase_Shipping {
 		return array(
 			array(
 				array(
-					array('id' => 10, 'price' => new Jam_Price(20, 'USD', $monetary)), 
+					array('id' => 10, 'price' => new Jam_Price(20, 'USD', $monetary)),
 					array('id' => 11, 'price' => new Jam_Price(18, 'GBP', $monetary)),
 					array('id' => 12, 'price' => new Jam_Price(5, 'USD', $monetary)),
 				),
@@ -73,7 +73,7 @@ class Model_Shipping_GroupTest extends Testcase_Shipping {
 			),
 			array(
 				array(
-					array('id' => 10, 'price' => new Jam_Price(20, 'USD', $monetary)), 
+					array('id' => 10, 'price' => new Jam_Price(20, 'USD', $monetary)),
 					array('id' => 11, 'price' => new Jam_Price(20, 'GBP', $monetary)),
 					array('id' => 12, 'price' => new Jam_Price(5, 'USD', $monetary)),
 					array('id' => 13, 'price' => new Jam_Price(45, 'USD', $monetary)),
@@ -90,7 +90,7 @@ class Model_Shipping_GroupTest extends Testcase_Shipping {
 	public function test_sort_by_price($params, $expected_ids)
 	{
 		$shipping_groups = array();
-		foreach ($params as $param) 
+		foreach ($params as $param)
 		{
 			$shipping_groups []= Jam::build('shipping_group', $param);
 		}
@@ -116,5 +116,4 @@ class Model_Shipping_GroupTest extends Testcase_Shipping {
 
 		$this->assertEquals($expects, $shipping_group->total_delivery_time());
 	}
-
 }

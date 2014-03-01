@@ -7,7 +7,7 @@
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Kohana_Model_Shipping_Group extends Jam_Model {
-	
+
 	/**
 	 * @codeCoverageIgnore
 	 */
@@ -36,9 +36,9 @@ class Kohana_Model_Shipping_Group extends Jam_Model {
 	}
 
 	/**
-	 * Sort Model_Shipping_Item by price, biggest price first 
-	 * @param  array  $items 
-	 * @return array        
+	 * Sort Model_Shipping_Item by price, biggest price first
+	 * @param  array  $items
+	 * @return array
 	 */
 	public static function sort_by_price(array $items)
 	{
@@ -55,7 +55,7 @@ class Kohana_Model_Shipping_Group extends Jam_Model {
 	{
 		$processing_time = $this->get_insist('shipping')->processing_time;
 		$format = $this->meta()->field('delivery_time')->format;
-		
+
 		return Jam_Range::sum(array(
 			$this->delivery_time,
 			$processing_time

@@ -30,7 +30,7 @@ class Group_Shipping_MethodsTest extends Testcase_Shipping {
 
 		$this->assertCount(2, $group_items);
 
-		foreach ($group_items as $i => $item) 
+		foreach ($group_items as $i => $item)
 		{
 			$this->assertInstanceOf('Group_Shipping_Items', $item);
 			$this->assertSame($methods[$i], $item->shipping_method);

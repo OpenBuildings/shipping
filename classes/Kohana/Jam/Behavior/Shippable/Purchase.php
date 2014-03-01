@@ -32,33 +32,33 @@ class Kohana_Jam_Behavior_Shippable_Purchase extends Jam_Behavior {
 
 	public function model_before_check(Model_Purchase $purchase, Jam_Event_Data $data)
 	{
-		if ($purchase->shipping_required) 
+		if ($purchase->shipping_required)
 		{
-			if ($purchase->shipping_same_as_billing AND ! $purchase->billing_address) 
+			if ($purchase->shipping_same_as_billing AND ! $purchase->billing_address)
 			{
 				$purchase->errors()->add('billing_address', 'present');
 			}
-			elseif ( ! $purchase->shipping_same_as_billing AND ! $purchase->shipping_address) 
+			elseif ( ! $purchase->shipping_same_as_billing AND ! $purchase->shipping_address)
 			{
 				$purchase->errors()->add('shipping_address', 'present');
 			}
 			else
 			{
-				$purchase->shipping_address()->fields_required = TRUE;	
+				$purchase->shipping_address()->fields_required = TRUE;
 			}
 
-			if ($purchase->items_count(array('can_ship' => FALSE))) 
+			if ($purchase->items_count(array('can_ship' => FALSE)))
 			{
 				$purchase->errors()->add('store_purchases', 'cannot_ship');
 			}
 		}
 	}
-	
+
 	public function add_item(Model_Purchase $purchase, Jam_Event_Data $data, Model_Purchase_Item $purchase_item)
 	{
 		if (($store_purchase = $purchase_item->store_purchase) AND $purchase->shipping_country())
 		{
-			if ( ! $store_purchase->shipping) 
+			if ( ! $store_purchase->shipping)
 			{
 				$store_purchase->build('shipping');
 			}
@@ -69,9 +69,9 @@ class Kohana_Jam_Behavior_Shippable_Purchase extends Jam_Behavior {
 
 	public function model_call_shipping_country(Model_Purchase $purchase, Jam_Event_Data $data, Model_Location $shipping_country = NULL)
 	{
-		if ($shipping_country !== NULL) 
+		if ($shipping_country !== NULL)
 		{
-			if ($purchase->shipping_same_as_billing) 
+			if ($purchase->shipping_same_as_billing)
 			{
 				$purchase->billing_address->country = $shipping_country;
 				$purchase->billing_address = $purchase->billing_address;

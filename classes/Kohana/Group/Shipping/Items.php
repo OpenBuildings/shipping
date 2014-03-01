@@ -17,7 +17,7 @@ class Kohana_Group_Shipping_Items {
 
 	/**
 	 * Modified to take wildcard positions into account.
-	 * 
+	 *
 	 * Gets a value from an array using a dot separated path.
 	 *
 	 *     // Get the value of $array['foo']['bar']
@@ -143,13 +143,13 @@ class Kohana_Group_Shipping_Items {
 
 	public static function parse_form_values(array $array, $path)
 	{
-		if (strpos($path, '*') !== FALSE) 
+		if (strpos($path, '*') !== FALSE)
 		{
 			$paths = self::arr_path($array, $path);
 
-			if ($paths) 
+			if ($paths)
 			{
-				foreach ($paths as $i => $items) 
+				foreach ($paths as $i => $items)
 				{
 					Group_Shipping_Items::set_array_values($array, str_replace('*', $i, $path), $items);
 				}
@@ -159,14 +159,14 @@ class Kohana_Group_Shipping_Items {
 		{
 			Group_Shipping_Items::set_array_values($array, $path, self::arr_path($array, $path));
 		}
-		
+
 		return $array;
 	}
 
 	private static function set_array_values( & $array, $path, $values)
 	{
 		$new = array();
-		foreach ($values as $item) 
+		foreach ($values as $item)
 		{
 			parse_str($item, $item);
 			$new = Arr::merge($new, $item);
@@ -186,7 +186,7 @@ class Kohana_Group_Shipping_Items {
 
 	public function shipping()
 	{
-		if ( ! $this->_shipping_for_method) 
+		if ( ! $this->_shipping_for_method)
 		{
 			$this->_shipping_for_method = $this->store_purchase_shipping
 				->duplicate()
@@ -210,12 +210,12 @@ class Kohana_Group_Shipping_Items {
 		if ( ! ($items = $this->existing_shipping_items()))
 			return FALSE;
 
-		if ( ! $this->shipping_method) 
+		if ( ! $this->shipping_method)
 			return FALSE;
 
-		foreach ($items as $item) 
+		foreach ($items as $item)
 		{
-			if ( ! $item->shipping_group OR $item->shipping_group->method_id != $this->shipping_method->id()) 
+			if ( ! $item->shipping_group OR $item->shipping_group->method_id != $this->shipping_method->id())
 			{
 				return FALSE;
 			}
@@ -239,15 +239,15 @@ class Kohana_Group_Shipping_Items {
 		$items = $this->shipping()->items->as_array('purchase_item_id');
 
 		$array = array();
-		foreach ($this->existing_shipping_items() as $item) 
+		foreach ($this->existing_shipping_items() as $item)
 		{
-			if (isset($items[$item->purchase_item_id])) 
+			if (isset($items[$item->purchase_item_id]))
 			{
 				$item_attributes = array(
 					'shipping_group_id' => $items[$item->purchase_item_id]->shipping_group_id,
 				);
 
-				if ($item->loaded()) 
+				if ($item->loaded())
 				{
 					$item_attributes['id'] = $item->id();
 				}

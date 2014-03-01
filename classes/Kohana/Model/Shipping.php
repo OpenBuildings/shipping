@@ -8,17 +8,17 @@
  */
 class Kohana_Model_Shipping extends Jam_Model {
 
-	public static function format_shipping_time($min, $max) 
+	public static function format_shipping_time($min, $max)
 	{
-		if ($min === NULL AND $max === NULL) 
+		if ($min === NULL AND $max === NULL)
 			return '-';
 
-		if ($min == 0 AND $max == 0) 
+		if ($min == 0 AND $max == 0)
 			return 'same day';
 
-		if ($min == 1 AND $max == 1) 
+		if ($min == 1 AND $max == 1)
 			return '1 day';
-		
+
 		return $min == $max ? "{$min} days" : "{$min} - {$max} days";
 	}
 
@@ -33,7 +33,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 			))
 			->associations(array(
 				'groups' => Jam::association('hasmany', array(
-					'foreign_model' => 'shipping_group', 
+					'foreign_model' => 'shipping_group',
 					'inverse_of' => 'shipping',
 					'delete_on_remove' => Jam_Association::DELETE,
 				)),
@@ -44,7 +44,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 					'readonly' => TRUE,
 				)),
 				'locations' => Jam::association('manytomany', array(
-					'join_table' => 'shipping_groups', 
+					'join_table' => 'shipping_groups',
 					'readonly' => TRUE,
 				)),
 				'products' => Jam::association('hasmany', array(
@@ -95,7 +95,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 	{
 		$groups = $this->groups_in($location);
 
-		if ( ! $groups) 
+		if ( ! $groups)
 			return NULL;
 
 		$groups = Model_Shipping_Group::sort_by_price($groups);
@@ -110,7 +110,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 		if ( ! $location)
 			return NULL;
 
-		foreach ($this->groups->as_array() as $group) 
+		foreach ($this->groups->as_array() as $group)
 		{
 			if ($group->location_id == $location->id() AND $group->method_id == $method->id())
 				return $group;
@@ -121,7 +121,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 	{
 		$groups = $location ? $this->groups_in($location) : $this->groups;
 		$methods = array();
-		foreach ($groups as $group) 
+		foreach ($groups as $group)
 		{
 			$methods[$group->method_id] = $group->method;
 		}
@@ -137,11 +137,11 @@ class Kohana_Model_Shipping extends Jam_Model {
 	{
 		$delivery_time = $this->delivery_time_for($location);
 
-		if ( ! $delivery_time OR ! $this->processing_time) 
+		if ( ! $delivery_time OR ! $this->processing_time)
 			return NULL;
 
 		$format = $this->meta()->field('processing_time')->format;
-		
+
 		return Jam_Range::sum(array($this->processing_time, $delivery_time), $format);
 	}
 
@@ -149,7 +149,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 	{
 		$groups = $this->groups_in($location);
 
-		if ( ! $groups) 
+		if ( ! $groups)
 			return NULL;
 
 		$delivery_times = array_map(function($group) {
@@ -163,9 +163,9 @@ class Kohana_Model_Shipping extends Jam_Model {
 	{
 		$delivery_times = $this->groups->as_array(NULL, 'delivery_time');
 
-		if ( ! $delivery_times) 
+		if ( ! $delivery_times)
 			return NULL;
-		
+
 		return Jam_Range::merge(array_filter($delivery_times), 'Model_Shipping::format_shipping_time');
 	}
 

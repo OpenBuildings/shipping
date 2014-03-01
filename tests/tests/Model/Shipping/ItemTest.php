@@ -4,10 +4,10 @@ use OpenBuildings\Monetary\Monetary;
 use OpenBuildings\Monetary\Source_Static;
 
 /**
- * Functest_TestsTest 
+ * Functest_TestsTest
  *
  * @group model.shipping_item
- * 
+ *
  * @package Functest
  * @author Ivan Kerin
  * @copyright  (c) 2011-2013 Despark Ltd.
@@ -32,7 +32,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 		$total = new Jam_Price(10, 'GBP');
 
 		$shipping_items = array();
-		foreach ($items as $id => $return_is_discounted) 
+		foreach ($items as $id => $return_is_discounted)
 		{
 			$shipping_group = $this->getMock('Model_Shipping_Group', array('is_discounted'), array('shipping_group'));
 
@@ -62,7 +62,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 		return array(
 			array(
 				array(
-					10 => array('price' => new Jam_Price(20, 'USD', $monetary)), 
+					10 => array('price' => new Jam_Price(20, 'USD', $monetary)),
 					11 => array('price' => new Jam_Price(18, 'GBP', $monetary)),
 					12 => array('price' => new Jam_Price(5, 'USD', $monetary)),
 				),
@@ -70,7 +70,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 			),
 			array(
 				array(
-					10 => array('price' => new Jam_Price(20, 'USD', $monetary)), 
+					10 => array('price' => new Jam_Price(20, 'USD', $monetary)),
 					11 => array('price' => new Jam_Price(20, 'GBP', $monetary)),
 					12 => array('price' => new Jam_Price(5, 'USD', $monetary)),
 					13 => array('price' => new Jam_Price(45, 'USD', $monetary)),
@@ -87,7 +87,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	public function test_sort_by_price($params, $expected_ids)
 	{
 		$items = $this->getMockModelArray('shipping_item', $params);
-		
+
 		$sorted = Model_Shipping_Item::sort_by_price($items);
 
 		$this->assertEquals($expected_ids, $this->ids($sorted));
@@ -100,15 +100,15 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 			array(
 				array(
 					10 => array(
-						'price' => new Jam_Price(20, 'EUR', $monetary), 
+						'price' => new Jam_Price(20, 'EUR', $monetary),
 						'total_additional_item_price' => new Jam_Price(40, 'EUR', $monetary)
 					),
 					11 => array(
-						'price' => new Jam_Price(30, 'EUR', $monetary), 
+						'price' => new Jam_Price(30, 'EUR', $monetary),
 						'total_price' => new Jam_Price(70, 'EUR', $monetary)
 					),
 					12 => array(
-						'price' => new Jam_Price(10, 'EUR', $monetary), 
+						'price' => new Jam_Price(10, 'EUR', $monetary),
 						'total_additional_item_price' => new Jam_Price(30, 'EUR', $monetary)
 					),
 				),
@@ -468,7 +468,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 					'quantity' => 3,
 				),
 				new Jam_Price(10+5+5, 'GBP', $monetary),
-			),			
+			),
 			array(
 				array(
 					'price' => new Jam_Price(20, 'GBP', $monetary),
@@ -504,7 +504,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 					'quantity' => 3,
 				),
 				new Jam_Price(5*3, 'GBP', $monetary),
-			),			
+			),
 			array(
 				array(
 					'additional_item_price' => new Jam_Price(8, 'GBP', $monetary),

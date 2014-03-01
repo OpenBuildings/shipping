@@ -34,13 +34,13 @@ class Model_Product extends Jam_Model implements Sellable, Shippable {
 	{
 		return $this->price;
 	}
-	
+
 	// Implement Sellable
 	public function currency()
 	{
 		return $this->currency;
 	}
-	
+
 	// Implement Shippable
 	// Must return a ``Model_Shipping`` object holding all the data for the shipping
 	public function shipping()
@@ -159,18 +159,18 @@ echo $store_purchase->items_count('shipping'); // should return 1
 Each shipping group has several properties that affect how much muney the shipping of this item will cost:
 
  - __price__ - this is the base price for shipping of 1 item.
- - __additional_item_price__ - for more than one item, the second, third, etc items require this price, instead of the base one. 
+ - __additional_item_price__ - for more than one item, the second, third, etc items require this price, instead of the base one.
  - __discount\_threshold__ - whenever the store_purchase is more than this amount - free shipping
 
 Here are some examples:
 
-If an item costs 10, with additional_item_price of 6, then you will pay 10+6+6 for 3 of the same item. 
+If an item costs 10, with additional_item_price of 6, then you will pay 10+6+6 for 3 of the same item.
 
 Also items are grouped per shipping method, per "ships_from" location so 3 different item shipped by post will be grouped. Only the most expensive base price will be used, all others will use additional_item_price. So:
 
 	Item 1: price 10, additional_item_price 6, quantity: 3
 	Item 2: price 12, additional_item_price 8, quantity: 2
-	
+
 	Total Price will be (12 + 8) + 6 * 3
 
 When searching for a country, the most specific one will be used for calculation, so if you are shipping for France, and you have a shipping_group for Europe, and one for France, the second one will be used.
@@ -220,10 +220,10 @@ $france = Jam::find('locaiton', 'France');
 $shipping = $product->shipping();
 
 // To get a Jam_Range object only for the delivery to that location
-$shipping->delivery_time_for($france); 
+$shipping->delivery_time_for($france);
 
 // To get a Jam_Range for delivery + processing for a specific country
-$shipping->total_delivery_time_for($france); 
+$shipping->total_delivery_time_for($france);
 ```
 
 The shippable purchase behavior also adds some methods to the Model_Store_Purchase for handling delivery time calculations:

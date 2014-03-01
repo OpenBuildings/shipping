@@ -20,7 +20,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 			->associations(array(
 				'store_purchase' => Jam::association('belongsto', array('inverse_of' => 'shipping')),
 				'items' => Jam::association('hasmany', array(
-					'foreign_model' => 'shipping_item', 
+					'foreign_model' => 'shipping_item',
 					'inverse_of' => 'store_purchase_shipping',
 					'delete_on_remove' => Jam_Association::DELETE,
 					'dependent' => Jam_Association::DELETE,
@@ -94,7 +94,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 
 		$items = array();
 
-		foreach ($this->items->as_array() as $index => $item) 
+		foreach ($this->items->as_array() as $index => $item)
 		{
 			if (in_array($item->purchase_item_id, $purchase_item_ids))
 			{
@@ -157,7 +157,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 
 	/**
 	 * Get the currency to be used in all the calculations
-	 * @return string 
+	 * @return string
 	 */
 	public function currency()
 	{
@@ -168,7 +168,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 
 	/**
 	 * Get the location to be used in all the calculations
-	 * @return string 
+	 * @return string
 	 */
 	public function ship_to()
 	{
@@ -180,7 +180,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 
 	/**
 	 * Get the monetary object to be used in all the calculations
-	 * @return Monetary 
+	 * @return Monetary
 	 */
 	public function monetary()
 	{
@@ -204,7 +204,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 
 	/**
 	 * Build a single shipping_item and add it to the items of this store_purchase_shipping.
-	 * @param  Model_Purchase_Item $purchase_item 
+	 * @param  Model_Purchase_Item $purchase_item
 	 * @param  Model_Shipping_Method              $method
 	 * @return Model_Store_Purchase_Shipping
 	 */
@@ -228,7 +228,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 
 	public function update_items_location(Model_Location $location)
 	{
-		foreach ($this->items->as_array() as $item) 
+		foreach ($this->items->as_array() as $item)
 		{
 			if ( ! $item->shipping_group OR ! $item->shipping_group->location OR ! $item->shipping_group->location->contains($location))
 			{

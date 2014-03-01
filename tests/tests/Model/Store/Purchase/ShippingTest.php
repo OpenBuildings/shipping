@@ -58,7 +58,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 			->expects($this->once())
 				->method('shipping_country')
 				->will($this->returnValue($france));
-		
+
 		$store_purchase_shipping = Jam::build('store_purchase_shipping', array(
 			'store_purchase' => array(
 				'purchase' => $purchase,
@@ -138,7 +138,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$shipping = Jam::build('store_purchase_shipping', array(
 			'items' => $items,
 		));
-		
+
 		$total_delivery_time = $shipping->total_delivery_time();
 
 		$this->assertEquals($expected, $total_delivery_time);
@@ -270,7 +270,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$this->assertSame($purchase_item, $shipping_item->purchase_item);
 		$this->assertEquals($post, $shipping_item->shipping_group->method);
 	}
-	
+
 	/**
 	 * @covers Model_Store_Purchase_Shipping::new_items_from
 	 */
@@ -308,22 +308,22 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 			Jam::build('purchase_item', array('id' => 1)),
 			Jam::build('purchase_item', array('id' => 5)),
 		);
-	
+
 		$items = array(
 			Jam::build('shipping_item', array('purchase_item_id' => 1)),
 			Jam::build('shipping_item', array('purchase_item_id' => 3)),
 			Jam::build('shipping_item', array('purchase_item_id' => 5)),
 		);
-	
+
 		$store_purchase_shipping = Jam::build('store_purchase_shipping', array('items' => $items));
-	
+
 		$result = $store_purchase_shipping->items_from($purchase_items);
-	
+
 		$expected = array(
 			0 => $items[0],
 			2 => $items[2],
 		);
-	
+
 		$this->assertEquals($expected, $result);
 	}
 
@@ -378,7 +378,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 	{
 		$purchase_item = Jam::build('purchase_item');
 		$shipping_group = Jam::build('shipping_group');
-		
+
 
 		return array(
 			array(
@@ -415,7 +415,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 	public function test_available_items($items, $expected_ids)
 	{
 		$shipping = Jam::build('store_purchase_shipping', array('items' => array_map(function($attributes) { return Jam::build('shipping_item', $attributes); }, $items)));
-		
+
 		$this->assertEquals($expected_ids, $this->ids($shipping->available_items()));
 	}
 
@@ -543,5 +543,4 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$this->assertEquals($result->store_purchases[0]->items[3]->reference->id(), $purchase->store_purchases[0]->shipping->id());
 		$this->assertEquals($result->store_purchases[0]->items[2]->id(), $purchase->store_purchases[0]->shipping->items[1]->purchase_item->id());
 	}
-
 }

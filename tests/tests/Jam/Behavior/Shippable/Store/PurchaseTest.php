@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Functest_TestsTest 
+ * Functest_TestsTest
  *
  * @group jam.behavior
  * @group jam.behavior.shippable_store_purchase
- * 
+ *
  * @package Functest
  * @author Ivan Kerin
  * @copyright  (c) 2011-2013 Despark Ltd.
@@ -84,7 +84,7 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 		$location = Jam::build('location');
 		$post = Jam::build('shipping_method')->load_fields(array('id' => 1, 'name' => 'Post'));
 		$courier = Jam::build('shipping_method')->load_fields(array('id' => 1, 'name' => 'Courier'));
-		
+
 		$shipping = $this->getMock('Model_Shipping', array('methods_for', 'ships_to'), array('shipping'));
 
 		$shipping
@@ -118,7 +118,7 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 
 		$store_purchase = $this->getMock('Model_Store_Purchase', array('items', 'shipping_country'), array('store_purchase'));
 		$store_purchase_shipping = $store_purchase->build('shipping');
-		
+
 		$store_purchase
 			->expects($this->any())
 			->method('shipping_country')
@@ -135,7 +135,7 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 		$this->assertCount(2, $groups);
 		$this->assertInstanceOf('Group_Shipping_methods', $groups['1']);
 		$this->assertInstanceOf('Group_Shipping_methods', $groups['1,2']);
-		
+
 		$this->assertEquals(array(10, 11), $this->ids($groups['1']->purchase_items));
 		$this->assertEquals(array(12), $this->ids($groups['1,2']->purchase_items));
 		$this->assertSame($store_purchase_shipping, $groups['1']->store_purchase_shipping);
@@ -174,7 +174,7 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 			'shipping' => $shipping
 		));
 
-		foreach ($item_params as $id => $ships_to_result) 
+		foreach ($item_params as $id => $ships_to_result)
 		{
 			$reference = $this->getMock('Model_Product', array(
 				'ships_to'
@@ -196,15 +196,15 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 		}
 
 		$items = $store_purchase->items(array('shippable' => TRUE));
-		
+
 		$this->assertEquals(array_keys($item_params), $this->ids($items));
 
 		$items = $store_purchase->items(array($filter_name => $location));
-		
+
 		$this->assertEquals($expected_ids, $this->ids($items));
 
 		$items = $store_purchase->items($filters_array);
-		
+
 		$this->assertEquals($expected_ids, $this->ids($items));
 	}
 
@@ -280,6 +280,4 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 
 		$this->assertEquals(new Jam_Range(array(1361080800, 1362290400)), $store_purchase->delivery_time_dates());
 	}
-
-
 }
