@@ -5,12 +5,13 @@ php:
   - 5.4
 
 notifications:
-  campfire:
-    rooms:
-      secure: YbWf1ULTbtIgiJnQgbKCZuwJqXLHh4evewwpeLIy7laxi8Imz6qFXzFZfKfYF66wn3NhGjsWlCY1q2B/ncX1+GQ37f32C8yoCP68ONQXr+x10AVgIUEJBCFuKNfHhFV5UWsElxBLjLnW6afQ+4t4y8sXQL/YCNk7VbBumxnA60s=
+  email: false
+  slack:
+    secure: Gxa5PJc/WCjmKcmz6yBhRTe3p26pNkKvag+0LtL3u9CjmaSsnnvP5kHzOWpkYufbmtN7C7pLlwZHusDKXcXigP/zd1guo0lJ7lFfBUezOs1jUkqesmgP2+TPD+VeLoVzQRnZTb8knkEf/EW74zQxVu35flMLGIwZBYFUzZpd5yI=
 
-script:
-  - phpunit --coverage-clover build/logs/clover.xml
+install:
+  - composer selfupdate
+  - composer install --no-interaction
 
 before_script:
   - mkdir -p build/logs
@@ -18,6 +19,9 @@ before_script:
   - composer install
   - mysql -e 'create database `test-shipping`;'
   - mysql test-shipping < tests/test_data/structure.sql
+
+script:
+  - phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
