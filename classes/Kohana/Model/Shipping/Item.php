@@ -38,6 +38,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 			))
 			->fields(array(
 				'id' => Jam::field('primary'),
+				'model' => Jam::field('polymorphic'),
 				'processing_time' => Jam::field('range', array(
 					'format' => 'Model_Shipping::format_shipping_time'
 				)),
@@ -203,7 +204,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	/**
 	 * Get shipping_group's is_discounted
 	 * If there is no additional_item_price, return price instead
-	 * @return Jam_Price
+	 * @return boolean
 	 * @throws Kohana_Exception If shipping_group is NULL
 	 */
 	public function is_discounted(Jam_Price $total)

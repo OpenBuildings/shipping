@@ -60,6 +60,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 
 			->fields(array(
 				'id' => Jam::field('primary'),
+				'model' => Jam::field('polymorphic'),
 				'name' => Jam::field('string'),
 				'currency' => Jam::field('string'),
 				'processing_time' => Jam::field('range', array('format' => 'Model_Shipping::format_shipping_time')),
@@ -79,6 +80,9 @@ class Kohana_Model_Shipping extends Jam_Model {
 		return $this->currency;
 	}
 
+	/**
+	 * Not used in public API
+	 */
 	public function groups_in(Model_Location $location)
 	{
 		$location = $this->most_specific_location_containing($location);
@@ -188,5 +192,12 @@ class Kohana_Model_Shipping extends Jam_Model {
 		});
 
 		return end($locations);
+	}
+
+	public function new_shipping_item_from(array $fields, Model_Location $location, Model_Shipping_Method $method = NULL)
+	{
+		$fields['shipping_group'] = $method ? $this->group_for($location, $method) : $this->cheapest_group_in($location);
+
+		return Jam::build('shipping_item', $fields);
 	}
 }
