@@ -17,7 +17,7 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 
 	/**
 	 * @dataProvider data_get_weight
-	 * @covers Model_Shipping::get_weight
+	 * @covers Model_Shipping_External::get_weight
 	 */
 	public function test_get_weight($width, $height, $depth, $weight, $expected_weight)
 	{
@@ -32,7 +32,7 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	}
 
 	/**
-	 * @covers Model_Shipping::external_data_for
+	 * @covers Model_Shipping_External::external_data_for
 	 */
 	public function test_external_data_for()
 	{
@@ -72,7 +72,7 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 
 	/**
 	 * @dataProvider data_generate_data_key
-	 * @covers Model_Shipping::generate_data_key
+	 * @covers Model_Shipping_External::generate_data_key
 	 */
 	public function test_generate_data_key($location_name, $expected_key)
 	{
