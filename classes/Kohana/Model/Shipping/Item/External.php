@@ -17,12 +17,12 @@ class Kohana_Model_Shipping_Item_External extends Model_Shipping_Item {
 
 	public function group_key()
 	{
-		$external_data = $this->shipping_external_data_insist;
+		$external_data = $this->shipping_external_data;
 
 		if ( ! $external_data)
 			return NULL;
 
-		return $$external_data->name;
+		return $external_data->key;
 	}
 
 	/**
@@ -46,9 +46,7 @@ class Kohana_Model_Shipping_Item_External extends Model_Shipping_Item {
 	 */
 	public function additional_item_price()
 	{
-		return $this->price()
-			->monetary($this->monetary())
-				->convert_to($this->currency());
+		return $this->price();
 	}
 
 	/**

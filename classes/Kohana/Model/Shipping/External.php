@@ -3,6 +3,9 @@
 class Kohana_Model_Shipping_External extends Model_Shipping {
 	const VOL_WEIGHT_DIVISOR = 5000;
 
+	/**
+	 * @codeCoverageIgnore
+	 */
 	public static function initialize(Jam_Meta $meta)
 	{
 		parent::initialize($meta);
@@ -17,9 +20,9 @@ class Kohana_Model_Shipping_External extends Model_Shipping {
 			->validator('width', 'height', 'depth', 'weight', array('present' => TRUE));
 	}
 
-	private function get_weight()
+	public function get_weight()
 	{
-		$vol_weight = $this->width * $this->height * $this->depth / VOL_WEIGHT_DIVISOR;
+		$vol_weight = $this->width * $this->height * $this->depth / self::VOL_WEIGHT_DIVISOR;
 
 		return max($this->weight, $vol_weight);
 	}
@@ -30,11 +33,11 @@ class Kohana_Model_Shipping_External extends Model_Shipping {
 
 		$external_data = Jam::find('shipping_external_data', $key);
 
-		if ( ! external_data)
+		if ( ! $external_data)
 		{
-			// TODO add proper external shipping API calls here
-			$external_data = Jam::build(array(
-				'name' => $key,
+			// TODO add proper external shipping API logic here
+			$external_data = Jam::build('shipping_external_data', array(
+				'key' => $key,
 				'price' => new Jam_Price(0, 'GBP'),
 				'delivery_time' => new Jam_Range(array(3, 5)),
 			));

@@ -213,6 +213,15 @@ CREATE TABLE `addresses` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `shipping_external_data`;
+CREATE TABLE `shipping_external_data` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `key` varchar(100) NOT NULL,
+  `price` DECIMAL(10,2) NOT NULL,
+  `delivery_time` varchar(100) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 INSERT INTO `locations` (`id`, `name`, `short_name`, `type`)
 VALUES
   (1,'Everywhere', NULL, 'region'),
@@ -350,5 +359,6 @@ VALUES
   (1, 'shipping_item', 1, 1, 1),
   (2, 'shipping_item', 1, 2, 2);
 
-
-
+INSERT INTO `shipping_external_data` (`id`, `key`, `price`, `delivery_time`)
+VALUES
+  (1, 'd761e47991d9ab8926e9b5dc62bc6464', '10.00', '2|4');
