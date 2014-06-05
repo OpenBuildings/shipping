@@ -11,13 +11,17 @@ class Kohana_Model_Shipping_External extends Model_Shipping {
 		parent::initialize($meta);
 
 		$meta
+			->table('shippings')
 			->fields(array(
 				'width' => Jam::field('float', array('places' => 2)),
 				'height' => Jam::field('float', array('places' => 2)),
 				'depth' => Jam::field('float', array('places' => 2)),
 				'weight' => Jam::field('float', array('places' => 2)),
 			))
-			->validator('width', 'height', 'depth', 'weight', array('present' => TRUE));
+			->validator('width', 'height', 'depth', 'weight', array(
+				'present' => TRUE, 
+				'numeric' => array('greater_than_or_equal_to' => 0)
+			));
 	}
 
 	public function get_weight()
@@ -58,5 +62,16 @@ class Kohana_Model_Shipping_External extends Model_Shipping {
 		$fields['external_shipping_data'] = $this->external_data_for($location);
 
 		return Jam::build('shipping_item_external', $fields);
+	}
+
+	public function is_changed()
+	{
+		foreach (array('processing_time', 'ships_from_id', 'width', 'height', 'depth', 'weight') as $field)
+		{
+			if ($this->{$field} != $this->original($field))
+				return TRUE;
+		}
+
+		return FALSE;
 	}
 }
