@@ -7,7 +7,10 @@ class Kohana_Model_Shipping_Item_External extends Model_Shipping_Item {
 	 */
 	public static function initialize(Jam_Meta $meta)
 	{
+		parent::initialize($meta);
+
 		$meta
+			->table('shipping_items')
 			->associations(array(
 				'shipping_external_data' => Jam::association('belongsto', array(
 					'inverse_of' => 'shipping_items'

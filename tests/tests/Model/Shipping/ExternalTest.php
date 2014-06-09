@@ -58,7 +58,7 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 
 		$this->assertInstanceOf('Model_Shipping_External_Data', $result);
 		$this->assertEquals('NonexistentKey', $result->key);
-		$this->assertEquals('0.00', $result->price);
+		$this->assertEquals('5.13', $result->price);
 	}
 
 	public function data_generate_data_key()

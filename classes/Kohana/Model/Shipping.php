@@ -222,4 +222,34 @@ class Kohana_Model_Shipping extends Jam_Model {
 
 		return FALSE;
 	}
+
+	public function price_for_location(Model_Location $location)
+	{
+		$group = $this->cheapest_group_in($location);
+
+		if ( ! $group)
+			return NULL;
+
+		return $group->price;
+	}
+
+	public function additional_price_for_location(Model_Location $location)
+	{
+		$group = $this->cheapest_group_in($location);
+
+		if ( ! $group)
+			return NULL;
+
+		return $group->additional_item_price;
+	}
+
+	public function discount_threshold_for_location(Model_Location $location)
+	{
+		$group = $this->cheapest_group_in($location);
+
+		if ( ! $group)
+			return NULL;
+
+		return $group->discount_threshold;
+	}
 }

@@ -42,7 +42,7 @@ class Kohana_Model_Shipping_External extends Model_Shipping {
 			// TODO add proper external shipping API logic here
 			$external_data = Jam::build('shipping_external_data', array(
 				'key' => $key,
-				'price' => new Jam_Price(0, 'GBP'),
+				'price' => new Jam_Price(5.13, 'GBP'),
 				'delivery_time' => new Jam_Range(array(3, 5)),
 			));
 
@@ -73,5 +73,40 @@ class Kohana_Model_Shipping_External extends Model_Shipping {
 		}
 
 		return FALSE;
+	}
+
+	public function ships_to(Model_Location $location)
+	{
+		return $this->external_data_for($location) !== NULL;
+	}
+
+	public function delivery_time_for(Model_Location $location)
+	{
+		$external_data = $this->external_data_for($location);
+
+		if ( ! $external_data)
+			return NULL;
+
+		return new Jam_Range($external_data->delivery_time, 'Model_Shipping::format_shipping_time');
+	}
+                           
+	public function price_for_location(Model_Location $location)
+	{
+		$external_data = $this->external_data_for($location);
+
+		if ( ! $external_data)
+			return NULL;
+
+		return $external_data->price;
+	}
+
+	public function additional_price_for_location(Model_Location $location)
+	{
+		return NULL;
+	}
+
+	public function discount_threshold_for_location(Model_Location $location)
+	{
+		return NULL;
 	}
 }
