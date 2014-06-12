@@ -72,4 +72,25 @@ class Kohana_Model_Shipping_Item_External extends Model_Shipping_Item {
 			return $self->get_insist('shipping_external_data');
 		});
 	}
+
+	public function shipping_insist()
+	{
+		$self = $this;
+
+		return Jam_Behavior_Paranoid::with_filter(Jam_Behavior_Paranoid::ALL, function() use ($self) {
+			return $this->get_insist('purchase_item')->get_insist('reference')->shipping();
+		});
+	}
+
+	public function delivery_time()
+	{
+		return ($this->delivery_time AND $this->delivery_time->min() !== NULL)
+			? $this->delivery_time
+			: $this->shipping_external_data_insist()->delivery_time;
+	}
+
+	public function get_shipping_method()
+	{
+		return $this->purchase_item_shipping()->get_external_shipping_method();
+	}
 }

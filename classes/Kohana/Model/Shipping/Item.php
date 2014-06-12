@@ -312,4 +312,12 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 			return $self->get_insist('shipping_group');
 		});
 	}
+
+	public function get_shipping_method()
+	{
+		if ( ! $this->shipping_group)
+			return NULL;
+
+		return $this->shipping_group->method;
+	}
 }

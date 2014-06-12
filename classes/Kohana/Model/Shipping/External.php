@@ -59,7 +59,7 @@ class Kohana_Model_Shipping_External extends Model_Shipping {
 
 	public function new_shipping_item_from(array $fields, Model_Location $location, Model_Shipping_Method $method = NULL)
 	{
-		$fields['external_shipping_data'] = $this->external_data_for($location);
+		$fields['shipping_external_data'] = $this->external_data_for($location);
 
 		return Jam::build('shipping_item_external', $fields);
 	}
@@ -108,5 +108,18 @@ class Kohana_Model_Shipping_External extends Model_Shipping {
 	public function discount_threshold_for_location(Model_Location $location)
 	{
 		return NULL;
+	}
+
+	public function methods_for($location)
+	{
+		return array($this->get_external_shipping_method());
+	}
+
+	public function get_external_shipping_method()
+	{
+		return Jam::build('shipping_method', array(
+			'id' => 'external',
+			'name' => 'External',
+		));
 	}
 }

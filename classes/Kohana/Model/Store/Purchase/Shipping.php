@@ -232,7 +232,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		{
 			if ($item instanceof Model_Shipping_Item_External)
 			{
-				$item->external_shipping_data = $item->purchase_item_shipping->external_data_for($location);
+				$item->external_shipping_data = $item->purchase_item_shipping()->external_data_for($location);
 			}
 			elseif ( ! $item->shipping_group OR ! $item->shipping_group->location OR ! $item->shipping_group->location->contains($location))
 			{
