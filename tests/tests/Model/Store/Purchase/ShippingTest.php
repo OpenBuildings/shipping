@@ -467,53 +467,23 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$this->assertSame($shipping->store_purchase, $duplicated->store_purchase);
 	}
 
-	public function data_update_items_location()
-	{
-		return array(
-			array('France', array('France', 'France', 'United Kingdom'), 1),
-			array('France', array('France', 'Greece'), 2),
-			array('Australia', array('France', 'Greece'), 3),
-		);
-	}
-
 	/**
-	 * @covers Model_Store_Purchase_Shipping::update_items_location
-	 * @dataProvider data_update_items_location
+	 * @covers Model_Store_Purchase_Shipping::update_items_address
 	 */
-	public function test_update_items_location($location_name, $item_location_names, $expected_changes)
-	{
-		$location = Jam::find('location', $location_name);
+	public function test_update_items_address()
+	{	
+		$address = Jam::find('address', 1);
 
-		$shipping = $this->getMock('Model_Shipping', array('cheapest_group_in'), array('shipping'));
+		$item = $this->getMock('Model_Shipping_Item', array('update_address'), array('shipping_item'));
 
-		$shipping
-			->expects($this->exactly($expected_changes))
-			->method('cheapest_group_in')
-			->with($this->identicalTo($location));
+		$item
+			->expects($this->once())
+			->method('update_address')
+			->with($this->identicalTo($address));
 
-		$items = $this->getMockModelArray('shipping_item', array(
-			1 => array(
-				'purchase_item_shipping' => $shipping,
-			),
-			2 => array(
-				'purchase_item_shipping' => $shipping,
-			),
-			3 => array(
-				'purchase_item_shipping' => $shipping,
-			),
-		));
+		$store_purchase_shipping = Jam::build('store_purchase_shipping', array('items' => array($item)));
 
-		foreach ($item_location_names as $i => $location_name)
-		{
-			if ($location_name)
-			{
-				$items[$i]->build('shipping_group', array('location' => Jam::find('location', $location_name)));
-			}
-		}
-
-		$store_purchase_shipping = Jam::build('store_purchase_shipping', array('items' => $items));
-
-		$store_purchase_shipping->update_items_location($location);
+		$store_purchase_shipping->update_items_address($address);
 	}
 
 	public function test_complex_association()
