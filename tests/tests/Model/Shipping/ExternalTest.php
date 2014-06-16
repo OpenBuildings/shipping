@@ -16,81 +16,13 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	}
 
 	/**
-	 * @dataProvider data_get_weight
-	 * @covers Model_Shipping_External::get_weight
-	 */
-	public function test_get_weight($width, $height, $depth, $weight, $expected_weight)
-	{
-		$shipping = Jam::build('shipping_external', array(
-			'width' => $width,
-			'height' => $height,
-			'depth' => $depth,
-			'weight' => $weight,
-		));
-
-		$this->assertEquals($expected_weight, $shipping->get_weight());
-	}
-
-	/**
-	 * @covers Model_Shipping_External::external_data_for
-	 */
-	public function test_external_data_for()
-	{
-		$external_data = Jam::find('shipping_external_data', 1);
-		$france = Jam::find('location', 'France');
-		$uk = Jam::find('location', 'United Kingdom');
-		$shipping = $this->getMock('Model_Shipping_External', array('generate_data_key'), array('shipping_external'));
-
-		$shipping
-			->expects($this->exactly(2))
-			->method('generate_data_key')
-			->will($this->returnValueMap(array(
-				array($france, $external_data->key),
-				array($uk, 'NonexistentKey'),
-			)));
-
-		$result = $shipping->external_data_for($france);
-
-		$this->assertInstanceOf('Model_Shipping_External_Data', $result);
-		$this->assertEquals($external_data->id(), $result->id());
-
-		$result = $shipping->external_data_for($uk);
-
-		$this->assertInstanceOf('Model_Shipping_External_Data', $result);
-		$this->assertEquals('NonexistentKey', $result->key);
-		$this->assertEquals('5.13', $result->price);
-	}
-
-	public function data_generate_data_key()
-	{
-		return array(
-			array('France', '019725b593b1fbb5829b50a1bc210dc4'),
-			array('Germany', '8a2e572da3d394c6b4b903e6f8554d98'),
-			array('Australia', '1ccdfb47b3c23326fed75bd6aedabf48'),
-		);
-	}
-
-	/**
-	 * @dataProvider data_generate_data_key
-	 * @covers Model_Shipping_External::generate_data_key
-	 */
-	public function test_generate_data_key($location_name, $expected_key)
-	{
-		$uk = Jam::find('location', 'United Kingdom');
-		$location = Jam::find('location', $location_name);
-		$shipping = Jam::build('shipping_external', array('ships_from' => $uk));
-
-		$this->assertEquals($expected_key, $shipping->generate_data_key($location));
-	}
-
-	/**
 	 * @covers Model_Shipping_External::new_shipping_item_from
 	 */
 	public function test_new_shipping_item_from()
 	{
 		$location = Jam::find('location', 'France');
 		$external_data = Jam::build('shipping_external_data');
-		$shipping = $this->getMock('Model_Shipping_External', array('external_data_for'), array('shipping'));
+		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('external_data_for'), array('shipping'));
 
 		$shipping
 			->expects($this->once())
@@ -108,7 +40,7 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_ships_to()
 	{
-		$shipping = $this->getMock('Model_Shipping_External', array('external_data_for'), array('shipping'));
+		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('external_data_for'), array('shipping'));
 		$france = Jam::find('location', 'France');
 		$uk = Jam::find('location', 'United Kingdom');
 		$external_data = Jam::build('shipping_external_data');
@@ -130,7 +62,7 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_delivery_time_for()
 	{
-		$shipping = $this->getMock('Model_Shipping_External', array('external_data_for'), array('shipping'));
+		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('external_data_for'), array('shipping'));
 		$france = Jam::find('location', 'France');
 		$uk = Jam::find('location', 'United Kingdom');
 		$external_data = Jam::build('shipping_external_data', array('delivery_time' => new Jam_Range(array(13, 20))));
@@ -166,7 +98,7 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_is_changed($field, $value, $expected)
 	{
-		$shipping = Jam::build('shipping_external');
+		$shipping = Jam::build('shipping_external_dummy');
 		$shipping->set($field, $value);
 		$this->assertEquals($expected, $shipping->is_changed());
 	}
@@ -176,7 +108,7 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_price_for_location()
 	{
-		$shipping = $this->getMock('Model_Shipping_External', array('external_data_for'), array('shipping'));
+		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('external_data_for'), array('shipping'));
 		$france = Jam::find('location', 'France');
 		$uk = Jam::find('location', 'United Kingdom');
 		$external_data = Jam::build('shipping_external_data', array('price' => 13.69));
@@ -198,7 +130,7 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_additional_price_for_location()
 	{
-		$shipping = Jam::build('shipping_external');
+		$shipping = Jam::build('shipping_external_dummy');
 		$france = Jam::find('location', 'France');
 		$uk = Jam::find('location', 'United Kingdom');
 
@@ -211,7 +143,7 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_discount_threshold_for_location()
 	{
-		$shipping = Jam::build('shipping_external');
+		$shipping = Jam::build('shipping_external_dummy');
 		$france = Jam::find('location', 'France');
 		$uk = Jam::find('location', 'United Kingdom');
 
@@ -224,7 +156,7 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_methods_for()
 	{
-		$shipping = $this->getMock('Model_Shipping_External', array('get_external_shipping_method'), array('shipping'));
+		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('get_external_shipping_method'), array('shipping'));
 		$location = Jam::find('location', 'France');
 		$method = Jam::build('shipping_method');
 
@@ -241,7 +173,7 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_get_external_data_for()
 	{
-		$shipping = Jam::build('shipping_external');
+		$shipping = Jam::build('shipping_external_dummy');
 		$method = $shipping->get_external_shipping_method();
 
 		$this->assertEquals('external', $method->id());

@@ -337,7 +337,7 @@ VALUES
   (1, 'shipping', 'Normal', 'GBP', '2|3', 3, 1),
   (2, 'shipping', 'Custom', 'GBP', '1|5', 4, 1),
   (3, 'shipping', 'Normal', 'GBP', '1|5', 4, 2),
-  (4, 'shipping_external', 'External', 'GBP', '1|5', 3, 1);
+  (4, 'shipping_external_dummy', 'External', 'GBP', '1|5', 3, 1);
 
 
 INSERT INTO `shipping_groups` (`id`, `price`, `delivery_time`, `shipping_id`, `method_id`, `location_id`)

@@ -125,7 +125,7 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_shipping_insist()
 	{
-		$shipping = Jam::build('shipping_external');
+		$shipping = Jam::build('shipping_external_dummy');
 		$item = Jam::build('shipping_item_external', array(
 			'purchase_item' => array(
 				'reference' => Jam::build('product', array(
@@ -170,7 +170,7 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 	public function test_shipping_method()
 	{
 		$method = Jam::build('shipping_method');
-		$shipping = $this->getMock('Model_Shipping_External', array('get_external_shipping_method'), array('shipping_external'));
+		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('get_external_shipping_method'), array('shipping_external'));
 		$shipping
 			->expects($this->once())
 			->method('get_external_shipping_method')
@@ -194,7 +194,7 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 	{
 		$location = Jam::find('location', 'France');
 		$address = Jam::build('address', array('country' => $location));
-		$shipping = $this->getMock('Model_Shipping_External', array('external_data_for'), array('shipping_external'));
+		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('external_data_for'), array('shipping_external'));
 		$external_data = Jam::build('shipping_external_data');
 
 		$shipping
