@@ -78,7 +78,7 @@ class Kohana_Model_Shipping_Item_External extends Model_Shipping_Item {
 		$self = $this;
 
 		return Jam_Behavior_Paranoid::with_filter(Jam_Behavior_Paranoid::ALL, function() use ($self) {
-			return $this->get_insist('purchase_item')->get_insist('reference')->shipping();
+			return $self->get_insist('purchase_item')->get_insist('reference')->shipping();
 		});
 	}
 
@@ -89,8 +89,13 @@ class Kohana_Model_Shipping_Item_External extends Model_Shipping_Item {
 			: $this->shipping_external_data_insist()->delivery_time;
 	}
 
-	public function get_shipping_method()
+	public function shipping_method()
 	{
 		return $this->purchase_item_shipping()->get_external_shipping_method();
+	}
+
+	public function update_address(Model_Address $address)
+	{
+		$this->external_shipping_data = $this->purchase_item_shipping()->external_data_for($address->country);
 	}
 }

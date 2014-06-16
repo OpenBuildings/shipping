@@ -146,9 +146,9 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 			}
 			$store_purchase->items = $store_purchase->items;
 
-			if ($store_purchase->shipping_address()->changed('country') AND $store_purchase->shipping_address()->country)
+			if ($store_purchase->shipping_address()->changed())
 			{
-				$store_purchase->shipping->update_items_location($store_purchase->shipping_address()->country);
+				$store_purchase->shipping->update_items_address($store_purchase->shipping_address());
 			}
 		}
 	}

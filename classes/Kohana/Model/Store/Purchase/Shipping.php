@@ -226,18 +226,11 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		}, $purchase_items);
 	}
 
-	public function update_items_location(Model_Location $location)
+	public function update_items_address(Model_Address $address)
 	{
 		foreach ($this->items->as_array() as $item)
 		{
-			if ($item instanceof Model_Shipping_Item_External)
-			{
-				$item->external_shipping_data = $item->purchase_item_shipping()->external_data_for($location);
-			}
-			elseif ( ! $item->shipping_group OR ! $item->shipping_group->location OR ! $item->shipping_group->location->contains($location))
-			{
-				$item->shipping_group = $item->purchase_item_shipping()->cheapest_group_in($location);
-			}
+			$item->update_address($address);
 		}
 	}
 

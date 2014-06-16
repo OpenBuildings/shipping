@@ -313,11 +313,22 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 		});
 	}
 
-	public function get_shipping_method()
+	public function shipping_method()
 	{
 		if ( ! $this->shipping_group)
 			return NULL;
 
 		return $this->shipping_group->method;
+	}
+
+	public function update_address(Model_Address $address)
+	{
+		if ( ! $address->changed('country') OR ! $address->country)
+			return;
+
+		if (! $this->shipping_group OR ! $this->shipping_group->location OR ! $this->shipping_group->location->contains($address->country))
+		{
+			$this->shipping_group = $this->purchase_item_shipping()->cheapest_group_in($address->country);
+		}
 	}
 }
