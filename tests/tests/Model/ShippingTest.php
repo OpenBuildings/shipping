@@ -155,10 +155,12 @@ class Model_ShippingTest extends Testcase_Shipping {
 	public function test_groups_in($location_name, $expected_group_ids)
 	{
 		$shipping = Jam::find('shipping', 1);
-
 		$location = Jam::find('location', $location_name);
 
-		$groups = $shipping->groups_in($location);
+		$groups_in = new ReflectionMethod('Model_Shipping', 'groups_in');
+		$groups_in->setAccessible(TRUE);
+
+		$groups = $groups_in->invoke($shipping, $location);
 
 		$this->assertEquals($expected_group_ids, $this->ids($groups));
 	}

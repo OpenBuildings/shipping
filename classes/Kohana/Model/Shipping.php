@@ -80,10 +80,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 		return $this->currency;
 	}
 
-	/**
-	 * Not used in public API
-	 */
-	public function groups_in(Model_Location $location)
+	protected function groups_in(Model_Location $location)
 	{
 		$location = $this->most_specific_location_containing($location);
 
