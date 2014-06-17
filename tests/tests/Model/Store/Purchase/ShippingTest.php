@@ -471,7 +471,7 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 	 * @covers Model_Store_Purchase_Shipping::update_items_address
 	 */
 	public function test_update_items_address()
-	{	
+	{
 		$address = Jam::find('address', 1);
 
 		$item = $this->getMock('Model_Shipping_Item', array('update_address'), array('shipping_item'));

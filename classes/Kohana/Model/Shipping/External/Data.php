@@ -1,5 +1,11 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
+/**
+ * @package    openbuildings\shipping
+ * @author     Danail Kyosev <ddkyosev@gmail.com>
+ * @copyright  (c) 2014 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
+ */
 class Kohana_Model_Shipping_External_Data extends Jam_Model {
 
 	/**

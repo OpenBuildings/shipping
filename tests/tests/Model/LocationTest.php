@@ -1,8 +1,6 @@
 <?php
 
 /**
- * Functest_TestsTest
- *
  * @group model.location
  *
  * @package Functest

@@ -1,8 +1,6 @@
 <?php
 
 /**
- * Functest_TestsTest
- *
  * @group jam.behavior
  * @group jam.behavior.shippable_store_purchase
  *

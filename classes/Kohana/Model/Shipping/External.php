@@ -1,7 +1,12 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
+/**
+ * @package    openbuildings\shipping
+ * @author     Danail Kyosev <ddkyosev@gmail.com>
+ * @copyright  (c) 2014 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
+ */
 abstract class Kohana_Model_Shipping_External extends Model_Shipping {
-	const VOL_WEIGHT_DIVISOR = 5000;
 
 	/**
 	 * @codeCoverageIgnore
@@ -19,7 +24,7 @@ abstract class Kohana_Model_Shipping_External extends Model_Shipping {
 				'weight' => Jam::field('float', array('places' => 2)),
 			))
 			->validator('width', 'height', 'depth', 'weight', array(
-				'present' => TRUE, 
+				'present' => TRUE,
 				'numeric' => array('greater_than_or_equal_to' => 0)
 			));
 	}
@@ -59,7 +64,7 @@ abstract class Kohana_Model_Shipping_External extends Model_Shipping {
 
 		return new Jam_Range($external_data->delivery_time, 'Model_Shipping::format_shipping_time');
 	}
-                           
+
 	public function price_for_location(Model_Location $location)
 	{
 		$external_data = $this->external_data_for($location);

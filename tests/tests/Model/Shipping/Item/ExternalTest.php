@@ -4,9 +4,11 @@ use OpenBuildings\Monetary\Monetary;
 use OpenBuildings\Monetary\Source_Static;
 
 /**
- * Functest_TestsTest
- *
  * @group model.shipping_item_external
+ *
+ * @package Functest
+ * @author Danail Kyosev
+ * @copyright  (c) 2011-2014 Despark Ltd.
  */
 class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 
@@ -161,7 +163,7 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 		$this->assertEquals($range, $item->delivery_time());
 
 		$item->delivery_time = NULL;
-		$this->assertEquals($external_data->delivery_time, $item->delivery_time());		
+		$this->assertEquals($external_data->delivery_time, $item->delivery_time());
 	}
 
 	/**

@@ -4,8 +4,6 @@ use OpenBuildings\Monetary\Monetary;
 use OpenBuildings\Monetary\Source_Static;
 
 /**
- * Functest_TestsTest
- *
  * @group model.shipping_group
  *
  * @package Functest

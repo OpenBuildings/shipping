@@ -4,8 +4,6 @@ use OpenBuildings\Monetary\Monetary;
 use OpenBuildings\Monetary\Source_Static;
 
 /**
- * Functest_TestsTest
- *
  * @group model.shipping_item
  *
  * @package Functest
@@ -549,7 +547,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 * @covers Model_Shipping_Item::shipping_method
 	 */
 	public function test_shipping_method()
-	{	
+	{
 		$method = Jam::build('shipping_method');
 		$group = Jam::build('shipping_group', array(
 			'method' => $method,
@@ -611,7 +609,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 		foreach ($items as $item)
 		{
-			$item->update_address($address); 
+			$item->update_address($address);
 		}
 	}
 }

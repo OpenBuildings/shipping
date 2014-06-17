@@ -1,9 +1,11 @@
 <?php
 
 /**
- * Functest_TestsTest
- *
  * @group model.shipping_external
+ *
+ * @package Functest
+ * @author Danail Kyosev
+ * @copyright  (c) 2011-2014 Despark Ltd.
  */
 class Model_Shipping_ExternalTest extends Testcase_Shipping {
 
