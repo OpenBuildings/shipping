@@ -38,6 +38,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 			))
 			->fields(array(
 				'id' => Jam::field('primary'),
+				'model' => Jam::field('polymorphic'),
 				'processing_time' => Jam::field('range', array(
 					'format' => 'Model_Shipping::format_shipping_time'
 				)),
@@ -203,7 +204,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	/**
 	 * Get shipping_group's is_discounted
 	 * If there is no additional_item_price, return price instead
-	 * @return Jam_Price
+	 * @return boolean
 	 * @throws Kohana_Exception If shipping_group is NULL
 	 */
 	public function is_discounted(Jam_Price $total)
@@ -310,5 +311,24 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 		return Jam_Behavior_Paranoid::with_filter(Jam_Behavior_Paranoid::ALL, function() use ($self) {
 			return $self->get_insist('shipping_group');
 		});
+	}
+
+	public function shipping_method()
+	{
+		if ( ! $this->shipping_group)
+			return NULL;
+
+		return $this->shipping_group->method;
+	}
+
+	public function update_address(Model_Address $address)
+	{
+		if ( ! $address->changed('country') OR ! $address->country)
+			return;
+
+		if (! $this->shipping_group OR ! $this->shipping_group->location OR ! $this->shipping_group->location->contains($address->country))
+		{
+			$this->shipping_group = $this->purchase_item_shipping()->cheapest_group_in($address->country);
+		}
 	}
 }

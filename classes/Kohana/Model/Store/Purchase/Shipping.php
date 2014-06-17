@@ -70,7 +70,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	public function available_items()
 	{
 		return array_filter($this->items->as_array(), function($item){
-			return ($item->shipping_group AND $item->purchase_item);
+			return (($item->shipping_group OR $item->shipping_external_data) AND $item->purchase_item);
 		});
 	}
 
@@ -226,14 +226,11 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		}, $purchase_items);
 	}
 
-	public function update_items_location(Model_Location $location)
+	public function update_items_address(Model_Address $address)
 	{
 		foreach ($this->items->as_array() as $item)
 		{
-			if ( ! $item->shipping_group OR ! $item->shipping_group->location OR ! $item->shipping_group->location->contains($location))
-			{
-				$item->shipping_group = $item->purchase_item_shipping()->cheapest_group_in($location);
-			}
+			$item->update_address($address);
 		}
 	}
 
@@ -241,10 +238,11 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	{
 		$shipping = $purchase_item->get_insist('reference')->shipping();
 
-		return Jam::build('shipping_item', array(
+		$fields = array(
 			'store_purchase_shipping' => $this,
 			'purchase_item' => $purchase_item,
-			'shipping_group' => $method ? $shipping->group_for($location, $method) : $shipping->cheapest_group_in($location),
-		));
+		);
+
+		return $shipping->new_shipping_item_from($fields, $location, $method);
 	}
 }

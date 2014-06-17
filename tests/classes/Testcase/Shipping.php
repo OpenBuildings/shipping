@@ -12,7 +12,7 @@ use Openbuildings\EnvironmentBackup as EB;
 abstract class Testcase_Shipping extends PHPUnit_Framework_TestCase {
 
 	public $environment;
-	
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -27,7 +27,7 @@ abstract class Testcase_Shipping extends PHPUnit_Framework_TestCase {
 
 	public function tearDown()
 	{
-		Database::instance()->rollback();	
+		Database::instance()->rollback();
 		$this->env->restore();
 
 		parent::tearDown();
@@ -42,7 +42,7 @@ abstract class Testcase_Shipping extends PHPUnit_Framework_TestCase {
 	{
 		$items = array();
 
-		foreach ($params as $group_params) 
+		foreach ($params as $group_params)
 		{
 			$items []= Jam::build($model_name, $group_params);
 		}
@@ -54,12 +54,12 @@ abstract class Testcase_Shipping extends PHPUnit_Framework_TestCase {
 	{
 		$items = array();
 
-		foreach ($params as $id => $item_params) 
+		foreach ($params as $id => $item_params)
 		{
 			$item = $this
 				->getMockFromParams(Jam::class_name($model_name), $item_params, array($model_name))
 				->set(array('id' => $id));
-			
+
 			$items []= $item;
 		}
 
@@ -70,7 +70,7 @@ abstract class Testcase_Shipping extends PHPUnit_Framework_TestCase {
 	{
 		$item = $this->getMock($class, array_keys($params), $constructor_arguments);
 
-		foreach ($params as $name => $value) 
+		foreach ($params as $name => $value)
 		{
 			$item
 				->expects($this->any())
@@ -80,5 +80,4 @@ abstract class Testcase_Shipping extends PHPUnit_Framework_TestCase {
 
 		return $item;
 	}
-
 }

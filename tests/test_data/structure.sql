@@ -143,6 +143,7 @@ CREATE TABLE `locations_branches` (
 DROP TABLE IF EXISTS `shippings`;
 CREATE TABLE `shippings` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `model` varchar(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `currency` varchar(3) NOT NULL,
   `processing_time` varchar(100) NOT NULL,
@@ -185,6 +186,7 @@ CREATE TABLE `store_purchase_shippings` (
 DROP TABLE IF EXISTS `shipping_items`;
 CREATE TABLE `shipping_items` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `model` varchar(100) NOT NULL,
   `purchase_item_id` int(11) UNSIGNED NULL,
   `shipping_group_id` int(11) UNSIGNED NULL,
   `delivery_time` varchar(100) NULL,
@@ -208,6 +210,15 @@ CREATE TABLE `addresses` (
   `state` varchar(100) NULL,
   `fax` varchar(100) NULL,
   `is_deleted` int(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `shipping_external_data`;
+CREATE TABLE `shipping_external_data` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `key` varchar(100) NOT NULL,
+  `price` DECIMAL(10,2) NOT NULL,
+  `delivery_time` varchar(100) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -321,11 +332,12 @@ VALUES
   (3,'Custom', 0);
 
 
-INSERT INTO `shippings` (`id`, `name`, `currency`, `processing_time`, `ships_from_id`, `store_id`)
+INSERT INTO `shippings` (`id`, `model`, `name`, `currency`, `processing_time`, `ships_from_id`, `store_id`)
 VALUES
-  (1,'Normal', 'GBP', '2|3', 3, 1),
-  (2,'Custom', 'GBP', '1|5', 4, 1),
-  (3,'Normal', 'GBP', '1|5', 4, 2);
+  (1, 'shipping', 'Normal', 'GBP', '2|3', 3, 1),
+  (2, 'shipping', 'Custom', 'GBP', '1|5', 4, 1),
+  (3, 'shipping', 'Normal', 'GBP', '1|5', 4, 2),
+  (4, 'shipping_external_dummy', 'External', 'GBP', '1|5', 3, 1);
 
 
 INSERT INTO `shipping_groups` (`id`, `price`, `delivery_time`, `shipping_id`, `method_id`, `location_id`)
@@ -342,10 +354,11 @@ INSERT INTO `store_purchase_shippings` (`id`, `store_purchase_id`, `location_id`
 VALUES
   (1, 1, 3);
 
-INSERT INTO `shipping_items` (`id`, `store_purchase_shipping_id`, `purchase_item_id`, `shipping_group_id`)
+INSERT INTO `shipping_items` (`id`, `model`, `store_purchase_shipping_id`, `purchase_item_id`, `shipping_group_id`)
 VALUES
-  (1, 1, 1, 1),
-  (2, 1, 2, 2);
+  (1, 'shipping_item', 1, 1, 1),
+  (2, 'shipping_item', 1, 2, 2);
 
-
-
+INSERT INTO `shipping_external_data` (`id`, `key`, `price`, `delivery_time`)
+VALUES
+  (1, 'd761e47991d9ab8926e9b5dc62bc6464', '10.00', '2|4');

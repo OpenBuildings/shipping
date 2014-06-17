@@ -60,6 +60,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 
 			->fields(array(
 				'id' => Jam::field('primary'),
+				'model' => Jam::field('polymorphic'),
 				'name' => Jam::field('string'),
 				'currency' => Jam::field('string'),
 				'processing_time' => Jam::field('range', array('format' => 'Model_Shipping::format_shipping_time')),
@@ -79,7 +80,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 		return $this->currency;
 	}
 
-	public function groups_in(Model_Location $location)
+	protected function groups_in(Model_Location $location)
 	{
 		$location = $this->most_specific_location_containing($location);
 
@@ -188,5 +189,65 @@ class Kohana_Model_Shipping extends Jam_Model {
 		});
 
 		return end($locations);
+	}
+
+	public function new_shipping_item_from(array $fields, Model_Location $location, Model_Shipping_Method $method = NULL)
+	{
+		$fields['shipping_group'] = $method ? $this->group_for($location, $method) : $this->cheapest_group_in($location);
+
+		return Jam::build('shipping_item', $fields);
+	}
+
+	public function is_changed()
+	{
+		if ($this->processing_time != $this->original('processing_time')
+			OR $this->ships_from_id != $this->original('ships_from_id')
+			OR array_diff($this->groups->ids(), $this->groups->original_ids())
+				!== array_diff($this->groups->original_ids(), $this->groups->ids())
+		)
+		{
+			return TRUE;
+		}
+
+		foreach ($this->groups as $group)
+		{
+			foreach (array('price', 'additional_item_price', 'delivery_time', 'discount_threshold') as $field)
+			{
+				if ($group->{$field} != $group->original($field))
+					return TRUE;
+			}
+		}
+
+		return FALSE;
+	}
+
+	public function price_for_location(Model_Location $location)
+	{
+		$group = $this->cheapest_group_in($location);
+
+		if ( ! $group)
+			return NULL;
+
+		return $group->price;
+	}
+
+	public function additional_price_for_location(Model_Location $location)
+	{
+		$group = $this->cheapest_group_in($location);
+
+		if ( ! $group)
+			return NULL;
+
+		return $group->additional_item_price;
+	}
+
+	public function discount_threshold_for_location(Model_Location $location)
+	{
+		$group = $this->cheapest_group_in($location);
+
+		if ( ! $group)
+			return NULL;
+
+		return $group->discount_threshold;
 	}
 }

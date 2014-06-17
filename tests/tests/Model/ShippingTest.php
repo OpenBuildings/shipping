@@ -4,8 +4,6 @@ use OpenBuildings\Monetary\Monetary;
 use OpenBuildings\Monetary\Source_Static;
 
 /**
- * Functest_TestsTest
- *
  * @group model.shipping
  *
  * @package Functest
@@ -155,10 +153,12 @@ class Model_ShippingTest extends Testcase_Shipping {
 	public function test_groups_in($location_name, $expected_group_ids)
 	{
 		$shipping = Jam::find('shipping', 1);
-
 		$location = Jam::find('location', $location_name);
 
-		$groups = $shipping->groups_in($location);
+		$groups_in = new ReflectionMethod('Model_Shipping', 'groups_in');
+		$groups_in->setAccessible(TRUE);
+
+		$groups = $groups_in->invoke($shipping, $location);
 
 		$this->assertEquals($expected_group_ids, $this->ids($groups));
 	}
@@ -293,7 +293,6 @@ class Model_ShippingTest extends Testcase_Shipping {
 		$this->assertEquals(new Jam_Range(array(15, 37), 'Model_Shipping::format_shipping_time'), $shipping->total_delivery_time_for($france));
 	}
 
-
 	/**
 	 * @covers Model_Shipping::delivery_time
 	 */
@@ -308,5 +307,128 @@ class Model_ShippingTest extends Testcase_Shipping {
 		));
 
 		$this->assertEquals(new Jam_Range(array(10, 30), 'Model_Shipping::format_shipping_time'), $shipping->delivery_time());
+	}
+
+	/**
+	 * @covers Model_Shipping::new_shipping_item_from
+	 */
+	public function test_new_shipping_item_from()
+	{
+		$location = Jam::find('location', 'France');
+		$method = Jam::find('shipping_method', 1);
+		$group = Jam::build('shipping_group');
+		$shipping = $this->getMock('Model_Shipping', array('group_for', 'cheapest_group_in'), array('shipping'));
+
+		$shipping
+			->expects($this->once())
+			->method('group_for')
+			->with($location, $method)
+			->will($this->returnValue($group));
+
+		$item = $shipping->new_shipping_item_from(array(), $location, $method);
+		$this->assertTrue($item instanceof Model_Shipping_Item);
+		$this->assertEquals($group, $item->shipping_group);
+
+		$shipping
+			->expects($this->once())
+			->method('cheapest_group_in')
+			->with($location)
+			->will($this->returnValue($group));
+
+		$item = $shipping->new_shipping_item_from(array(), $location);
+		$this->assertTrue($item instanceof Model_Shipping_Item);
+		$this->assertEquals($group, $item->shipping_group);
+	}
+
+	public function data_is_changed()
+	{
+		return array(
+			array('name', 'Test', FALSE),
+			array('processing_time', new Jam_Range(10, 20), TRUE),
+			array('ships_from_id', 10, TRUE),
+			array('groups', array(Jam::find('shipping_group', 1)), TRUE),
+			array('groups', array(array('id' => 6)), FALSE),
+			array('groups', array(array('id' => 6, 'price' => 13.69)), TRUE),
+			array('groups', array(array('id' => 6, 'additional_item_price' => 13.69)), TRUE),
+			array('groups', array(array('id' => 6, 'delivery_time' => new Jam_Range(10, 20))), TRUE),
+			array('groups', array(array('id' => 6, 'discount_threshold' => 13.69)), TRUE),
+		);
+	}
+
+	/**
+	 * @dataProvider data_is_changed
+	 * @covers Model_Shipping::is_changed
+	 */
+	public function test_is_changed($field, $value, $expected)
+	{
+		$shipping = Jam::find('shipping', 2);
+		$shipping->set($field, $value);
+		$this->assertEquals($expected, $shipping->is_changed());
+	}
+
+	/**
+	 * @covers Model_Shipping::price_for_location
+	 */
+	public function test_price_for_location()
+	{
+		$shipping = $this->getMock('Model_Shipping', array('cheapest_group_in'), array('shipping'));
+		$group = Jam::find('shipping_group', 6);
+		$france = Jam::find('location', 'France');
+		$uk = Jam::find('location', 'United Kingdom');
+
+		$shipping
+			->expects($this->exactly(2))
+			->method('cheapest_group_in')
+			->will($this->returnValueMap(array(
+				array($france, $group),
+				array($uk, NULL),
+			)));
+
+		$this->assertEquals($group->price, $shipping->price_for_location($france));
+		$this->assertEquals(NULL, $shipping->price_for_location($uk));
+	}
+
+	/**
+	 * @covers Model_Shipping::additional_price_for_location
+	 */
+	public function test_additional_price_for_location()
+	{
+		$shipping = $this->getMock('Model_Shipping', array('cheapest_group_in'), array('shipping'));
+		$group = Jam::find('shipping_group', 6);
+		$france = Jam::find('location', 'France');
+		$uk = Jam::find('location', 'United Kingdom');
+
+		$shipping
+			->expects($this->exactly(2))
+			->method('cheapest_group_in')
+			->will($this->returnValueMap(array(
+				array($france, $group),
+				array($uk, NULL),
+			)));
+
+		$this->assertEquals($group->additional_item_price, $shipping->additional_price_for_location($france));
+		$this->assertEquals(NULL, $shipping->additional_price_for_location($uk));
+	}
+
+	/**
+	 * @covers Model_Shipping::discount_threshold_for_location
+	 */
+	public function test_discount_threshold_for_location()
+	{
+		$shipping = $this->getMock('Model_Shipping', array('cheapest_group_in'), array('shipping'));
+		$group = Jam::find('shipping_group', 6);
+		$france = Jam::find('location', 'France');
+		$uk = Jam::find('location', 'United Kingdom');
+
+		$shipping
+			->expects($this->exactly(2))
+			->method('cheapest_group_in')
+			->will($this->returnValueMap(array(
+				array($france, $group),
+				array($uk, NULL),
+			)));
+
+		$this->assertEquals($group->discount_threshold, $shipping->discount_threshold_for_location($france));
+		$this->assertEquals(NULL, $shipping->discount_threshold_for_location($uk));
 	}
 }

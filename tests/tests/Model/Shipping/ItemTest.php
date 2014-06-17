@@ -4,8 +4,6 @@ use OpenBuildings\Monetary\Monetary;
 use OpenBuildings\Monetary\Source_Static;
 
 /**
- * Functest_TestsTest
- *
  * @group model.shipping_item
  *
  * @package Functest
@@ -542,7 +540,76 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 		$this->setExpectedException('Kohana_Exception');
 		$item->shipping_group = NULL;
+		$item->shipping_group_insist();
+	}
 
-		$this->assertSame($group, $item->shipping_group_insist());
+	/**
+	 * @covers Model_Shipping_Item::shipping_method
+	 */
+	public function test_shipping_method()
+	{
+		$method = Jam::build('shipping_method');
+		$group = Jam::build('shipping_group', array(
+			'method' => $method,
+		));
+		$item = Jam::build('shipping_item', array(
+			'shipping_group' => $group,
+		));
+
+		$this->assertSame($method, $item->shipping_method());
+
+		$item->shipping_group = NULL;
+		$this->assertSame(NULL, $item->shipping_method());
+	}
+
+	public function data_update_address()
+	{
+		return array(
+			array('France', array('France', 'France', 'United Kingdom'), 1),
+			array('France', array('France', 'Greece'), 2),
+			array('Australia', array('France', 'Greece'), 3),
+		);
+	}
+
+	/**
+	 * @covers Model_Shipping_Item::update_address
+ 	 * @dataProvider data_update_address
+	 */
+	public function test_update_address($location_name, $item_location_names, $expected_changes)
+	{
+		$location = Jam::find('location', $location_name);
+		$address = Jam::build('address', array('country' => $location));
+
+		$shipping = $this->getMock('Model_Shipping', array('cheapest_group_in'), array('shipping'));
+
+		$shipping
+			->expects($this->exactly($expected_changes))
+			->method('cheapest_group_in')
+			->with($this->identicalTo($location));
+
+		$items = $this->getMockModelArray('shipping_item', array(
+			1 => array(
+				'purchase_item_shipping' => $shipping,
+			),
+			2 => array(
+				'purchase_item_shipping' => $shipping,
+			),
+			3 => array(
+				'purchase_item_shipping' => $shipping,
+			),
+		));
+
+		foreach ($item_location_names as $i => $location_name)
+		{
+			if ($location_name)
+			{
+				$items[$i]->build('shipping_group', array('location' => Jam::find('location', $location_name)));
+			}
+		}
+
+		foreach ($items as $item)
+		{
+			$item->update_address($address);
+		}
 	}
 }
