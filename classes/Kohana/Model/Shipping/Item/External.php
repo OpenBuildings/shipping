@@ -1,5 +1,11 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
+/**
+ * @package    openbuildings\shipping
+ * @author     Danail Kyosev <ddkyosev@gmail.com>
+ * @copyright  (c) 2014 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
+ */
 class Kohana_Model_Shipping_Item_External extends Model_Shipping_Item {
 
 	/**
@@ -66,11 +72,7 @@ class Kohana_Model_Shipping_Item_External extends Model_Shipping_Item {
 	 */
 	public function shipping_external_data_insist()
 	{
-		$self = $this;
-
-		return Jam_Behavior_Paranoid::with_filter(Jam_Behavior_Paranoid::ALL, function() use ($self) {
-			return $self->get_insist('shipping_external_data');
-		});
+		return $this->get_insist('shipping_external_data');
 	}
 
 	public function shipping_insist()
