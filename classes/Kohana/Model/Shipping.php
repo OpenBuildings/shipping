@@ -202,7 +202,8 @@ class Kohana_Model_Shipping extends Jam_Model {
 	{
 		if ($this->processing_time != $this->original('processing_time')
 			OR $this->ships_from_id != $this->original('ships_from_id')
-			OR $this->groups->ids() != $this->groups->original_ids()
+			OR array_diff($this->groups->ids(), $this->groups->original_ids())
+				!== array_diff($this->groups->original_ids(), $this->groups->ids())
 		)
 		{
 			return TRUE;
