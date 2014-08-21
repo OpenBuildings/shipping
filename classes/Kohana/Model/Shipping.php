@@ -45,6 +45,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 				)),
 				'locations' => Jam::association('manytomany', array(
 					'join_table' => 'shipping_groups',
+					'join_table_paranoid' => TRUE,
 					'readonly' => TRUE,
 				)),
 				'products' => Jam::association('hasmany', array(

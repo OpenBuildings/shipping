@@ -17,8 +17,8 @@ before_script:
   - mkdir -p build/logs
   - composer selfupdate
   - composer install
-  - mysql -e 'create database `test-shipping`;'
-  - mysql test-shipping < tests/test_data/structure.sql
+  - mysql -e 'create database `OpenBuildings/shipping`;'
+  - mysql OpenBuildings/shipping < tests/test_data/structure.sql
 
 script:
   - phpunit --coverage-clover build/logs/clover.xml

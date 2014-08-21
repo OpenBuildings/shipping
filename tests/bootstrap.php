@@ -31,7 +31,7 @@ Kohana::$config
 			'type'       => 'MySQL',
 			'connection' => array(
 				'hostname'   => 'localhost',
-				'database'   => 'test-shipping',
+				'database'   => 'OpenBuildings/shipping',
 				'username'   => 'root',
 				'password'   => '',
 				'persistent' => TRUE,

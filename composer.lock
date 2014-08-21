@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "383ae83a1c6f764ce692f9bee57ba1fd",
+    "hash": "2800f59370cbf2d8d11ec0b3dad06503",
     "packages": [
         {
             "name": "composer/installers",
@@ -224,6 +225,7 @@
                 {
                     "name": "Haralan Dobrev",
                     "email": "hdobrev@despark.com",
+                    "homepage": "https://github.com/hkdobrev",
                     "role": "Author"
                 }
             ],
@@ -278,17 +280,11 @@
         },
         {
             "name": "openbuildings/jam",
-            "version": "0.4.46",
+            "version": "0.4.55",
             "source": {
                 "type": "git",
-                "url": "https://github.com/OpenBuildings/jam.git",
-                "reference": "cc0f8f83c39796ab3c08a8af72ccf73418a5c439"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/cc0f8f83c39796ab3c08a8af72ccf73418a5c439",
-                "reference": "cc0f8f83c39796ab3c08a8af72ccf73418a5c439",
-                "shasum": ""
+                "url": "https://github.com/openbuildings/jam.git",
+                "reference": "e4d7edd10f18fda950c9a5b1897e068fcfa267c4"
             },
             "require": {
                 "composer/installers": "*",
@@ -305,7 +301,6 @@
                 "openbuildings/jam-tart": "Jam admin builder"
             },
             "type": "kohana-module",
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -313,21 +308,20 @@
                 {
                     "name": "Ivan Kerin",
                     "email": "ivan@openbuildings.com",
-                    "homepage": "https://github.com/OpenBuildings/jam",
                     "role": "Author"
                 }
             ],
             "description": "Small but feature rich ORM, has extensible models and builders, baked in upload functionality, supporting multiple backends (rackspace, ftp), polymorphic associations, form builders, nested forms, validators",
             "homepage": "https://github.com/OpenBuildings/jam",
             "keywords": [
+                "ORM",
                 "database",
                 "form builder",
                 "kohana",
-                "orm",
                 "upload",
                 "validation"
             ],
-            "time": "2014-02-06 11:48:52"
+            "time": "2014-08-21 12:49:59"
         },
         {
             "name": "openbuildings/jam-auth",
@@ -681,7 +675,7 @@
                     "name": "Haralan Dobrev",
                     "email": "hkdobrev@gmail.com",
                     "homepage": "http://hkdobrev.blogspot.com",
-                    "role": "Author"
+                    "role": "Developer"
                 }
             ],
             "description": "Multi Store Purchases",
@@ -694,7 +688,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2014-03-01 12:48:27"
+            "time": "2014-03-01 10:48:27"
         },
         {
             "name": "rackspace/php-opencloud",
@@ -824,6 +818,7 @@
     "stability-flags": [
 
     ],
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.3.0"
     },
