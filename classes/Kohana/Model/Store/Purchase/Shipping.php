@@ -8,15 +8,14 @@
  */
 class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable {
 
+	use Clippings\Freezable\FreezableCollectionTrait;
+
 	/**
 	 * @codeCoverageIgnore
 	 */
 	public static function initialize(Jam_Meta $meta)
 	{
 		$meta
-			->behaviors(array(
-				'freezable' => Jam::behavior('freezable', array('associations' => 'items', 'parent' => 'store_purchase')),
-			))
 			->associations(array(
 				'store_purchase' => Jam::association('belongsto', array('inverse_of' => 'shipping')),
 				'items' => Jam::association('hasmany', array(
@@ -28,6 +27,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 			))
 			->fields(array(
 				'id' => Jam::field('primary'),
+				'frozen' => Jam::field('boolean')
 			))
 			->validator('store_purchase', 'items', array('present' => TRUE));
 	}
@@ -244,5 +244,16 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		);
 
 		return $shipping->new_shipping_item_from($fields, $location, $method);
+	}
+
+	/**
+	 * Abstract method from Clippings\Freezable\FreezableCollectionTrait.
+	 * Provide items to freeze.
+	 *
+	 * @return Traversable
+	 */
+	public function getItems()
+	{
+		return $this->items;
 	}
 }

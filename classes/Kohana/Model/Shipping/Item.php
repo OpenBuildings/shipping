@@ -8,21 +8,14 @@
  */
 class Kohana_Model_Shipping_Item extends Jam_Model {
 
+	use Clippings\Freezable\FreezableTrait;
+
 	/**
 	 * @codeCoverageIgnore
 	 */
 	public static function initialize(Jam_Meta $meta)
 	{
 		$meta
-			->behaviors(array(
-				'freezable' => Jam::behavior('freezable', array(
-					'fields' => array(
-						'processing_time',
-						'delivery_time'
-					),
-					'parent' => 'store_purchase_shipping'
-				)),
-			))
 			->associations(array(
 				'store_purchase_shipping' => Jam::association('belongsto', array(
 					'inverse_of' => 'items'
@@ -45,6 +38,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 				'delivery_time' => Jam::field('range', array(
 					'format' => 'Model_Shipping::format_shipping_time'
 				)),
+				'frozen' => Jam::field('boolean'),
 			))
 			->validator('purchase_item', array(
 				'present' => TRUE
@@ -242,7 +236,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	 */
 	public function processing_time()
 	{
-		return ($this->processing_time AND $this->processing_time->min() !== NULL)
+		return $this->isFrozen()
 			? $this->processing_time
 			: $this->shipping_insist()->processing_time;
 	}
@@ -255,7 +249,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 	 */
 	public function delivery_time()
 	{
-		return ($this->delivery_time AND $this->delivery_time->min() !== NULL)
+		return $this->isFrozen()
 			? $this->delivery_time
 			: $this->shipping_group_insist()->delivery_time;
 	}
@@ -330,5 +324,17 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 		{
 			$this->shipping_group = $this->purchase_item_shipping()->cheapest_group_in($address->country);
 		}
+	}
+
+	public function performFreeze()
+	{
+		$this->processing_time = $this->processing_time();
+		$this->delivery_time = $this->delivery_time();
+	}
+
+	public function performUnfreeze()
+	{
+		$this->processing_time = NULL;
+		$this->delivery_time = NULL;
 	}
 }
