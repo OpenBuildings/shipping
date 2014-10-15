@@ -4,11 +4,11 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "178e5d0a859ee8e1cfe16e5c66272d9b",
+    "hash": "874522c1f2adcedb35ac4a96142356ff",
     "packages": [
         {
             "name": "clippings/freezable",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/clippings/freezable.git",
@@ -647,7 +647,6 @@
                 {
                     "name": "Haralan Dobrev",
                     "email": "hdobrev@despark.com",
-                    "homepage": "https://github.com/hkdobrev",
                     "role": "Author"
                 },
                 {
@@ -773,8 +772,7 @@
                 },
                 {
                     "name": "Jamie Hannaford",
-                    "email": "jamie.hannaford@rackspace.com",
-                    "homepage": "https://github.com/jamiehannaford"
+                    "email": "jamie@limetree.org"
                 }
             ],
             "description": "Rackspace open cloud php library",
@@ -862,9 +860,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "clippings/freezable": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "platform": {
         "php": ">=5.3.0"
