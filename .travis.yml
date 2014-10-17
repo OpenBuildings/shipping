@@ -19,13 +19,9 @@ before_script:
   - composer install
   - mysql -e 'create database `OpenBuildings/shipping`;'
   - mysql OpenBuildings/shipping < tests/test_data/structure.sql
-  - test -d $HOME/bin || mkdir $HOME/bin
-  - wget --output-document=$HOME/bin/phpunit https://phar.phpunit.de/phpunit-4.1.5.phar
-  - chmod +x $HOME/bin/phpunit
-  - export PATH=$HOME/bin:$PATH
 
 script:
-  - $HOME/bin/phpunit --coverage-clover build/logs/clover.xml
+  - phpunit --stderr --coverage-clover build/logs/clover.xml
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
