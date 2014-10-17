@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "874522c1f2adcedb35ac4a96142356ff",
+    "hash": "323efbf400271d69b268d021bf74d841",
     "packages": [
         {
             "name": "clippings/freezable",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/clippings/freezable.git",
-                "reference": "418c857d0c157f631600bdcc8868237ef7da22c7"
+                "reference": "8c3b74f2e5bca8811006f13aef8aeee99bd3e55a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/clippings/freezable/zipball/418c857d0c157f631600bdcc8868237ef7da22c7",
-                "reference": "418c857d0c157f631600bdcc8868237ef7da22c7",
+                "url": "https://api.github.com/repos/clippings/freezable/zipball/8c3b74f2e5bca8811006f13aef8aeee99bd3e55a",
+                "reference": "8c3b74f2e5bca8811006f13aef8aeee99bd3e55a",
                 "shasum": ""
             },
             "require": {
@@ -46,28 +46,29 @@
                 }
             ],
             "description": "Freeze values in objects",
-            "time": "2014-10-13 08:45:31"
+            "time": "2014-10-17 12:21:06"
         },
         {
             "name": "composer/installers",
-            "version": "v1.0.12",
+            "version": "v1.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "4127333b03e8b4c08d081958548aae5419d1a2fa"
+                "reference": "74fb0a7a1a23696d9c8cc2fba5903f6711cdd067"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/4127333b03e8b4c08d081958548aae5419d1a2fa",
-                "reference": "4127333b03e8b4c08d081958548aae5419d1a2fa",
+                "url": "https://api.github.com/repos/composer/installers/zipball/74fb0a7a1a23696d9c8cc2fba5903f6711cdd067",
+                "reference": "74fb0a7a1a23696d9c8cc2fba5903f6711cdd067",
                 "shasum": ""
             },
             "replace": {
+                "roundcube/plugin-installer": "*",
                 "shama/baton": "*"
             },
             "require-dev": {
                 "composer/composer": "1.0.*@dev",
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "4.1.*"
             },
             "type": "composer-installer",
             "extra": {
@@ -89,21 +90,23 @@
                 {
                     "name": "Kyle Robinson Young",
                     "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama",
-                    "role": "Developer"
+                    "homepage": "https://github.com/shama"
                 }
             ],
             "description": "A multi-framework Composer library installer",
             "homepage": "http://composer.github.com/installers/",
             "keywords": [
                 "Craft",
+                "Dolibarr",
                 "Hurad",
                 "MODX Evo",
                 "OXID",
                 "WolfCMS",
                 "agl",
                 "annotatecms",
+                "bitrix",
                 "cakephp",
+                "chef",
                 "codeigniter",
                 "concrete5",
                 "croogo",
@@ -119,9 +122,12 @@
                 "mako",
                 "mediawiki",
                 "modulework",
+                "moodle",
                 "phpbb",
                 "piwik",
                 "ppi",
+                "puppet",
+                "roundcube",
                 "shopware",
                 "silverstripe",
                 "symfony",
@@ -130,7 +136,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2014-02-24 04:21:34"
+            "time": "2014-08-18 20:00:12"
         },
         {
             "name": "desarrolla2/cache",
@@ -670,21 +676,21 @@
         },
         {
             "name": "openbuildings/purchases",
-            "version": "0.5.23",
+            "version": "0.5.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "da6b1e737e82496985a7e7a6f5394a8791b2b86c"
+                "reference": "be181afdedbba2c1704a38d8fdaa10abaaf437b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/da6b1e737e82496985a7e7a6f5394a8791b2b86c",
-                "reference": "da6b1e737e82496985a7e7a6f5394a8791b2b86c",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/be181afdedbba2c1704a38d8fdaa10abaaf437b4",
+                "reference": "be181afdedbba2c1704a38d8fdaa10abaaf437b4",
                 "shasum": ""
             },
             "require": {
                 "composer/installers": "*",
-                "openbuildings/emp": "0.1.*",
+                "openbuildings/emp": "~0.1.11",
                 "openbuildings/jam": ">=0.4.35",
                 "openbuildings/jam-auth": "0.2.*",
                 "openbuildings/jam-freezable": "0.1.*",
@@ -698,7 +704,7 @@
                 "openbuildings/kohana-test-bootsrap": "0.1.*",
                 "openbuildings/paypal": "0.4.*",
                 "openbuildings/phpunit-spiderling": "0.1.*",
-                "paypal/rest-api-sdk-php": "0.7.*"
+                "paypal/rest-api-sdk-php": "~0.13.1"
             },
             "suggest": {
                 "openbuildings/paypal": "Require this package if you need to use PayPal payments with ChainedPayments",
@@ -715,14 +721,12 @@
                 {
                     "name": "Ivan Kerin",
                     "email": "ivan@openbuildings.com",
-                    "homepage": "https://github.com/OpenBuildings/jam",
                     "role": "Author"
                 },
                 {
                     "name": "Haralan Dobrev",
                     "email": "hkdobrev@gmail.com",
-                    "homepage": "http://hkdobrev.blogspot.com",
-                    "role": "Developer"
+                    "role": "Author"
                 }
             ],
             "description": "Multi Store Purchases",
@@ -735,7 +739,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2014-03-01 10:48:27"
+            "time": "2014-10-17 13:13:04"
         },
         {
             "name": "rackspace/php-opencloud",

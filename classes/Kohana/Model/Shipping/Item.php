@@ -1,14 +1,17 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
+use Clippings\Freezable\FreezableInterface;
+use Clippings\Freezable\FreezableTrait;
+
 /**
  * @package    openbuildings\shipping
  * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2013 OpenBuildings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-class Kohana_Model_Shipping_Item extends Jam_Model {
+class Kohana_Model_Shipping_Item extends Jam_Model implements FreezableInterface {
 
-	use Clippings\Freezable\FreezableTrait;
+	use FreezableTrait;
 
 	/**
 	 * @codeCoverageIgnore
@@ -38,7 +41,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 				'delivery_time' => Jam::field('range', array(
 					'format' => 'Model_Shipping::format_shipping_time'
 				)),
-				'frozen' => Jam::field('boolean'),
+				'is_frozen' => Jam::field('boolean'),
 			))
 			->validator('purchase_item', array(
 				'present' => TRUE
@@ -324,6 +327,16 @@ class Kohana_Model_Shipping_Item extends Jam_Model {
 		{
 			$this->shipping_group = $this->purchase_item_shipping()->cheapest_group_in($address->country);
 		}
+	}
+
+	public function isFrozen()
+	{
+		return $this->is_frozen;
+	}
+
+	public function setFrozen($frozen)
+	{
+		$this->is_frozen = (bool) $frozen;
 	}
 
 	public function performFreeze()

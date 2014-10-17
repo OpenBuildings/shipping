@@ -1,14 +1,17 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
+use Clippings\Freezable\FreezableInterface;
+use Clippings\Freezable\FreezableCollectionTrait;
+
 /**
  * @package    openbuildings\shipping
  * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2013 OpenBuildings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable {
+class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable, FreezableInterface {
 
-	use Clippings\Freezable\FreezableCollectionTrait;
+	use FreezableCollectionTrait;
 
 	/**
 	 * @codeCoverageIgnore
@@ -27,7 +30,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 			))
 			->fields(array(
 				'id' => Jam::field('primary'),
-				'frozen' => Jam::field('boolean')
+				'is_frozen' => Jam::field('boolean')
 			))
 			->validator('store_purchase', 'items', array('present' => TRUE));
 	}
@@ -244,6 +247,16 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		);
 
 		return $shipping->new_shipping_item_from($fields, $location, $method);
+	}
+
+	public function isFrozen()
+	{
+		return $this->is_frozen;
+	}
+
+	public function setFrozen($frozen)
+	{
+		$this->is_frozen = (bool) $frozen;
 	}
 
 	/**
