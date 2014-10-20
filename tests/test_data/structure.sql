@@ -180,6 +180,7 @@ CREATE TABLE `store_purchase_shippings` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `location_id` int(11) UNSIGNED NOT NULL,
   `store_purchase_id` int(11) UNSIGNED NOT NULL,
+  `is_frozen` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -192,6 +193,7 @@ CREATE TABLE `shipping_items` (
   `delivery_time` varchar(100) NULL,
   `processing_time` varchar(100) NULL,
   `store_purchase_shipping_id` int(11) UNSIGNED NOT NULL,
+  `is_frozen` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

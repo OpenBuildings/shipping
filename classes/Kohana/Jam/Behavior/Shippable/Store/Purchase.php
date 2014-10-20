@@ -25,9 +25,6 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 				->bind('model.update_items', array($this, 'add_store_purchase_shipping'))
 				->bind('model.update_items', array($this, 'update_shipping_items'))
 				->bind('model.filter_items', array($this, 'filter_shipping_items'));
-
-		$behaviors = $meta->behaviors();
-		$behaviors['freezable']->_associations[] = 'shipping';
 	}
 
 	public function model_call_group_shipping_methods(Model_Store_Purchase $store_purchase, Jam_Event_Data $data)

@@ -612,4 +612,54 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 			$item->update_address($address);
 		}
 	}
+
+	/**
+	 * @covers Model_Shipping_Item::performFreeze
+	 */
+	public function testPerformFreeze()
+	{
+		$shipping_item = $this->getMock('Model_Shipping_Item', array(
+			'processing_time',
+			'delivery_time',
+		), array(
+			'shipping_item'
+		));
+
+		$shipping_item
+			->expects($this->once())
+			->method('processing_time')
+			->will($this->returnValue('5|10'));
+
+		$shipping_item
+			->expects($this->once())
+			->method('delivery_time')
+			->will($this->returnValue('10|15'));
+
+		$this->assertNull($shipping_item->processing_time);
+		$this->assertNull($shipping_item->delivery_time);
+
+		$shipping_item->performFreeze();
+
+		$this->assertEquals('5|10', $shipping_item->processing_time);
+		$this->assertEquals('10|15', $shipping_item->delivery_time);
+	}
+
+	/**
+	 * @covers Model_Shipping_Item::performUnfreeze
+	 */
+	public function testPerformUnfreeze()
+	{
+		$shipping_item = Jam::build('shipping_item', array(
+			'processing_time' => '5|10',
+			'delivery_time' => '10|15',
+		));
+
+		$this->assertEquals('5|10', $shipping_item->processing_time);
+		$this->assertEquals('10|15', $shipping_item->delivery_time);
+
+		$shipping_item->performUnfreeze();
+
+		$this->assertNull($shipping_item->delivery_time);
+		$this->assertNull($shipping_item->processing_time);
+	}
 }
