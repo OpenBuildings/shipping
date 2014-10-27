@@ -513,16 +513,4 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 		$this->assertEquals($result->store_purchases[0]->items[3]->reference->id(), $purchase->store_purchases[0]->shipping->id());
 		$this->assertEquals($result->store_purchases[0]->items[2]->id(), $purchase->store_purchases[0]->shipping->items[1]->purchase_item->id());
 	}
-
-	/**
-	 * @covers Model_Store_Purchase_Shipping::getItems
-	 */
-	public function testGetItems()
-	{
-		$shipping = Jam::build('store_purchase_shipping');
-		$this->assertSame($shipping->items, $shipping->getItems());
-
-		$shipping = Jam::find('store_purchase_shipping', 1);
-		$this->assertSame($shipping->items, $shipping->getItems());
-	}
 }
