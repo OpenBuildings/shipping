@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
 use Clippings\Freezable\FreezableInterface;
-use Clippings\Freezable\FreezableCollectionTrait;
+use Clippings\Freezable\FreezableTrait;
 
 /**
  * @package    openbuildings\shipping
@@ -11,7 +11,7 @@ use Clippings\Freezable\FreezableCollectionTrait;
  */
 class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable, FreezableInterface {
 
-	use FreezableCollectionTrait;
+	use FreezableTrait;
 
 	/**
 	 * @codeCoverageIgnore
@@ -249,24 +249,58 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		return $shipping->new_shipping_item_from($fields, $location, $method);
 	}
 
+	public function freeze()
+	{
+		$this->performFreeze();
+		$this->setFrozen(true);
+		return $this;
+	}
+
+	public function unfreeze()
+	{
+		$this->performUnfreeze();
+		$this->setFrozen(false);
+		return $this;
+	}
+
 	public function isFrozen()
 	{
 		return $this->is_frozen;
 	}
 
-	public function setFrozen($frozen)
+	protected function setFrozen($frozen)
 	{
 		$this->is_frozen = (bool) $frozen;
+
+		return $this;
 	}
 
-	/**
-	 * Abstract method from Clippings\Freezable\FreezableCollectionTrait.
-	 * Provide items to freeze.
-	 *
-	 * @return Traversable
-	 */
-	public function getItems()
+	public function performFreeze()
 	{
-		return $this->items;
+		$this->freezeCollection();
+
+		return $this;
+	}
+
+	public function performUnfreeze()
+	{
+		$this->unfreezeCollection();
+		return $this;
+	}
+
+	public function freezeCollection()
+	{
+		foreach ($this->items as $item)
+		{
+			$item->freeze();
+		}
+	}
+
+	public function unfreezeCollection()
+	{
+		foreach ($this->items as $item)
+		{
+			$item->unfreeze();
+		}
 	}
 }
