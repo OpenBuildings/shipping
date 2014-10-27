@@ -318,14 +318,16 @@ class Kohana_Model_Shipping_Item extends Jam_Model implements FreezableInterface
 		return $this->shipping_group->method;
 	}
 
-	public function update_address(Model_Address $address)
+	public function update_address(Model_Store_Purchase_Shipping $store_purchase_shipping)
 	{
-		if ( ! $address->changed('country') OR ! $address->country)
+		$ship_to = $store_purchase_shipping->ship_to();
+
+		if ( ! $ship_to)
 			return;
 
-		if (! $this->shipping_group OR ! $this->shipping_group->location OR ! $this->shipping_group->location->contains($address->country))
+		if (! $this->shipping_group OR ! $this->shipping_group->location OR ! $this->shipping_group->location->contains($ship_to))
 		{
-			$this->shipping_group = $this->purchase_item_shipping()->cheapest_group_in($address->country);
+			$this->shipping_group = $this->purchase_item_shipping()->cheapest_group_in($ship_to);
 		}
 	}
 

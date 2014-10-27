@@ -145,7 +145,7 @@ class Kohana_Jam_Behavior_Shippable_Store_Purchase extends Jam_Behavior {
 
 			if ($store_purchase->shipping_address()->changed())
 			{
-				$store_purchase->shipping->update_items_address($store_purchase->shipping_address());
+				$store_purchase->shipping->update_items_address($store_purchase->shipping);
 			}
 		}
 	}

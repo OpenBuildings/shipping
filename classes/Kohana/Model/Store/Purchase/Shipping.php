@@ -229,11 +229,11 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		}, $purchase_items);
 	}
 
-	public function update_items_address(Model_Address $address)
+	public function update_items_address(Model_Store_Purchase_Shipping $store_purchase_shipping)
 	{
 		foreach ($this->items->as_array() as $item)
 		{
-			$item->update_address($address);
+			$item->update_address($store_purchase_shipping);
 		}
 	}
 
