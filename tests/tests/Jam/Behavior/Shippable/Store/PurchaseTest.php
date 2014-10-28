@@ -17,7 +17,6 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 	{
 		$store_purchase = Jam::find('store_purchase', 2);
 		$france = Jam::find('location', 'France');
-		$address = Jam::all('address')->where('country_id', '=', $france->id())->first();
 
 		$this->assertEquals(0, $store_purchase->items_count('shipping'));
 
@@ -26,7 +25,7 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 		$store_purchase_shipping
 			->expects($this->once())
 			->method('update_items_address')
-			->with($this->identicalTo($store_purchase->shipping_address()));
+			->with($this->identicalTo($store_purchase_shipping));
 
 		$store_purchase_shipping->items = array(
 			array(

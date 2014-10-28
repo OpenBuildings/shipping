@@ -192,10 +192,17 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 	/**
 	 * @covers Model_Shipping_Item_External::update_address
 	 */
-	public function test_update_address()
+	public function test_update_address2()
 	{
 		$location = Jam::find('location', 'France');
-		$address = Jam::build('address', array('country' => $location));
+		$location = Jam::find('location', 'France');
+
+		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('ship_to'), array('store_purchase_shipping'));
+		$store_purchase_shipping
+			->expects($this->once())
+			->method('ship_to')
+			->will($this->returnValue($location));
+
 		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('external_data_for'), array('shipping_external'));
 		$external_data = Jam::build('shipping_external_data');
 
@@ -213,7 +220,7 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 			),
 		));
 
-		$item->update_address($address);
+		$item->update_address($store_purchase_shipping);
 
 		$this->assertEquals($external_data, $item->external_shipping_data);
 	}

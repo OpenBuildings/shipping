@@ -480,7 +480,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 	/**
 	 * @covers Model_Shipping_Item::total_price
- 	 * @dataProvider data_total_price
+	 * @dataProvider data_total_price
 	 */
 	public function test_total_price($params, $expected)
 	{
@@ -515,7 +515,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 	/**
 	 * @covers Model_Shipping_Item::total_additional_item_price
- 	 * @dataProvider data_total_additional_item_price
+	 * @dataProvider data_total_additional_item_price
 	 */
 	public function test_total_additional_item_price($params, $expected)
 	{
@@ -573,12 +573,22 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 	/**
 	 * @covers Model_Shipping_Item::update_address
- 	 * @dataProvider data_update_address
+	 * @dataProvider data_update_address
 	 */
 	public function test_update_address($location_name, $item_location_names, $expected_changes)
 	{
 		$location = Jam::find('location', $location_name);
-		$address = Jam::build('address', array('country' => $location));
+
+		$store_purchase_shipping = $this->getMock(
+			'Model_Store_Purchase_Shipping',
+			array('ship_to'),
+			array('store_purchase_shipping')
+		);
+
+		$store_purchase_shipping
+			->expects($this->exactly(3))
+			->method('ship_to')
+			->will($this->returnValue($location));
 
 		$shipping = $this->getMock('Model_Shipping', array('cheapest_group_in'), array('shipping'));
 
@@ -609,7 +619,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 		foreach ($items as $item)
 		{
-			$item->update_address($address);
+			$item->update_address($store_purchase_shipping);
 		}
 	}
 

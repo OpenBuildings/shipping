@@ -472,18 +472,18 @@ class Model_Store_Purchase_ShippingTest extends Testcase_Shipping {
 	 */
 	public function test_update_items_address()
 	{
-		$address = Jam::find('address', 1);
+		$shipping = Jam::find('store_purchase_shipping', 1);
 
 		$item = $this->getMock('Model_Shipping_Item', array('update_address'), array('shipping_item'));
 
 		$item
 			->expects($this->once())
 			->method('update_address')
-			->with($this->identicalTo($address));
+			->with($this->identicalTo($shipping));
 
 		$store_purchase_shipping = Jam::build('store_purchase_shipping', array('items' => array($item)));
 
-		$store_purchase_shipping->update_items_address($address);
+		$store_purchase_shipping->update_items_address($shipping);
 	}
 
 	public function test_complex_association()
