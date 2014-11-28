@@ -2,80 +2,80 @@
 
 /**
  * @group jam.behavior
- * @group jam.behavior.shippable_store_purchase
+ * @group jam.behavior.shippable_brand_purchase
  *
  * @package Functest
  * @author Ivan Kerin
  * @copyright  (c) 2011-2013 Despark Ltd.
  */
-class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
+class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 
 	/**
-	 * @covers Jam_Behavior_Shippable_Store_Purchase::update_shipping_items
+	 * @covers Jam_Behavior_Shippable_Brand_Purchase::update_shipping_items
 	 */
 	public function test_update_shipping_items()
 	{
-		$store_purchase = Jam::find('store_purchase', 2);
+		$brand_purchase = Jam::find('brand_purchase', 2);
 		$france = Jam::find('location', 'France');
 
-		$this->assertEquals(0, $store_purchase->items_count('shipping'));
+		$this->assertEquals(0, $brand_purchase->items_count('shipping'));
 
-		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('update_items_address'), array('store_purchase_shipping'));
+		$brand_purchase_shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('update_items_address'), array('brand_purchase_shipping'));
 
-		$store_purchase_shipping
+		$brand_purchase_shipping
 			->expects($this->once())
 			->method('update_items_address')
-			->with($this->identicalTo($store_purchase_shipping));
+			->with($this->identicalTo($brand_purchase_shipping));
 
-		$store_purchase_shipping->items = array(
+		$brand_purchase_shipping->items = array(
 			array(
-				'purchase_item' => $store_purchase->items[0],
-				'shipping_group' => $store_purchase->items[0]->reference->shipping()->groups[0],
+				'purchase_item' => $brand_purchase->items[0],
+				'shipping_group' => $brand_purchase->items[0]->reference->shipping()->groups[0],
 			)
 		);
 
-		$store_purchase->items[0]->shipping_item = $store_purchase_shipping->items[0];
+		$brand_purchase->items[0]->shipping_item = $brand_purchase_shipping->items[0];
 
-		$store_purchase->shipping = $store_purchase_shipping;
+		$brand_purchase->shipping = $brand_purchase_shipping;
 
-		$store_purchase->update_items();
+		$brand_purchase->update_items();
 
-		$this->assertEquals(1, $store_purchase->items_count('shipping'));
+		$this->assertEquals(1, $brand_purchase->items_count('shipping'));
 
-		$this->assertEquals(new Jam_Price(10, 'GBP', $store_purchase->monetary(), 'GBP'), $store_purchase->total_price('shipping'));
+		$this->assertEquals(new Jam_Price(10, 'GBP', $brand_purchase->monetary(), 'GBP'), $brand_purchase->total_price('shipping'));
 
-		$shippings = $store_purchase->items('shipping');
+		$shippings = $brand_purchase->items('shipping');
 
-		$store_purchase->shipping_address()->country = $france;
+		$brand_purchase->shipping_address()->country = $france;
 
-		$store_purchase->update_items();
+		$brand_purchase->update_items();
 
-		$other_shippings = $store_purchase->items('shipping');
+		$other_shippings = $brand_purchase->items('shipping');
 
 		$this->assertSame($shippings[0], $other_shippings[0]);
 	}
 
 	/**
-	 * @covers Jam_Behavior_Shippable_Store_Purchase::add_store_purchase_shipping
+	 * @covers Jam_Behavior_Shippable_Brand_Purchase::add_brand_purchase_shipping
 	 */
-	public function test_add_store_purchase_shipping()
+	public function test_add_brand_purchase_shipping()
 	{
-		$store_purchase = Jam::find('store_purchase', 2);
+		$brand_purchase = Jam::find('brand_purchase', 2);
 
-		$this->assertNull($store_purchase->shipping);
+		$this->assertNull($brand_purchase->shipping);
 
-		$store_purchase->update_items();
+		$brand_purchase->update_items();
 
-		$this->assertNotNull($store_purchase->shipping);
-		$this->assertFalse($store_purchase->shipping->loaded());
-		$this->assertEquals(1, $store_purchase->items_count('shipping'));
+		$this->assertNotNull($brand_purchase->shipping);
+		$this->assertFalse($brand_purchase->shipping->loaded());
+		$this->assertEquals(1, $brand_purchase->items_count('shipping'));
 
-		$this->assertCount(1, $store_purchase->shipping->items);
-		$this->assertSame($store_purchase->items[0], $store_purchase->shipping->items[0]->purchase_item);
+		$this->assertCount(1, $brand_purchase->shipping->items);
+		$this->assertSame($brand_purchase->items[0], $brand_purchase->shipping->items[0]->purchase_item);
 	}
 
 	/**
-	 * @covers Jam_Behavior_Shippable_Store_Purchase::model_call_group_shipping_methods
+	 * @covers Jam_Behavior_Shippable_Brand_Purchase::model_call_group_shipping_methods
 	 */
 	public function test_group_shipping_methods()
 	{
@@ -114,21 +114,21 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 				),
 			));
 
-		$store_purchase = $this->getMock('Model_Store_Purchase', array('items', 'shipping_country'), array('store_purchase'));
-		$store_purchase_shipping = $store_purchase->build('shipping');
+		$brand_purchase = $this->getMock('Model_Brand_Purchase', array('items', 'shipping_country'), array('brand_purchase'));
+		$brand_purchase_shipping = $brand_purchase->build('shipping');
 
-		$store_purchase
+		$brand_purchase
 			->expects($this->any())
 			->method('shipping_country')
 			->will($this->returnValue($location));
 
-		$store_purchase
+		$brand_purchase
 			->expects($this->once())
 			->method('items')
 			->with($this->equalTo(array('can_ship' => TRUE)))
 			->will($this->returnValue($items->as_array()));
 
-		$groups = $store_purchase->group_shipping_methods();
+		$groups = $brand_purchase->group_shipping_methods();
 
 		$this->assertCount(2, $groups);
 		$this->assertInstanceOf('Group_Shipping_methods', $groups['1']);
@@ -136,8 +136,8 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 
 		$this->assertEquals(array(10, 11), $this->ids($groups['1']->purchase_items));
 		$this->assertEquals(array(12), $this->ids($groups['1,2']->purchase_items));
-		$this->assertSame($store_purchase_shipping, $groups['1']->store_purchase_shipping);
-		$this->assertSame($store_purchase_shipping, $groups['1,2']->store_purchase_shipping);
+		$this->assertSame($brand_purchase_shipping, $groups['1']->brand_purchase_shipping);
+		$this->assertSame($brand_purchase_shipping, $groups['1,2']->brand_purchase_shipping);
 	}
 
 	public function data_filter_shipping_items()
@@ -151,7 +151,7 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 
 	/**
 	 * @dataProvider data_filter_shipping_items
-	 * @covers Jam_Behavior_Shippable_Store_Purchase::filter_shipping_items
+	 * @covers Jam_Behavior_Shippable_Brand_Purchase::filter_shipping_items
 	 */
 	public function test_filter_shipping_items($item_params, $filter_name, $filters_array, $expected_ids)
 	{
@@ -164,7 +164,7 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 				->method('ship_to')
 				->will($this->returnValue($location));
 
-		$store_purchase = Jam::build('store_purchase', array(
+		$brand_purchase = Jam::build('brand_purchase', array(
 			'items' => array(
 				array('id' => 100, 'model' => 'purchase_item_shipping'),
 				array('id' => 101, 'model' => 'purchase_item_product'),
@@ -186,45 +186,45 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 					->with($this->identicalTo($location))
 					->will($this->returnValue($ships_to_result));
 
-			$store_purchase->items->build(array(
+			$brand_purchase->items->build(array(
 				'id' => $id,
 				'model' => 'purchase_item_product',
 				'reference' => $reference
 			));
 		}
 
-		$items = $store_purchase->items(array('shippable' => TRUE));
+		$items = $brand_purchase->items(array('shippable' => TRUE));
 
 		$this->assertEquals(array_keys($item_params), $this->ids($items));
 
-		$items = $store_purchase->items(array($filter_name => $location));
+		$items = $brand_purchase->items(array($filter_name => $location));
 
 		$this->assertEquals($expected_ids, $this->ids($items));
 
-		$items = $store_purchase->items($filters_array);
+		$items = $brand_purchase->items($filters_array);
 
 		$this->assertEquals($expected_ids, $this->ids($items));
 	}
 
 	/**
-	 * @covers Jam_Behavior_Shippable_Store_Purchase::model_call_total_delivery_time
+	 * @covers Jam_Behavior_Shippable_Brand_Purchase::model_call_total_delivery_time
 	 */
 	public function test_model_call_total_delivery_time()
 	{
 		$range = new Jam_Range(array(10, 20));
-		$shipping = $this->getMock('Model_Store_Purchase_Shipping', array('total_delivery_time'), array('store_purchase_shipping'));
+		$shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('total_delivery_time'), array('brand_purchase_shipping'));
 		$shipping
 			->expects($this->once())
 				->method('total_delivery_time')
 				->will($this->returnValue($range));
 
-		$store_purchase = Jam::build('store_purchase', array('shipping' => $shipping));
+		$brand_purchase = Jam::build('brand_purchase', array('shipping' => $shipping));
 
-		$this->assertSame($range, $store_purchase->total_delivery_time());
+		$this->assertSame($range, $brand_purchase->total_delivery_time());
 	}
 
 	/**
-	 * @covers Jam_Behavior_Shippable_Store_Purchase::model_call_shipping_country
+	 * @covers Jam_Behavior_Shippable_Brand_Purchase::model_call_shipping_country
 	 */
 	public function test_model_call_shipping_country()
 	{
@@ -235,13 +235,13 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 				->method('shipping_country')
 				->will($this->returnValue($location));
 
-		$store_purchase = Jam::build('store_purchase', array('purchase' => $purchase));
+		$brand_purchase = Jam::build('brand_purchase', array('purchase' => $purchase));
 
-		$this->assertSame($location, $store_purchase->shipping_country());
+		$this->assertSame($location, $brand_purchase->shipping_country());
 	}
 
 	/**
-	 * @covers Jam_Behavior_Shippable_Store_Purchase::model_call_shipping_address
+	 * @covers Jam_Behavior_Shippable_Brand_Purchase::model_call_shipping_address
 	 */
 	public function test_model_call_shipping_address()
 	{
@@ -252,30 +252,30 @@ class Jam_Behavior_Shippable_Store_PurchaseTest extends Testcase_Shipping {
 				->method('shipping_address')
 				->will($this->returnValue($address));
 
-		$store_purchase = Jam::build('store_purchase', array('purchase' => $purchase));
+		$brand_purchase = Jam::build('brand_purchase', array('purchase' => $purchase));
 
-		$this->assertSame($address, $store_purchase->shipping_address());
+		$this->assertSame($address, $brand_purchase->shipping_address());
 	}
 
 
 	/**
-	 * Jam_Behavior_Shippable_Store_Purchase::model_call_delivery_time_dates
+	 * Jam_Behavior_Shippable_Brand_Purchase::model_call_delivery_time_dates
 	 */
 	public function test_model_call_delivery_time_dates()
 	{
 		$range = new Jam_Range(array(10, 20));
 
-		$store_purchase = $this->getMock('Model_Store_Purchase', array('total_delivery_time', 'payed_at'), array('store_purchase'));
-		$store_purchase
+		$brand_purchase = $this->getMock('Model_Brand_Purchase', array('total_delivery_time', 'payed_at'), array('brand_purchase'));
+		$brand_purchase
 			->expects($this->once())
 				->method('total_delivery_time')
 				->will($this->returnValue($range));
 
-		$store_purchase
+		$brand_purchase
 			->expects($this->once())
 				->method('payed_at')
 				->will($this->returnValue('2013-02-02 10:00:00'));
 
-		$this->assertEquals(new Jam_Range(array(1361080800, 1362290400)), $store_purchase->delivery_time_dates());
+		$this->assertEquals(new Jam_Range(array(1361080800, 1362290400)), $brand_purchase->delivery_time_dates());
 	}
 }

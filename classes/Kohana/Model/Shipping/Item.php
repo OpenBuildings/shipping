@@ -20,7 +20,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model implements FreezableInterface
 	{
 		$meta
 			->associations(array(
-				'store_purchase_shipping' => Jam::association('belongsto', array(
+				'brand_purchase_shipping' => Jam::association('belongsto', array(
 					'inverse_of' => 'items'
 				)),
 				'purchase_item' => Jam::association('belongsto', array(
@@ -125,27 +125,27 @@ class Kohana_Model_Shipping_Item extends Jam_Model implements FreezableInterface
 	 */
 	public function paid_at()
 	{
-		return $this->get_insist('store_purchase_shipping')->paid_at();
+		return $this->get_insist('brand_purchase_shipping')->paid_at();
 	}
 
 	/**
 	 * Get the currency for pricing calculations
 	 * @return string
-	 * @throws Kohana_Exception If store_purchase_shipping is NULL
+	 * @throws Kohana_Exception If brand_purchase_shipping is NULL
 	 */
 	public function currency()
 	{
-		return $this->get_insist('store_purchase_shipping')->currency();
+		return $this->get_insist('brand_purchase_shipping')->currency();
 	}
 
 	/**
 	 * Get the monetary object for currency calculations
 	 * @return Monetary
-	 * @throws Kohana_Exception If store_purchase_shipping is NULL
+	 * @throws Kohana_Exception If brand_purchase_shipping is NULL
 	 */
 	public function monetary()
 	{
-		return $this->get_insist('store_purchase_shipping')->monetary();
+		return $this->get_insist('brand_purchase_shipping')->monetary();
 	}
 
 	/**
@@ -318,9 +318,9 @@ class Kohana_Model_Shipping_Item extends Jam_Model implements FreezableInterface
 		return $this->shipping_group->method;
 	}
 
-	public function update_address(Model_Store_Purchase_Shipping $store_purchase_shipping)
+	public function update_address(Model_Brand_Purchase_Shipping $brand_purchase_shipping)
 	{
-		$ship_to = $store_purchase_shipping->ship_to();
+		$ship_to = $brand_purchase_shipping->ship_to();
 
 		if ( ! $ship_to)
 			return;

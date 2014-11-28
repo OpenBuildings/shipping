@@ -9,7 +9,7 @@ use Clippings\Freezable\FreezableTrait;
  * @copyright  (c) 2013 OpenBuildings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable, FreezableInterface {
+class Kohana_Model_Brand_Purchase_Shipping extends Jam_Model implements Sellable, FreezableInterface {
 
 	use FreezableTrait;
 
@@ -20,10 +20,10 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	{
 		$meta
 			->associations(array(
-				'store_purchase' => Jam::association('belongsto', array('inverse_of' => 'shipping')),
+				'brand_purchase' => Jam::association('belongsto', array('inverse_of' => 'shipping')),
 				'items' => Jam::association('hasmany', array(
 					'foreign_model' => 'shipping_item',
-					'inverse_of' => 'store_purchase_shipping',
+					'inverse_of' => 'brand_purchase_shipping',
 					'delete_on_remove' => Jam_Association::DELETE,
 					'dependent' => Jam_Association::DELETE,
 				)),
@@ -32,7 +32,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 				'id' => Jam::field('primary'),
 				'is_frozen' => Jam::field('boolean')
 			))
-			->validator('store_purchase', 'items', array('present' => TRUE));
+			->validator('brand_purchase', 'items', array('present' => TRUE));
 	}
 
 	/**
@@ -79,12 +79,12 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 
 	public function duplicate()
 	{
-		$duplicate = Jam::build('store_purchase_shipping', array(
-			'store_purchase' => $this->store_purchase
+		$duplicate = Jam::build('brand_purchase_shipping', array(
+			'brand_purchase' => $this->brand_purchase
 		));
 
-		// This is needed to counteract inverse_of store_purchase in store_purchase_shipping
-		$this->store_purchase->shipping = $this;
+		// This is needed to counteract inverse_of brand_purchase in brand_purchase_shipping
+		$this->brand_purchase->shipping = $this;
 
 		return $duplicate;
 	}
@@ -139,13 +139,13 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 
 	/**
 	 * Total price for the purchased items
-	 * @throws Kohana_Exception If store_purchase is NULL
+	 * @throws Kohana_Exception If brand_purchase is NULL
 	 * @return Jam_Price
 	 */
 	public function total_purchase_price()
 	{
 		return $this
-			->get_insist('store_purchase')
+			->get_insist('brand_purchase')
 				->total_price(array('is_payable' => TRUE, 'not' => 'shipping'));
 	}
 
@@ -155,7 +155,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	 */
 	public function paid_at()
 	{
-		return $this->get_insist('store_purchase')->paid_at();
+		return $this->get_insist('brand_purchase')->paid_at();
 	}
 
 	/**
@@ -165,7 +165,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	public function currency()
 	{
 		return $this
-			->get_insist('store_purchase')
+			->get_insist('brand_purchase')
 				->currency();
 	}
 
@@ -176,7 +176,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	public function ship_to()
 	{
 		return $this
-			->get_insist('store_purchase')
+			->get_insist('brand_purchase')
 				->get_insist('purchase')
 					->shipping_country();
 	}
@@ -188,7 +188,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	public function monetary()
 	{
 		return $this
-			->get_insist('store_purchase')
+			->get_insist('brand_purchase')
 				->monetary();
 	}
 
@@ -206,10 +206,10 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 	}
 
 	/**
-	 * Build a single shipping_item and add it to the items of this store_purchase_shipping.
+	 * Build a single shipping_item and add it to the items of this brand_purchase_shipping.
 	 * @param  Model_Purchase_Item $purchase_item
 	 * @param  Model_Shipping_Method              $method
-	 * @return Model_Store_Purchase_Shipping
+	 * @return Model_Brand_Purchase_Shipping
 	 */
 	public function build_item_from(Model_Purchase_Item $purchase_item, Model_Shipping_Method $method = NULL)
 	{
@@ -229,11 +229,11 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		}, $purchase_items);
 	}
 
-	public function update_items_address(Model_Store_Purchase_Shipping $store_purchase_shipping)
+	public function update_items_address(Model_Brand_Purchase_Shipping $brand_purchase_shipping)
 	{
 		foreach ($this->items->as_array() as $item)
 		{
-			$item->update_address($store_purchase_shipping);
+			$item->update_address($brand_purchase_shipping);
 		}
 	}
 
@@ -242,7 +242,7 @@ class Kohana_Model_Store_Purchase_Shipping extends Jam_Model implements Sellable
 		$shipping = $purchase_item->get_insist('reference')->shipping();
 
 		$fields = array(
-			'store_purchase_shipping' => $this,
+			'brand_purchase_shipping' => $this,
 			'purchase_item' => $purchase_item,
 		);
 

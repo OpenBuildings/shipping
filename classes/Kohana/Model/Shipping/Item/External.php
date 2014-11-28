@@ -96,9 +96,9 @@ class Kohana_Model_Shipping_Item_External extends Model_Shipping_Item {
 		return $this->purchase_item_shipping()->get_external_shipping_method();
 	}
 
-	public function update_address(Model_Store_Purchase_Shipping $store_purchase_shipping)
+	public function update_address(Model_Brand_Purchase_Shipping $brand_purchase_shipping)
 	{
-		$ship_to = $store_purchase_shipping->ship_to();
+		$ship_to = $brand_purchase_shipping->ship_to();
 
 		$this->external_shipping_data = $this->purchase_item_shipping()->external_data_for($ship_to);
 	}

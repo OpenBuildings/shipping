@@ -6,7 +6,7 @@
  * @copyright  (c) 2013 OpenBuildings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-class Kohana_Jam_Behavior_Shippable_Store extends Jam_Behavior {
+class Kohana_Jam_Behavior_Shippable_Brand extends Jam_Behavior {
 
 	/**
 	 * @codeCoverageIgnore
@@ -18,10 +18,10 @@ class Kohana_Jam_Behavior_Shippable_Store extends Jam_Behavior {
 		$meta
 			->associations(array(
 				'shippings' => Jam::association('hasmany', array(
-					'inverse_of' => 'store',
+					'inverse_of' => 'brand',
 				)),
 				'shipping_methods' => Jam::association('hasmany', array(
-					'inverse_of' => 'store'
+					'inverse_of' => 'brand'
 				)),
 			));
 	}

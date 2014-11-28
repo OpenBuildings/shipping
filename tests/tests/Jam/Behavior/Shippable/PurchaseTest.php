@@ -74,12 +74,12 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 			'reference' => $product
 		));
 
-		$purchase->add_item($product->store, $perchase_item);
+		$purchase->add_item($product->brand, $perchase_item);
 
-		$item = $purchase->store_purchases[0]->shipping->items[0];
+		$item = $purchase->brand_purchases[0]->shipping->items[0];
 
 		$this->assertInstanceOf('Model_Shipping_Item', $item);
-		$this->assertSame($france, $purchase->store_purchases[0]->shipping->ship_to());
+		$this->assertSame($france, $purchase->brand_purchases[0]->shipping->ship_to());
 		$this->assertSame($perchase_item, $item->purchase_item);
 		$this->assertInstanceOf('Model_Shipping_Group', $item->shipping_group);
 	}
@@ -136,6 +136,6 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 
 		$purchase->check();
 
-		$this->assertEquals(array('store_purchases' => array('cannot_ship' => array())), $purchase->errors()->as_array());
+		$this->assertEquals(array('brand_purchases' => array('cannot_ship' => array())), $purchase->errors()->as_array());
 	}
 }

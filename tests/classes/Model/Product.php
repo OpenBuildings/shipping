@@ -9,7 +9,7 @@ class Model_Product extends Jam_Model implements Sellable, Shippable {
 				'shipping' => Jam::association('belongsto', array(
 					'inverse_of' => 'products'
 				)),
-				'store' => Jam::association('belongsto'),
+				'brand' => Jam::association('belongsto'),
 				'variations' => Jam::association('hasmany'),
 				'purchase_items' => Jam::association('hasmany', array(
 					'as' => 'reference',
