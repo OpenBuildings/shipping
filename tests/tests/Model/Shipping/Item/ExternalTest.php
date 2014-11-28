@@ -197,8 +197,8 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 		$location = Jam::find('location', 'France');
 		$location = Jam::find('location', 'France');
 
-		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('ship_to'), array('store_purchase_shipping'));
-		$store_purchase_shipping
+		$brand_purchase_shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('ship_to'), array('brand_purchase_shipping'));
+		$brand_purchase_shipping
 			->expects($this->once())
 			->method('ship_to')
 			->will($this->returnValue($location));
@@ -220,7 +220,7 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 			),
 		));
 
-		$item->update_address($store_purchase_shipping);
+		$item->update_address($brand_purchase_shipping);
 
 		$this->assertEquals($external_data, $item->external_shipping_data);
 	}

@@ -137,14 +137,14 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_currency()
 	{
-		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('currency'), array('store_purchase_shipping'));
+		$brand_purchase_shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('currency'), array('brand_purchase_shipping'));
 
-		$store_purchase_shipping
+		$brand_purchase_shipping
 			->expects($this->exactly(2))
 				->method('currency')
 				->will($this->onConsecutiveCalls('GBP', 'EUR'));
 
-		$item = Jam::build('shipping_item', array('store_purchase_shipping' => $store_purchase_shipping));
+		$item = Jam::build('shipping_item', array('brand_purchase_shipping' => $brand_purchase_shipping));
 
 		$this->assertEquals('GBP', $item->currency());
 		$this->assertEquals('EUR', $item->currency());
@@ -155,15 +155,15 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_monetary()
 	{
-		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('monetary'), array('store_purchase_shipping'));
+		$brand_purchase_shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('monetary'), array('brand_purchase_shipping'));
 		$monetary = new Monetary;
 
-		$store_purchase_shipping
+		$brand_purchase_shipping
 			->expects($this->once())
 				->method('monetary')
 				->will($this->returnValue($monetary));
 
-		$item = Jam::build('shipping_item', array('store_purchase_shipping' => $store_purchase_shipping));
+		$item = Jam::build('shipping_item', array('brand_purchase_shipping' => $brand_purchase_shipping));
 
 		$this->assertSame($monetary, $item->monetary());
 	}
@@ -297,15 +297,15 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_paid_at()
 	{
-		$store_purchase_shipping = $this->getMock('Model_Store_Purchase_Shipping', array('paid_at'), array('store_purchase_shipping'));
+		$brand_purchase_shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('paid_at'), array('brand_purchase_shipping'));
 		$date = '2013-01-01';
 
-		$store_purchase_shipping
+		$brand_purchase_shipping
 			->expects($this->once())
 			->method('paid_at')
 			->will($this->returnValue($date));
 
-		$shipping_item = Jam::build('shipping_item', array('store_purchase_shipping' => $store_purchase_shipping));
+		$shipping_item = Jam::build('shipping_item', array('brand_purchase_shipping' => $brand_purchase_shipping));
 
 		$this->assertEquals($date, $shipping_item->paid_at());
 	}
@@ -579,13 +579,13 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	{
 		$location = Jam::find('location', $location_name);
 
-		$store_purchase_shipping = $this->getMock(
-			'Model_Store_Purchase_Shipping',
+		$brand_purchase_shipping = $this->getMock(
+			'Model_Brand_Purchase_Shipping',
 			array('ship_to'),
-			array('store_purchase_shipping')
+			array('brand_purchase_shipping')
 		);
 
-		$store_purchase_shipping
+		$brand_purchase_shipping
 			->expects($this->exactly(3))
 			->method('ship_to')
 			->will($this->returnValue($location));
@@ -619,7 +619,7 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 
 		foreach ($items as $item)
 		{
-			$item->update_address($store_purchase_shipping);
+			$item->update_address($brand_purchase_shipping);
 		}
 	}
 

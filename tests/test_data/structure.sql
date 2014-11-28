@@ -16,11 +16,11 @@ CREATE TABLE `purchases` (
   KEY `fk_user_id` (`creator_id`)
 ) ENGINE=INNODB  DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `store_purchases`;
-CREATE TABLE `store_purchases` (
+DROP TABLE IF EXISTS `brand_purchases`;
+CREATE TABLE `brand_purchases` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `number` VARCHAR(40) NOT NULL,
-  `store_id` INT(10) UNSIGNED NULL,
+  `brand_id` INT(10) UNSIGNED NULL,
   `purchase_id` INT(10) UNSIGNED NULL,
   `is_frozen` INT(1) UNSIGNED NOT NULL,
   `is_deleted` INT(1) UNSIGNED NOT NULL,
@@ -29,10 +29,10 @@ CREATE TABLE `store_purchases` (
   PRIMARY KEY  (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `store_refunds`;
-CREATE TABLE `store_refunds` (
+DROP TABLE IF EXISTS `brand_refunds`;
+CREATE TABLE `brand_refunds` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `store_purchase_id` INT(10) UNSIGNED NULL,
+  `brand_purchase_id` INT(10) UNSIGNED NULL,
   `created_at` DATETIME,
   `raw_response` TEXT,
   `reason` TEXT,
@@ -41,10 +41,10 @@ CREATE TABLE `store_refunds` (
   PRIMARY KEY  (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `store_refund_items`;
-CREATE TABLE `store_refund_items` (
+DROP TABLE IF EXISTS `brand_refund_items`;
+CREATE TABLE `brand_refund_items` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `store_refund_id` INT(10) UNSIGNED NULL,
+  `brand_refund_id` INT(10) UNSIGNED NULL,
   `purchase_item_id` INT(10) UNSIGNED NULL,
   `amount` DECIMAL(10,2) NULL,
   `is_deleted` INT(1) UNSIGNED NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE `payments` (
 DROP TABLE IF EXISTS `purchase_items`;
 CREATE TABLE `purchase_items` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `store_purchase_id` INT(10) UNSIGNED NULL,
+  `brand_purchase_id` INT(10) UNSIGNED NULL,
   `reference_id` INT(10) UNSIGNED NULL,
   `reference_model` VARCHAR(40) NULL,
   `price` DECIMAL(10,2) NULL,
@@ -99,8 +99,8 @@ CREATE TABLE `users` (
   UNIQUE KEY `uniq_email` (`email`)
 ) ENGINE=INNODB  DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `stores`;
-CREATE TABLE `stores` (
+DROP TABLE IF EXISTS `brands`;
+CREATE TABLE `brands` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(254) NOT NULL,
   PRIMARY KEY  (`id`)
@@ -112,7 +112,7 @@ CREATE TABLE `products` (
   `name` VARCHAR(254) NOT NULL,
   `price` DECIMAL(10,2) NOT NULL,
   `currency` VARCHAR(3) NOT NULL,
-  `store_id` INT(10) UNSIGNED NULL,
+  `brand_id` INT(10) UNSIGNED NULL,
   `shipping_id` INT(10) UNSIGNED NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=INNODB  DEFAULT CHARSET=utf8;
@@ -150,7 +150,7 @@ CREATE TABLE `shippings` (
   `currency` varchar(3) NOT NULL,
   `processing_time` varchar(100) NOT NULL,
   `ships_from_id` int(11) UNSIGNED NOT NULL,
-  `store_id` int(11) UNSIGNED NOT NULL,
+  `brand_id` int(11) UNSIGNED NOT NULL,
   `is_deleted` INT(1) UNSIGNED NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -173,15 +173,15 @@ DROP TABLE IF EXISTS `shipping_methods`;
 CREATE TABLE `shipping_methods` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `store_id` int(11) UNSIGNED NOT NULL,
+  `brand_id` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `store_purchase_shippings`;
-CREATE TABLE `store_purchase_shippings` (
+DROP TABLE IF EXISTS `brand_purchase_shippings`;
+CREATE TABLE `brand_purchase_shippings` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `location_id` int(11) UNSIGNED NOT NULL,
-  `store_purchase_id` int(11) UNSIGNED NOT NULL,
+  `brand_purchase_id` int(11) UNSIGNED NOT NULL,
   `is_frozen` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -194,7 +194,7 @@ CREATE TABLE `shipping_items` (
   `shipping_group_id` int(11) UNSIGNED NULL,
   `delivery_time` varchar(100) NULL,
   `processing_time` varchar(100) NULL,
-  `store_purchase_shipping_id` int(11) UNSIGNED NOT NULL,
+  `brand_purchase_shipping_id` int(11) UNSIGNED NOT NULL,
   `is_frozen` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -267,7 +267,7 @@ VALUES
 # Dump of table products
 # ------------------------------------------------------------
 
-INSERT INTO `products` (`id`, `name`, `price`, `currency`, `store_id`, `shipping_id`)
+INSERT INTO `products` (`id`, `name`, `price`, `currency`, `brand_id`, `shipping_id`)
 VALUES
   (1,'Chair',290.40,'GBP',1, 1),
   (2,'Rug',30.00,'GBP',1, 1),
@@ -286,10 +286,10 @@ INSERT INTO `addresses` (`id`,`country_id`,`city_id`,`email`,`first_name`,`last_
 VALUES
   (1,7,9,'user@example.com','name1', 'name2','phone123','ZIP','Street 1', 'House 1', '', 'faz123', 0),
   (2,7,9,'user@example.com','name1', 'name2','phone123','ZIP','Street 1', 'House 1', '', 'faz123', 0);
-# Dump of table store_purchases
+# Dump of table brand_purchases
 # ------------------------------------------------------------
 
-INSERT INTO `store_purchases` (`id`, `number`, `store_id`, `purchase_id`, `is_deleted`)
+INSERT INTO `brand_purchases` (`id`, `number`, `brand_id`, `purchase_id`, `is_deleted`)
 VALUES
   (1,'3S2GJG',1,1,0),
   (2,'AA2GJG',1,2,0);
@@ -297,21 +297,21 @@ VALUES
 # Dump of table purchase_items
 # ------------------------------------------------------------
 
-INSERT INTO `purchase_items` (`id`, `store_purchase_id`, `reference_id`, `reference_model`, `price`, `quantity`, `model`, `is_payable`, `is_discount`, `is_deleted`)
+INSERT INTO `purchase_items` (`id`, `brand_purchase_id`, `reference_id`, `reference_model`, `price`, `quantity`, `model`, `is_payable`, `is_discount`, `is_deleted`)
 VALUES
   (1,1,1,'product',200.00,1,'purchase_item_product',1,0,0),
   (2,1,1,'variation',200.00,1,'purchase_item_product',1,0,0),
   (3,1,2,'variation',100.00,1,'purchase_item_product',1,0,0),
-  (4,1,1,'store_purchase_shipping',10,1,'purchase_item_shipping',1,0,0),
+  (4,1,1,'brand_purchase_shipping',10,1,'purchase_item_shipping',1,0,0),
   (5,2,1,'product',NULL,1,'purchase_item_product',1,0,0);
 
-# Dump of table stores
+# Dump of table brands
 # ------------------------------------------------------------
 
-INSERT INTO `stores` (`id`, `name`)
+INSERT INTO `brands` (`id`, `name`)
 VALUES
-  (1,'Example Store'),
-  (2,'Empty Store');
+  (1,'Example Brand'),
+  (2,'Empty Brand');
 
 # Dump of table users
 # ------------------------------------------------------------
@@ -329,14 +329,14 @@ VALUES
   (2,'Green',298.90,1);
 
 
-INSERT INTO `shipping_methods` (`id`, `name`, `store_id`)
+INSERT INTO `shipping_methods` (`id`, `name`, `brand_id`)
 VALUES
   (1,'Post', 0),
   (2,'Courier', 0),
   (3,'Custom', 0);
 
 
-INSERT INTO `shippings` (`id`, `model`, `name`, `currency`, `processing_time`, `ships_from_id`, `store_id`)
+INSERT INTO `shippings` (`id`, `model`, `name`, `currency`, `processing_time`, `ships_from_id`, `brand_id`)
 VALUES
   (1, 'shipping', 'Normal', 'GBP', '2|3', 3, 1),
   (2, 'shipping', 'Custom', 'GBP', '1|5', 4, 1),
@@ -354,11 +354,11 @@ VALUES
   (6, '5.00', '2|3', 2, 1, 3),
   (7, '15.00', '2|3', 3, 1, 3);
 
-INSERT INTO `store_purchase_shippings` (`id`, `store_purchase_id`, `location_id`)
+INSERT INTO `brand_purchase_shippings` (`id`, `brand_purchase_id`, `location_id`)
 VALUES
   (1, 1, 3);
 
-INSERT INTO `shipping_items` (`id`, `model`, `store_purchase_shipping_id`, `purchase_item_id`, `shipping_group_id`)
+INSERT INTO `shipping_items` (`id`, `model`, `brand_purchase_shipping_id`, `purchase_item_id`, `shipping_group_id`)
 VALUES
   (1, 'shipping_item', 1, 1, 1),
   (2, 'shipping_item', 1, 2, 2);

@@ -69,17 +69,17 @@ class Model_Purchase_Item_Product extends Kohana_Model_Purchase_Item_Product {
 }
 ```
 
-Also you need to add the shippable purchase to your purchase and store purchase:
+Also you need to add the shippable purchase to your purchase and brand purchase:
 
 ``` php
-class Model_Store_Purchase extends Kohana_Model_Store_Purchase {
+class Model_Brand_Purchase extends Kohana_Model_Brand_Purchase {
 
 	public static function initialize(Jam_Meta $meta)
 	{
 		parent::initialize($meta);
 		$meta
 			->behaviors(array(
-				'shippable_store_purchase' => Jam::behavior('shippable_store_purchase'),
+				'shippable_brand_purchase' => Jam::behavior('shippable_brand_purchase'),
 			));
 	}
 }
@@ -97,7 +97,7 @@ class Model_Purchase extends Kohana_Model_Purchase {
 }
 ```
 
-This behaviors will add the 'shipping' association to the store_pruchase, also listen to update_items event and add a shipping purchase_item, and listen to the filter_items event, adding some more flags to filter by.
+This behaviors will add the 'shipping' association to the brand_pruchase, also listen to update_items event and add a shipping purchase_item, and listen to the filter_items event, adding some more flags to filter by.
 
 Once you have added the shipping data to your products:
 
@@ -123,14 +123,14 @@ $product->shipping = Jam::create('shipping', array(
 You can start to select which shipping applies to each purchase item.
 
 ``` php
-$store_purchase = Jam::find('store_purchase', 1);
+$brand_purchase = Jam::find('brand_purchase', 1);
 
 // If you want to set the informaction explicitly on which purchase_item what shipping_group to use
-$store_purchase->build('shipping', array(
+$brand_purchase->build('shipping', array(
 	'items' => array(
 		array(
-			'purchase_item' => $store_purchase->items[0],
-			'shipping_group' => $store_purchase->items[0]->reference->shipping()->groups[0],
+			'purchase_item' => $brand_purchase->items[0],
+			'shipping_group' => $brand_purchase->items[0]->reference->shipping()->groups[0],
 		),
 	)
 ));
@@ -139,19 +139,19 @@ $store_purchase->build('shipping', array(
 $post = Jam::find('shipping_method', 'Post');
 $france = Jam::find('location', 'France');
 
-$store_purchase_shipping = $store_purchase->build('shipping', array(
+$brand_purchase_shipping = $brand_purchase->build('shipping', array(
 	'location' => $france,
 ));
 
-$store_purchase_shipping->build_items_from($store_purchase->items, $post);
+$brand_purchase_shipping->build_items_from($brand_purchase->items, $post);
 ```
 
-Having configured that, you can now call ``update_items()`` method on the purchase / store_purchase, adding to the purchase_items a shipping item.
+Having configured that, you can now call ``update_items()`` method on the purchase / brand_purchase, adding to the purchase_items a shipping item.
 
 ``` php
-$store_purchase->update_items();
+$brand_purchase->update_items();
 
-echo $store_purchase->items_count('shipping'); // should return 1
+echo $brand_purchase->items_count('shipping'); // should return 1
 ```
 
 ### Shipping Groups and Price Calculations
@@ -160,7 +160,7 @@ Each shipping group has several properties that affect how much muney the shippi
 
  - __price__ - this is the base price for shipping of 1 item.
  - __additional_item_price__ - for more than one item, the second, third, etc items require this price, instead of the base one.
- - __discount\_threshold__ - whenever the store_purchase is more than this amount - free shipping
+ - __discount\_threshold__ - whenever the brand_purchase is more than this amount - free shipping
 
 Here are some examples:
 
@@ -182,14 +182,14 @@ If you want to allow people to use different methods for different products, her
 First of all - finding all purchase_items that can / cannot ship to your country
 
 ``` php
-$available = $store_purchase->items(array('can_ship' => TRUE));
-$not_shippable = $store_purchase->items(array('can_ship' => FALSE));
+$available = $brand_purchase->items(array('can_ship' => TRUE));
+$not_shippable = $brand_purchase->items(array('can_ship' => FALSE));
 ```
 
 If you want to be more precise, you can get available items, but grouped by available shipping methods, so that if you have purchase_items that can ship with both _post_ and _courier_ and other that can ship only with _post_, they will be in different groups:
 
 ``` php
-$group_shipping_methods = $store_purchase->group_shipping_methods()
+$group_shipping_methods = $brand_purchase->group_shipping_methods()
 foreach ($group_shipping_methods as $group)
 {
 	foreach ($group->group_shipping_items() as $items)
@@ -226,15 +226,15 @@ $shipping->delivery_time_for($france);
 $shipping->total_delivery_time_for($france);
 ```
 
-The shippable purchase behavior also adds some methods to the Model_Store_Purchase for handling delivery time calculations:
+The shippable purchase behavior also adds some methods to the Model_Brand_Purchase for handling delivery time calculations:
 
 ``` php
-// Get the Jam_Range object for the delivery time for the store_purchase
-$store_purchase->total_delivery_time();
+// Get the Jam_Range object for the delivery time for the brand_purchase
+$brand_purchase->total_delivery_time();
 
 // Get the Jam_Range object if the dates that the purchase will arraive
 // This is calculate based on the time the payment was made. If its not yet payed purchase, the current time is used.
-$store_purchase->delivery_time_dates();
+$brand_purchase->delivery_time_dates();
 ```
 
 ### Shipping Address

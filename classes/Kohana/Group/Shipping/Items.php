@@ -9,7 +9,7 @@
 class Kohana_Group_Shipping_Items {
 
 	public $shipping_method;
-	public $store_purchase_shipping;
+	public $brand_purchase_shipping;
 	public $purchase_items;
 
 	protected $_shipping_for_method;
@@ -175,11 +175,11 @@ class Kohana_Group_Shipping_Items {
 		Arr::set_path($array, $path, $new);
 	}
 
-	function __construct(Model_Store_Purchase_Shipping $store_purchase_shipping, $purchase_items, $shipping_method)
+	function __construct(Model_Brand_Purchase_Shipping $brand_purchase_shipping, $purchase_items, $shipping_method)
 	{
 		Array_Util::validate_instance_of($purchase_items, 'Model_Purchase_Item');
 
-		$this->store_purchase_shipping = $store_purchase_shipping;
+		$this->brand_purchase_shipping = $brand_purchase_shipping;
 		$this->purchase_items = $purchase_items;
 		$this->shipping_method = $shipping_method;
 	}
@@ -188,7 +188,7 @@ class Kohana_Group_Shipping_Items {
 	{
 		if ( ! $this->_shipping_for_method)
 		{
-			$this->_shipping_for_method = $this->store_purchase_shipping
+			$this->_shipping_for_method = $this->brand_purchase_shipping
 				->duplicate()
 				->build_items_from($this->purchase_items, $this->shipping_method);
 		}
@@ -199,7 +199,7 @@ class Kohana_Group_Shipping_Items {
 	{
 		if ($this->_existing_shipping_items === NULL)
 		{
-			$this->_existing_shipping_items = $this->store_purchase_shipping->items_from($this->purchase_items);
+			$this->_existing_shipping_items = $this->brand_purchase_shipping->items_from($this->purchase_items);
 		}
 
 		return $this->_existing_shipping_items;

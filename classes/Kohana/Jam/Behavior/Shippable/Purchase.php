@@ -49,21 +49,21 @@ class Kohana_Jam_Behavior_Shippable_Purchase extends Jam_Behavior {
 
 			if ($purchase->items_count(array('can_ship' => FALSE)))
 			{
-				$purchase->errors()->add('store_purchases', 'cannot_ship');
+				$purchase->errors()->add('brand_purchases', 'cannot_ship');
 			}
 		}
 	}
 
 	public function add_item(Model_Purchase $purchase, Jam_Event_Data $data, Model_Purchase_Item $purchase_item)
 	{
-		if (($store_purchase = $purchase_item->store_purchase) AND $purchase->shipping_country())
+		if (($brand_purchase = $purchase_item->brand_purchase) AND $purchase->shipping_country())
 		{
-			if ( ! $store_purchase->shipping)
+			if ( ! $brand_purchase->shipping)
 			{
-				$store_purchase->build('shipping');
+				$brand_purchase->build('shipping');
 			}
 
-			$store_purchase->shipping->build_item_from($purchase_item);
+			$brand_purchase->shipping->build_item_from($purchase_item);
 		}
 	}
 

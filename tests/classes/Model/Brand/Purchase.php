@@ -1,0 +1,13 @@
+<?php
+
+class Model_Brand_Purchase extends Kohana_Model_Brand_Purchase {
+
+	public static function initialize(Jam_Meta $meta)
+	{
+		parent::initialize($meta);
+		$meta
+			->behaviors(array(
+				'shippable_brand_purchase' => Jam::behavior('shippable_brand_purchase'),
+			));
+	}
+}

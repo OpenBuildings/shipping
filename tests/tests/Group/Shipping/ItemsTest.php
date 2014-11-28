@@ -13,7 +13,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 				// Value 1
 				array(
 					'id' => 10,
-					'store_purchases' => array(
+					'brand_purchases' => array(
 						array(
 							'id' => 20,
 							'shipping' => array(
@@ -36,11 +36,11 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 						)
 					)
 				),
-				'store_purchases.*.shipping.items',
+				'brand_purchases.*.shipping.items',
 				// Expected 1
 				array(
 					'id' => 10,
-					'store_purchases' => array(
+					'brand_purchases' => array(
 						array(
 							'id' => 20,
 							'shipping' => array(
@@ -81,7 +81,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 				// Value 2
 				array(
 					'id' => 10,
-					'store_purchases' => array(
+					'brand_purchases' => array(
 						array(
 							'id' => 20,
 							'shipping' => array(
@@ -96,11 +96,11 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 						)
 					)
 				),
-				'store_purchases.*.shipping.items',
+				'brand_purchases.*.shipping.items',
 				// Expected 2
 				array(
 					'id' => 10,
-					'store_purchases' => array(
+					'brand_purchases' => array(
 						array(
 							'id' => 20,
 							'shipping' => array(
@@ -121,18 +121,18 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 				// Value 3
 				array(
 					'id' => 10,
-					'store_purchases' => array(
+					'brand_purchases' => array(
 						'items' => array(
 							'0%5Bid%5D=10392&0%5Bshipping_group_id%5D=323701',
 							'0%5Bid%5D=10395&0%5Bshipping_group_id%5D=350012',
 						),
 					),
 				),
-				'store_purchases.items',
+				'brand_purchases.items',
 				// Expected 3
 				array(
 					'id' => 10,
-					'store_purchases' => array(
+					'brand_purchases' => array(
 						'items' => array(
 							array(
 								'id' => '10392',
@@ -151,7 +151,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 				// Value 4
 				array(
 					'id' => 10,
-					'store_purchases' => array(
+					'brand_purchases' => array(
 						array(
 							'id' => 12535,
 							'shipping' => array(
@@ -170,11 +170,11 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 						),
 					),
 				),
-				'store_purchases.*.shipping.items',
+				'brand_purchases.*.shipping.items',
 				// Expected 4
 				array(
 					'id' => 10,
-					'store_purchases' => array(
+					'brand_purchases' => array(
 						array(
 							'id' => 12535,
 							'shipping' => array(
@@ -220,13 +220,13 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 	 */
 	public function test_construct()
 	{
-		$store_purchase_shipping = Jam::build('store_purchase_shipping');
+		$brand_purchase_shipping = Jam::build('brand_purchase_shipping');
 		$method = Jam::build('shipping_method');
 		$purchase_items = array(Jam::build('purchase_item'));
 
-		$group_items = new Group_Shipping_Items($store_purchase_shipping, $purchase_items, $method);
+		$group_items = new Group_Shipping_Items($brand_purchase_shipping, $purchase_items, $method);
 
-		$this->assertSame($store_purchase_shipping, $group_items->store_purchase_shipping);
+		$this->assertSame($brand_purchase_shipping, $group_items->brand_purchase_shipping);
 		$this->assertSame($method, $group_items->shipping_method);
 		$this->assertSame($purchase_items, $group_items->purchase_items);
 	}
@@ -236,7 +236,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 	 */
 	public function test_total_price()
 	{
-		$store_purchase_shipping = Jam::build('store_purchase_shipping');
+		$brand_purchase_shipping = Jam::build('brand_purchase_shipping');
 		$method = Jam::build('shipping_method');
 		$purchase_items = array(Jam::build('purchase_item'));
 
@@ -248,7 +248,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 			->method('total_price')
 			->will($this->returnValue($price));
 
-		$group_items = $this->getMock('Group_Shipping_Items', array('shipping'), array($store_purchase_shipping, $purchase_items, $method));
+		$group_items = $this->getMock('Group_Shipping_Items', array('shipping'), array($brand_purchase_shipping, $purchase_items, $method));
 
 		$group_items
 			->expects($this->once())
@@ -264,7 +264,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 	 */
 	public function test_total_delivery_time()
 	{
-		$store_purchase_shipping = Jam::build('store_purchase_shipping');
+		$brand_purchase_shipping = Jam::build('brand_purchase_shipping');
 		$method = Jam::build('shipping_method');
 		$purchase_items = array(Jam::build('purchase_item'));
 
@@ -276,7 +276,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 			->method('total_delivery_time')
 			->will($this->returnValue($range));
 
-		$group_items = $this->getMock('Group_Shipping_Items', array('shipping'), array($store_purchase_shipping, $purchase_items, $method));
+		$group_items = $this->getMock('Group_Shipping_Items', array('shipping'), array($brand_purchase_shipping, $purchase_items, $method));
 
 		$group_items
 			->expects($this->once())
@@ -294,7 +294,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 		$method = Jam::build('shipping_method');
 		$purchase_items = array(Jam::build('purchase_item'));
 
-		$shipping = $this->getMock('Model_Store_Purchase_Shipping', array('duplicate', 'build_items_from'), array('store_purchase_shipping'));
+		$shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('duplicate', 'build_items_from'), array('brand_purchase_shipping'));
 
 		$shipping
 			->expects($this->once())
@@ -325,7 +325,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 		$purchase_items = array(Jam::build('purchase_item'));
 		$items = array(Jam::build('shipping_item'));
 
-		$shipping = $this->getMock('Model_Store_Purchase_Shipping', array('items_from'), array('store_purchase_shipping'));
+		$shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('items_from'), array('brand_purchase_shipping'));
 
 		$shipping
 			->expects($this->once())
@@ -349,7 +349,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 	{
 		$method = Jam::build('shipping_method', array('id' => 2));
 		$purchase_items = array(Jam::build('purchase_item'));
-		$shipping = Jam::build('store_purchase_shipping');
+		$shipping = Jam::build('brand_purchase_shipping');
 
 		$inactive_items = array(
 			Jam::build('shipping_item', array('shipping_group' => array('method_id' => 2))),
@@ -385,8 +385,8 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 	{
 		$method = Jam::build('shipping_method', array('id' => 2));
 		$purchase_items = array(Jam::build('purchase_item'));
-		$store_purchase_shipping = Jam::build('store_purchase_shipping');
-		$shipping = Jam::build('store_purchase_shipping', array(
+		$brand_purchase_shipping = Jam::build('brand_purchase_shipping');
+		$shipping = Jam::build('brand_purchase_shipping', array(
 			'items' => array(
 				array('purchase_item_id' => 1, 'shipping_group_id' => 11),
 				array('purchase_item_id' => 2, 'shipping_group_id' => 12),
@@ -400,7 +400,7 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 			Jam::build('shipping_item', array('purchase_item_id' => 3)),
 		);
 
-		$group_items = $this->getMock('Group_Shipping_Items', array('shipping', 'existing_shipping_items'), array($store_purchase_shipping, $purchase_items, $method));
+		$group_items = $this->getMock('Group_Shipping_Items', array('shipping', 'existing_shipping_items'), array($brand_purchase_shipping, $purchase_items, $method));
 
 		$group_items
 			->expects($this->once())

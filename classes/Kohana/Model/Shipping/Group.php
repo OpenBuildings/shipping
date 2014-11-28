@@ -66,7 +66,7 @@ class Kohana_Model_Shipping_Group extends Jam_Model {
 	/**
 	 * Get the currency for pricing calculations
 	 * @return string
-	 * @throws Kohana_Exception If store_purchase_shipping is NULL
+	 * @throws Kohana_Exception If brand_purchase_shipping is NULL
 	 */
 	public function currency()
 	{

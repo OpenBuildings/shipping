@@ -15,7 +15,7 @@
 	"require": {
 		"php": ">=5.3.0",
 		"composer/installers": "*",
-		"openbuildings/purchases": "~0.6.1",
+		"openbuildings/purchases": "0.7.*@alpha",
 		"clippings/freezable": "0.2.*"
 	},
 	"require-dev": {
@@ -24,7 +24,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "0.6.x-dev"
+			"dev-master": "0.7.x-dev"
 		}
 	}
 }
