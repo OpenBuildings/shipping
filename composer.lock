@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "054e471303a3671cbcfc8b5b724de70c",
+    "hash": "986a40de76876823f4535ffbf0c53022",
     "packages": [
         {
             "name": "clippings/freezable",
@@ -571,16 +571,16 @@
         },
         {
             "name": "openbuildings/jam",
-            "version": "0.4.59",
+            "version": "0.4.60",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/jam.git",
-                "reference": "361bc4dd3a95c7f96962cc00e53add7b778525e0"
+                "reference": "e8b77469ab0ef612409044995e2cf24276fde0e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/361bc4dd3a95c7f96962cc00e53add7b778525e0",
-                "reference": "361bc4dd3a95c7f96962cc00e53add7b778525e0",
+                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/e8b77469ab0ef612409044995e2cf24276fde0e2",
+                "reference": "e8b77469ab0ef612409044995e2cf24276fde0e2",
                 "shasum": ""
             },
             "require": {
@@ -620,7 +620,7 @@
                 "upload",
                 "validation"
             ],
-            "time": "2014-09-26 08:35:49"
+            "time": "2014-11-05 13:57:38"
         },
         {
             "name": "openbuildings/jam-auth",
@@ -856,6 +856,7 @@
                 {
                     "name": "Haralan Dobrev",
                     "email": "hdobrev@despark.com",
+                    "homepage": "https://github.com/hkdobrev",
                     "role": "Author"
                 },
                 {
@@ -879,16 +880,16 @@
         },
         {
             "name": "openbuildings/purchases",
-            "version": "dev-store-to-brand",
+            "version": "0.7.0-alpha.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "66b263b9932352802936478acec3d61ed40373a9"
+                "reference": "a0ddcf157407cf2bd4396c97a2924873bd1170a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/66b263b9932352802936478acec3d61ed40373a9",
-                "reference": "66b263b9932352802936478acec3d61ed40373a9",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/a0ddcf157407cf2bd4396c97a2924873bd1170a3",
+                "reference": "a0ddcf157407cf2bd4396c97a2924873bd1170a3",
                 "shasum": ""
             },
             "require": {
@@ -943,7 +944,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2014-11-28 09:56:38"
+            "time": "2014-11-28 12:46:51"
         },
         {
             "name": "rackspace/php-opencloud",
@@ -980,7 +981,8 @@
                 },
                 {
                     "name": "Jamie Hannaford",
-                    "email": "jamie@limetree.org"
+                    "email": "jamie.hannaford@rackspace.com",
+                    "homepage": "https://github.com/jamiehannaford"
                 }
             ],
             "description": "Rackspace open cloud php library",
@@ -1103,56 +1105,6 @@
     ],
     "packages-dev": [
         {
-            "name": "openbuildings/emp",
-            "version": "0.1.11",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/OpenBuildings/emp.git",
-                "reference": "11fd3878bc0d24fdc65e376d36839b9983358554"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/emp/zipball/11fd3878bc0d24fdc65e376d36839b9983358554",
-                "reference": "11fd3878bc0d24fdc65e376d36839b9983358554",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Openbuildings\\Emp\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Kerin",
-                    "email": "ivan@openbuildings.com",
-                    "role": "Author"
-                },
-                {
-                    "name": "Haralan Dobrev",
-                    "email": "hdobrev@despark.com"
-                }
-            ],
-            "description": "Payments for eMerchantPay (EMP) https://www.emerchantpay.com/",
-            "homepage": "https://github.com/OpenBuildings/emp",
-            "keywords": [
-                "EMP",
-                "credit cards",
-                "eMerchantPay",
-                "money",
-                "payments"
-            ],
-            "time": "2014-10-02 09:13:56"
-        },
-        {
             "name": "openbuildings/environment-backup",
             "version": "0.1.1",
             "source": {
@@ -1229,7 +1181,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "openbuildings/purchases": 20
+        "openbuildings/purchases": 15
     },
     "prefer-stable": false,
     "platform": {

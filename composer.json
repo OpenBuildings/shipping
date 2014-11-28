@@ -15,7 +15,7 @@
 	"require": {
 		"php": ">=5.3.0",
 		"composer/installers": "*",
-		"openbuildings/purchases": "dev-store-to-brand@dev",
+		"openbuildings/purchases": "0.7.*@alpha",
 		"clippings/freezable": "0.2.*"
 	},
 	"require-dev": {
