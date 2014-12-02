@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "986a40de76876823f4535ffbf0c53022",
+    "hash": "afe6d9655eb474168c18fdbcada80fc1",
     "packages": [
         {
             "name": "clippings/freezable",
@@ -880,7 +880,7 @@
         },
         {
             "name": "openbuildings/purchases",
-            "version": "0.7.0-alpha.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
@@ -1181,7 +1181,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "openbuildings/purchases": 15
+        "openbuildings/purchases": 20
     },
     "prefer-stable": false,
     "platform": {
