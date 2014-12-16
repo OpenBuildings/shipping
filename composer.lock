@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2455477acee8398c2028e00070060bd5",
+    "hash": "3acba56843ea228533a7795030f03e49",
     "packages": [
         {
             "name": "clippings/freezable",
@@ -833,16 +833,16 @@
         },
         {
             "name": "openbuildings/purchases",
-            "version": "0.7.0-rc.2",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "7194184c7cb936270d1a6922f666a78ed047d435"
+                "reference": "6583b78670684115ef958de52120485164cd0c40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/7194184c7cb936270d1a6922f666a78ed047d435",
-                "reference": "7194184c7cb936270d1a6922f666a78ed047d435",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/6583b78670684115ef958de52120485164cd0c40",
+                "reference": "6583b78670684115ef958de52120485164cd0c40",
                 "shasum": ""
             },
             "require": {
@@ -897,7 +897,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2014-12-11 17:35:05"
+            "time": "2014-12-15 14:12:02"
         },
         {
             "name": "rackspace/php-opencloud",
@@ -1134,10 +1134,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "openbuildings/purchases": 5
-    },
+    "stability-flags": [],
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.0"
     },
