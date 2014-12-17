@@ -39,17 +39,6 @@ abstract class Kohana_Model_Shipping_External extends Model_Shipping {
 		return Jam::build('shipping_item_external', $fields);
 	}
 
-	public function is_changed()
-	{
-		foreach (array('processing_time', 'ships_from_id', 'width', 'height', 'depth', 'weight') as $field)
-		{
-			if ($this->{$field} != $this->original($field))
-				return TRUE;
-		}
-
-		return FALSE;
-	}
-
 	public function ships_to(Model_Location $location)
 	{
 		return $this->external_data_for($location) !== NULL;

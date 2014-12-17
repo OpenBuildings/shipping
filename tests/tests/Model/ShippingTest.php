@@ -340,32 +340,6 @@ class Model_ShippingTest extends Testcase_Shipping {
 		$this->assertEquals($group, $item->shipping_group);
 	}
 
-	public function data_is_changed()
-	{
-		return array(
-			array('name', 'Test', FALSE),
-			array('processing_time', new Jam_Range(10, 20), TRUE),
-			array('ships_from_id', 10, TRUE),
-			array('groups', array(Jam::find('shipping_group', 1)), TRUE),
-			array('groups', array(array('id' => 6)), FALSE),
-			array('groups', array(array('id' => 6, 'price' => 13.69)), TRUE),
-			array('groups', array(array('id' => 6, 'additional_item_price' => 13.69)), TRUE),
-			array('groups', array(array('id' => 6, 'delivery_time' => new Jam_Range(10, 20))), TRUE),
-			array('groups', array(array('id' => 6, 'discount_threshold' => 13.69)), TRUE),
-		);
-	}
-
-	/**
-	 * @dataProvider data_is_changed
-	 * @covers Model_Shipping::is_changed
-	 */
-	public function test_is_changed($field, $value, $expected)
-	{
-		$shipping = Jam::find('shipping', 2);
-		$shipping->set($field, $value);
-		$this->assertEquals($expected, $shipping->is_changed());
-	}
-
 	/**
 	 * @covers Model_Shipping::price_for_location
 	 */

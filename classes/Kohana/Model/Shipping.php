@@ -199,29 +199,6 @@ class Kohana_Model_Shipping extends Jam_Model {
 		return Jam::build('shipping_item', $fields);
 	}
 
-	public function is_changed()
-	{
-		if ($this->processing_time != $this->original('processing_time')
-			OR $this->ships_from_id != $this->original('ships_from_id')
-			OR array_diff($this->groups->ids(), $this->groups->original_ids())
-				!== array_diff($this->groups->original_ids(), $this->groups->ids())
-		)
-		{
-			return TRUE;
-		}
-
-		foreach ($this->groups as $group)
-		{
-			foreach (array('price', 'additional_item_price', 'delivery_time', 'discount_threshold') as $field)
-			{
-				if ($group->{$field} != $group->original($field))
-					return TRUE;
-			}
-		}
-
-		return FALSE;
-	}
-
 	public function price_for_location(Model_Location $location)
 	{
 		$group = $this->cheapest_group_in($location);
