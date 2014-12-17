@@ -198,9 +198,9 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	}
 
 	/**
-	 * @covers Model_Shipping_Item::delivery_time
+	 * @covers Model_Shipping_Item::total_delivery_time
 	 */
-	public function test_delivery_time()
+	public function test_total_delivery_time()
 	{
 		$range = new Jam_Range(array(10, 12), 'Model_Shipping::format_shipping_time');
 
@@ -210,64 +210,8 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 			),
 		));
 
-		$this->assertSame($range, $item->delivery_time());
+		$this->assertSame($range, $item->total_delivery_time());
 	}
-
-	/**
-	 * @covers Model_Shipping_Item::processing_time
-	 */
-	public function test_processing_time()
-	{
-		$range = new Jam_Range(array(10, 12), 'Model_Shipping::format_shipping_time');
-
-		$item = Jam::build('shipping_item', array(
-			'shipping_group' => array(
-				'shipping' => array(
-					'processing_time' => $range,
-				)
-			),
-		));
-
-		$this->assertSame($range, $item->processing_time());
-	}
-
-	/**
-	 * @covers Model_Shipping_Item::total_delivery_time
-	 */
-	public function test_total_delivery_time()
-	{
-		$item = $this->getMock('Model_Shipping_Item', array(
-			'processing_time',
-			'delivery_time'
-		), array(
-			'shipping_item'
-		));
-
-		$item
-			->expects($this->at(0))
-				->method('processing_time')
-				->will($this->returnValue(new Jam_Range(array(10, 23))));
-
-		$item
-			->expects($this->at(1))
-				->method('delivery_time')
-				->will($this->returnValue(new Jam_Range(array(2, 13))));
-
-		$this->assertEquals(new Jam_Range(array(12, 36), 'Model_Shipping::format_shipping_time'), $item->total_delivery_time());
-
-		$item
-			->expects($this->at(0))
-				->method('processing_time')
-				->will($this->returnValue(new Jam_Range(array(1, 2))));
-
-		$item
-			->expects($this->at(1))
-				->method('delivery_time')
-				->will($this->returnValue(new Jam_Range(array(4, 5))));
-
-		$this->assertEquals(new Jam_Range(array(5, 7), 'Model_Shipping::format_shipping_time'), $item->total_delivery_time());
-	}
-
 
 	/**
 	 * @covers Model_Shipping_Item::shipping_date
@@ -629,29 +573,21 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	public function testPerformFreeze()
 	{
 		$shipping_item = $this->getMock('Model_Shipping_Item', array(
-			'processing_time',
-			'delivery_time',
+			'total_delivery_time',
 		), array(
 			'shipping_item'
 		));
 
 		$shipping_item
 			->expects($this->once())
-			->method('processing_time')
+			->method('total_delivery_time')
 			->will($this->returnValue('5|10'));
 
-		$shipping_item
-			->expects($this->once())
-			->method('delivery_time')
-			->will($this->returnValue('10|15'));
-
-		$this->assertNull($shipping_item->processing_time);
-		$this->assertNull($shipping_item->delivery_time);
+		$this->assertNull($shipping_item->total_delivery_time);
 
 		$shipping_item->performFreeze();
 
-		$this->assertEquals('5|10', $shipping_item->processing_time);
-		$this->assertEquals('10|15', $shipping_item->delivery_time);
+		$this->assertEquals('5|10', $shipping_item->total_delivery_time);
 	}
 
 	/**
@@ -660,16 +596,13 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	public function testPerformUnfreeze()
 	{
 		$shipping_item = Jam::build('shipping_item', array(
-			'processing_time' => '5|10',
-			'delivery_time' => '10|15',
+			'total_delivery_time' => '5|10',
 		));
 
-		$this->assertEquals('5|10', $shipping_item->processing_time);
-		$this->assertEquals('10|15', $shipping_item->delivery_time);
+		$this->assertEquals('5|10', $shipping_item->total_delivery_time);
 
 		$shipping_item->performUnfreeze();
 
-		$this->assertNull($shipping_item->delivery_time);
-		$this->assertNull($shipping_item->processing_time);
+		$this->assertNull($shipping_item->total_delivery_time);
 	}
 }

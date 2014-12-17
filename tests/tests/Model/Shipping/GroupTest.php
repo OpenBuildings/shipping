@@ -105,12 +105,9 @@ class Model_Shipping_GroupTest extends Testcase_Shipping {
 	{
 		$shipping_group = Jam::build('shipping_group', array(
 			'delivery_time' => array(2, 3),
-			'shipping' => array(
-				'processing_time' => array(10, 20)
-			)
 		));
 
-		$expects = new Jam_Range(array(12, 23), 'Model_Shipping::format_shipping_time');
+		$expects = new Jam_Range(array(2, 3), 'Model_Shipping::format_shipping_time');
 
 		$this->assertEquals($expects, $shipping_group->total_delivery_time());
 	}

@@ -81,30 +81,6 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 		$this->assertNull($shipping->delivery_time_for($uk));
 	}
 
-	public function data_is_changed()
-	{
-		return array(
-			array('name', 'Test', FALSE),
-			array('processing_time', new Jam_Range(10, 20), TRUE),
-			array('ships_from_id', 10, TRUE),
-			array('width', 5, TRUE),
-			array('height', 5, TRUE),
-			array('depth', 5, TRUE),
-			array('weight', 5, TRUE),
-		);
-	}
-
-	/**
-	 * @dataProvider data_is_changed
-	 * @covers Model_Shipping_External::is_changed
-	 */
-	public function test_is_changed($field, $value, $expected)
-	{
-		$shipping = Jam::build('shipping_external_dummy');
-		$shipping->set($field, $value);
-		$this->assertEquals($expected, $shipping->is_changed());
-	}
-
 	/**
 	 * @covers Model_Shipping_External::price_for_location
 	 */

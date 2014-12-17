@@ -192,8 +192,7 @@ CREATE TABLE `shipping_items` (
   `model` varchar(100) NOT NULL,
   `purchase_item_id` int(11) UNSIGNED NULL,
   `shipping_group_id` int(11) UNSIGNED NULL,
-  `delivery_time` varchar(100) NULL,
-  `processing_time` varchar(100) NULL,
+  `total_delivery_time` varchar(100) NULL,
   `brand_purchase_shipping_id` int(11) UNSIGNED NOT NULL,
   `is_frozen` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`)

@@ -35,10 +35,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model implements FreezableInterface
 			->fields(array(
 				'id' => Jam::field('primary'),
 				'model' => Jam::field('polymorphic'),
-				'processing_time' => Jam::field('range', array(
-					'format' => 'Model_Shipping::format_shipping_time'
-				)),
-				'delivery_time' => Jam::field('range', array(
+				'total_delivery_time' => Jam::field('range', array(
 					'format' => 'Model_Shipping::format_shipping_time'
 				)),
 				'is_frozen' => Jam::field('boolean'),
@@ -232,45 +229,16 @@ class Kohana_Model_Shipping_Item extends Jam_Model implements FreezableInterface
 	}
 
 	/**
-	 * Shipping's processing_time
-	 * Freezable
-	 *
-	 * @return Jam_Range
-	 */
-	public function processing_time()
-	{
-		return $this->isFrozen()
-			? $this->processing_time
-			: $this->shipping_insist()->processing_time;
-	}
-
-	/**
 	 * Shipping group's delivery_time
 	 * Freezable
 	 *
 	 * @return Jam_Range
 	 */
-	public function delivery_time()
-	{
-		return $this->isFrozen()
-			? $this->delivery_time
-			: $this->shipping_group_insist()->delivery_time;
-	}
-
-	/**
-	 * Return the delivery time min / max days
-	 * Summed processing and delivery times.
-	 *
-	 * @return Jam_Range
-	 */
 	public function total_delivery_time()
 	{
-		$format = $this->meta()->field('delivery_time')->format;
-
-		return Jam_Range::sum(array(
-			$this->processing_time(),
-			$this->delivery_time(),
-		), $format);
+		return $this->isFrozen()
+			? $this->total_delivery_time
+			: $this->shipping_group_insist()->total_delivery_time();
 	}
 
 	/**
@@ -343,13 +311,11 @@ class Kohana_Model_Shipping_Item extends Jam_Model implements FreezableInterface
 
 	public function performFreeze()
 	{
-		$this->processing_time = $this->processing_time();
-		$this->delivery_time = $this->delivery_time();
+		$this->total_delivery_time = $this->total_delivery_time();
 	}
 
 	public function performUnfreeze()
 	{
-		$this->processing_time = NULL;
-		$this->delivery_time = NULL;
+		$this->total_delivery_time = NULL;
 	}
 }
