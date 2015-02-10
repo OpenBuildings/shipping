@@ -34,6 +34,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 			->associations(array(
 				'groups' => Jam::association('hasmany', array(
 					'foreign_model' => 'shipping_group',
+					'foreign_key' => 'shipping_id',
 					'inverse_of' => 'shipping',
 					'delete_on_remove' => Jam_Association::DELETE,
 				)),
