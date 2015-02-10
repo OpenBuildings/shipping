@@ -6,6 +6,15 @@
  */
 class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->env->backup_and_set(array(
+			'auth.session_type' => 'auth_test',
+		));
+	}
+
 	/**
 	 * @covers Jam_Behavior_Shippable_Purchase::model_call_shipping_address
 	 */
