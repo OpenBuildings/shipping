@@ -36,4 +36,24 @@ class Kohana_Model_Purchase_Item_Shipping extends Model_Purchase_Item {
 		$reference = $this->get_reference_paranoid();
 		return $reference ? $reference->price_for_purchase_item($this) : new Jam_Price(0, 'GBP');
 	}
+
+	public function performFreeze()
+	{
+		parent::performFreeze();
+
+		if ($this->shipping_item)
+		{
+			$this->shipping_item->freeze();
+		}
+	}
+
+	public function performUnfreeze()
+	{
+		parent::performUnfreeze();
+
+		if ($this->shipping_item)
+		{
+			$this->shipping_item->unfreeze();
+		}
+	}
 }
