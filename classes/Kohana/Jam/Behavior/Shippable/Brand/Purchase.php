@@ -51,7 +51,7 @@ class Kohana_Jam_Behavior_Shippable_Brand_Purchase extends Jam_Behavior {
 	public function model_call_delivery_time_dates(Model_Brand_Purchase $brand_purchase, Jam_Event_Data $data)
 	{
 		$delivery_time = $brand_purchase->total_delivery_time();
-		$start_date = $brand_purchase->payed_at() ?: time();
+		$start_date = $brand_purchase->paid_at() ?: time();
 
 		$data->return = new Jam_Range(array(
 			strtotime("{$start_date} + {$delivery_time->min()} weekdays"),

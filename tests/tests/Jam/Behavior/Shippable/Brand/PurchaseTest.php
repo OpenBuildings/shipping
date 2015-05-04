@@ -265,7 +265,7 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 	{
 		$range = new Jam_Range(array(10, 20));
 
-		$brand_purchase = $this->getMock('Model_Brand_Purchase', array('total_delivery_time', 'payed_at'), array('brand_purchase'));
+		$brand_purchase = $this->getMock('Model_Brand_Purchase', array('total_delivery_time', 'paid_at'), array('brand_purchase'));
 		$brand_purchase
 			->expects($this->once())
 				->method('total_delivery_time')
@@ -273,7 +273,7 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 
 		$brand_purchase
 			->expects($this->once())
-				->method('payed_at')
+				->method('paid_at')
 				->will($this->returnValue('2013-02-02 10:00:00'));
 
 		$this->assertEquals(new Jam_Range(array(1361080800, 1362290400)), $brand_purchase->delivery_time_dates());
