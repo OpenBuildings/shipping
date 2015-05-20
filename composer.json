@@ -16,7 +16,8 @@
 		"php": ">=5.3.0",
 		"composer/installers": "*",
 		"openbuildings/purchases": "~0.8.0",
-		"clippings/freezable": "0.2.*"
+		"clippings/freezable": "0.2.*",
+		"openbuildings/jam": "~0.5.5"
 	},
 	"require-dev": {
 		"openbuildings/kohana-test-bootsrap": "0.1.*",

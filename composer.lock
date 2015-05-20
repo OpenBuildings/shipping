@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "eae9c991e0270c5341bf70af26d9a650",
+    "hash": "e0932610e4afbc730004a0a08edccec0",
     "packages": [
         {
             "name": "clippings/freezable",
@@ -236,7 +236,6 @@
                 "event",
                 "exception"
             ],
-            "abandoned": "guzzle/guzzle",
             "time": "2014-08-11 04:32:36"
         },
         {
@@ -294,7 +293,6 @@
                 "http",
                 "http client"
             ],
-            "abandoned": "guzzle/guzzle",
             "time": "2014-08-11 04:32:36"
         },
         {
@@ -339,7 +337,6 @@
                 "message",
                 "url"
             ],
-            "abandoned": "guzzle/guzzle",
             "time": "2014-02-05 18:29:46"
         },
         {
@@ -393,7 +390,6 @@
                 "component",
                 "stream"
             ],
-            "abandoned": "guzzle/guzzle",
             "time": "2014-05-01 21:36:02"
         },
         {
@@ -552,16 +548,16 @@
         },
         {
             "name": "openbuildings/jam",
-            "version": "0.5.1",
+            "version": "0.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/jam.git",
-                "reference": "b70bc80fd961b294cc59cfdac985e231f63463f1"
+                "reference": "3a48fc6ab812bee8eb8b045118f7880f9c3e3dbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/b70bc80fd961b294cc59cfdac985e231f63463f1",
-                "reference": "b70bc80fd961b294cc59cfdac985e231f63463f1",
+                "url": "https://api.github.com/repos/OpenBuildings/jam/zipball/3a48fc6ab812bee8eb8b045118f7880f9c3e3dbb",
+                "reference": "3a48fc6ab812bee8eb8b045118f7880f9c3e3dbb",
                 "shasum": ""
             },
             "require": {
@@ -601,7 +597,7 @@
                 "upload",
                 "validation"
             ],
-            "time": "2015-03-17 15:47:00"
+            "time": "2015-05-20 17:26:29"
         },
         {
             "name": "openbuildings/jam-auth",
@@ -861,8 +857,14 @@
             "version": "0.8.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/OpenBuildings/purchases",
+                "url": "https://github.com/OpenBuildings/purchases.git",
                 "reference": "189a2762b86e3b84eae6cdff32bce07576e9959b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/189a2762b86e3b84eae6cdff32bce07576e9959b",
+                "reference": "189a2762b86e3b84eae6cdff32bce07576e9959b",
+                "shasum": ""
             },
             "require": {
                 "clippings/freezable": "0.2.*",
@@ -890,6 +892,7 @@
                     "dev-master": "0.8.x-dev"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
