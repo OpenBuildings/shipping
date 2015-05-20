@@ -13,13 +13,6 @@ class Model_Purchase_Item_ShippingTest extends Testcase_Shipping {
 	{
 		$meta = Jam::meta('purchase_item_shipping');
 		$this->assertSame('purchase_items', $meta->table());
-
-		$association = $meta->association('shipping_item');
-		$this->assertInstanceOf('Jam_Association_Hasone', $association);
-
-		$this->assertSame('purchase_item', $association->inverse_of);
-		$this->assertSame(Jam_Association::DELETE, $association->dependent);
-
 		$this->assertTrue($meta->field('is_payable')->default);
 	}
 
