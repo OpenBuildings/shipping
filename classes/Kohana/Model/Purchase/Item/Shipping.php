@@ -17,13 +17,6 @@ class Kohana_Model_Purchase_Item_Shipping extends Model_Purchase_Item {
 
 		$meta
 			->table('purchase_items')
-			->associations(array(
-				'shipping_item' => Jam::association('hasone', array(
-					'inverse_of' => 'purchase_item',
-					'foreign_key' => 'purchase_item_id',
-					'dependent' => Jam_Association::DELETE
-				)),
-			))
 			->fields(array(
 				'is_payable' => Jam::field('boolean', array(
 					'default' => TRUE
@@ -41,9 +34,9 @@ class Kohana_Model_Purchase_Item_Shipping extends Model_Purchase_Item {
 	{
 		parent::performFreeze();
 
-		if ($this->shipping_item)
+		if ($this->reference)
 		{
-			$this->shipping_item->freeze();
+			$this->reference->freeze();
 		}
 	}
 
@@ -51,9 +44,9 @@ class Kohana_Model_Purchase_Item_Shipping extends Model_Purchase_Item {
 	{
 		parent::performUnfreeze();
 
-		if ($this->shipping_item)
+		if ($this->reference)
 		{
-			$this->shipping_item->unfreeze();
+			$this->reference->unfreeze();
 		}
 	}
 }

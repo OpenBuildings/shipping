@@ -26,7 +26,7 @@ class Kohana_Model_Shipping_Item extends Jam_Model implements FreezableInterface
 				'purchase_item' => Jam::association('belongsto', array(
 					'inverse_of' => 'shipping_item',
 					'foreign_key' => 'purchase_item_id',
-					'foreign_model' => 'purchase_item_shipping'
+					'foreign_model' => 'purchase_item_product'
 				)),
 				'shipping_group' => Jam::association('belongsto', array(
 					'inverse_of' => 'shipping_items'
