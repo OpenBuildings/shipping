@@ -73,7 +73,7 @@ class Kohana_Model_Brand_Purchase_Shipping extends Jam_Model implements Sellable
 	public function available_items()
 	{
 		return array_filter($this->items->as_array(), function($item){
-			return (($item->shipping_group OR $item->shipping_external_data) AND $item->purchase_item);
+			return ((($item->shipping_group AND $item->shipping_group->shipping) OR $item->shipping_external_data) AND $item->purchase_item);
 		});
 	}
 

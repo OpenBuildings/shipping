@@ -377,7 +377,7 @@ class Model_Brand_Purchase_ShippingTest extends Testcase_Shipping {
 	public function data_available_items()
 	{
 		$purchase_item = Jam::build('purchase_item');
-		$shipping_group = Jam::build('shipping_group');
+		$shipping_group = Jam::build('shipping_group', ['shipping' => Jam::build('shipping')]);
 
 
 		return array(
