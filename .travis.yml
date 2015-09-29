@@ -5,6 +5,14 @@ sudo: false
 
 php:
   - 5.4
+  - 5.5
+  - 5.6
+  - 7
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: 7
 
 cache:
   directories:
@@ -21,8 +29,6 @@ install:
 
 before_script:
   - mkdir -p build/logs
-  - composer selfupdate
-  - composer install
   - mysql -e 'create database `OpenBuildings/shipping`;'
   - mysql OpenBuildings/shipping < tests/test_data/structure.sql
 
