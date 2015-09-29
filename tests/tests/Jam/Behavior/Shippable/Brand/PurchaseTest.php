@@ -276,6 +276,13 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 				->method('paid_at')
 				->will($this->returnValue('2013-02-02 10:00:00'));
 
-		$this->assertEquals(new Jam_Range(array(1360908000, 1362117600)), $brand_purchase->delivery_time_dates());
+		$range = $brand_purchase->delivery_time_dates();
+
+		$expected = new Jam_Range(array(
+			strtotime("2013-02-02 10:00:00 + 10 weekdays"),
+			strtotime("2013-02-02 10:00:00 + 20 weekdays"),
+		));
+
+		$this->assertEquals($expected, $range);
 	}
 }
