@@ -50,9 +50,6 @@ class Kohana_Model_Shipping extends Jam_Model {
 					'join_table_paranoid' => TRUE,
 					'readonly' => TRUE,
 				)),
-				'products' => Jam::association('hasmany', array(
-					'inverse_of' => 'shipping',
-				)),
 				'ships_from' => Jam::association('belongsto', array(
 					'foreign_model' => 'location',
 				)),

@@ -58,12 +58,27 @@ class Model_Product extends Jam_Model implements Sellable, Shippable {
 
 class Model_Purchase_Item_Product extends Kohana_Model_Purchase_Item_Product {
 
+    public static function initialize(Jam_Meta $meta)
+    {
+        parent::initialize($meta);
+        $meta
+            ->behaviors(array(
+                'shippable_purchase_item' => Jam::behavior('shippable_purchase_item'),
+            ));
+    }
+}
+
+class Model_Shipping extends Kohana_Model_Shipping {
+
 	public static function initialize(Jam_Meta $meta)
 	{
 		parent::initialize($meta);
+
 		$meta
-			->behaviors(array(
-				'shippable_purchase_item' => Jam::behavior('shippable_purchase_item'),
+			->associations(array(
+				'products' => Jam::association('hasmany', [
+                    'inverse_of' => 'shipping',
+                ]),
 			));
 	}
 }
