@@ -215,6 +215,9 @@ class Kohana_Model_Brand_Purchase_Shipping extends Jam_Model implements Sellable
 	{
 		$this->items []= $this->new_item_from($purchase_item, $this->ship_to(), $method);
 
+		// Mark the shipping as changed so it can be properly saved
+		$this->items = $this->items;
+
 		return $this;
 	}
 

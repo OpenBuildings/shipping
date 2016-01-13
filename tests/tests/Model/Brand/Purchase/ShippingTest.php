@@ -212,6 +212,7 @@ class Model_Brand_Purchase_ShippingTest extends Testcase_Shipping {
 		$brand_purchase_shipping->build_item_from($purchase_item, $method);
 
 		$this->assertEquals($expected, $brand_purchase_shipping->items[0]);
+		$this->assertTrue($brand_purchase_shipping->changed('items'));
 	}
 
 	/**
