@@ -121,6 +121,8 @@ class Kohana_Jam_Behavior_Shippable_Brand_Purchase extends Jam_Behavior {
 				if ( ! $purchase_item->shipping_item)
 				{
 					$brand_purchase->shipping->build_item_from($purchase_item);
+				} else if ( ! $purchase_item->shipping_item->shipping_group) {
+					$purchase_item->shipping_item->update_address($brand_purchase->shipping);
 				}
 			}
 		}
