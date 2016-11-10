@@ -72,6 +72,11 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 
 		$this->assertCount(1, $brand_purchase->shipping->items);
 		$this->assertSame($brand_purchase->items[0], $brand_purchase->shipping->items[0]->purchase_item);
+
+		$item = $brand_purchase->shipping->items[0];
+		$item->shipping_group = null;
+		$brand_purchase->update_items();
+		$this->assertNotNull($item->shipping_group);
 	}
 
 	/**
