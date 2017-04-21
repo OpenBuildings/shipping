@@ -21,7 +21,7 @@
     },
     "require-dev": {
         "openbuildings/environment-backup": "0.1.*",
-        "phpunit/phpunit": "^5",
+        "phpunit/phpunit": "^6",
         "openbuildings/kohana-test-bootstrap": "^0.2.0",
 		"openbuildings/jam-auth": "^0.4"
 	},

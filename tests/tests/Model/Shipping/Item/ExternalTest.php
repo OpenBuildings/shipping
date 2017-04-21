@@ -114,7 +114,7 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 
 		$this->assertSame($external_data, $item->shipping_external_data_insist());
 
-		$this->setExpectedException('Kohana_Exception');
+		$this->expectException('Kohana_Exception');
 		$item->shipping_external_data = NULL;
 
 		$this->assertSame($external_data, $item->shipping_external_data_insist());
@@ -136,7 +136,7 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 
 		$this->assertEquals($shipping, $item->shipping_insist());
 
-		$this->setExpectedException('Kohana_Exception');
+		$this->expectException('Kohana_Exception');
 		$item->purchase_item->reference = NULL;
 		$item->shipping_insist();
 	}
