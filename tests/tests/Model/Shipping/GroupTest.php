@@ -36,7 +36,10 @@ class Model_Shipping_GroupTest extends Testcase_Shipping {
 	 */
 	public function test_currency()
 	{
-		$shipping = $this->getMock('Model_Shipping', array('currency'), array('shipping_group'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('currency'))
+            ->setConstructorArgs(array('shipping_group'))
+            ->getMock();
 
 		$shipping
 			->expects($this->at(0))

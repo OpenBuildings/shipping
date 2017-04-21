@@ -68,7 +68,10 @@ abstract class Testcase_Shipping extends PHPUnit_Framework_TestCase {
 
 	public function getMockFromParams($class, array $params, array $constructor_arguments = array())
 	{
-		$item = $this->getMock($class, array_keys($params), $constructor_arguments);
+		$item = $this->getMockBuilder($class)
+            ->setMethods(array_keys($params))
+            ->setConstructorArgs($constructor_arguments)
+            ->getMock();
 
 		foreach ($params as $name => $value)
 		{

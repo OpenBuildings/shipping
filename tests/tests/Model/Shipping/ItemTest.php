@@ -32,7 +32,10 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 		$shipping_items = array();
 		foreach ($items as $id => $return_is_discounted)
 		{
-			$shipping_group = $this->getMock('Model_Shipping_Group', array('is_discounted'), array('shipping_group'));
+			$shipping_group = $this->getMockBuilder('Model_Shipping_Group')
+                ->setMethods(array('is_discounted'))
+                ->setConstructorArgs(array('shipping_group'))
+                ->getMock();
 
 			$shipping_group
 				->expects($this->once())
@@ -137,7 +140,10 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_currency()
 	{
-		$brand_purchase_shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('currency'), array('brand_purchase_shipping'));
+		$brand_purchase_shipping = $this->getMockBuilder('Model_Brand_Purchase_Shipping')
+            ->setMethods(array('currency'))
+            ->setConstructorArgs(array('brand_purchase_shipping'))
+            ->getMock();
 
 		$brand_purchase_shipping
 			->expects($this->exactly(2))
@@ -155,7 +161,10 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_monetary()
 	{
-		$brand_purchase_shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('monetary'), array('brand_purchase_shipping'));
+		$brand_purchase_shipping = $this->getMockBuilder('Model_Brand_Purchase_Shipping')
+            ->setMethods(array('monetary'))
+            ->setConstructorArgs(array('brand_purchase_shipping'))
+            ->getMock();
 		$monetary = new Monetary;
 
 		$brand_purchase_shipping
@@ -174,7 +183,10 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	public function test_price()
 	{
 		$monetary = new Monetary('GBP', new Source_Static);
-		$item = $this->getMock('Model_Shipping_Item', array('currency', 'monetary'), array('shipping_item'));
+		$item = $this->getMockBuilder('Model_Shipping_Item')
+            ->setMethods(array('currency', 'monetary'))
+            ->setConstructorArgs(array('shipping_item'))
+            ->getMock();
 
 		$item
 			->expects($this->once())
@@ -218,7 +230,10 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_total_shipping_date()
 	{
-		$shipping_item = $this->getMock('Model_Shipping_Item', array('total_delivery_time', 'paid_at'), array('shipping_item'));
+		$shipping_item = $this->getMockBuilder('Model_Shipping_Item')
+            ->setMethods(array('total_delivery_time', 'paid_at'))
+            ->setConstructorArgs(array('shipping_item'))
+            ->getMock();
 
 		$shipping_item
 			->expects($this->once())
@@ -241,7 +256,10 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_paid_at()
 	{
-		$brand_purchase_shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('paid_at'), array('brand_purchase_shipping'));
+		$brand_purchase_shipping = $this->getMockBuilder('Model_Brand_Purchase_Shipping')
+            ->setMethods(array('paid_at'))
+            ->setConstructorArgs(array('brand_purchase_shipping'))
+            ->getMock();
 		$date = '2013-01-01';
 
 		$brand_purchase_shipping
@@ -260,7 +278,10 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	public function test_additional_item_price()
 	{
 		$monetary = new Monetary('GBP', new Source_Static);
-		$item = $this->getMock('Model_Shipping_Item', array('currency', 'monetary'), array('shipping_item'));
+		$item = $this->getMockBuilder('Model_Shipping_Item')
+            ->setMethods(array('currency', 'monetary'))
+            ->setConstructorArgs(array('shipping_item'))
+            ->getMock();
 
 		$item
 			->expects($this->exactly(2))
@@ -379,7 +400,10 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function test_is_discounted()
 	{
-		$shipping_group = $this->getMock('Model_Shipping_Group', array('is_discounted'), array('shipping_group'));
+		$shipping_group = $this->getMockBuilder('Model_Shipping_Group')
+            ->setMethods(array('is_discounted'))
+            ->setConstructorArgs(array('shipping_group'))
+            ->getMock();
 		$price = new Jam_Price(10, 'GBP');
 
 		$shipping_group
@@ -523,18 +547,20 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	{
 		$location = Jam::find('location', $location_name);
 
-		$brand_purchase_shipping = $this->getMock(
-			'Model_Brand_Purchase_Shipping',
-			array('ship_to'),
-			array('brand_purchase_shipping')
-		);
+		$brand_purchase_shipping = $this->getMockBuilder('Model_Brand_Purchase_Shipping')
+            ->setMethods(array('ship_to'))
+            ->setConstructorArgs(array('brand_purchase_shipping'))
+            ->getMock();
 
 		$brand_purchase_shipping
 			->expects($this->exactly(3))
 			->method('ship_to')
 			->will($this->returnValue($location));
 
-		$shipping = $this->getMock('Model_Shipping', array('cheapest_group_in'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('cheapest_group_in'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 
 		$shipping
 			->expects($this->exactly($expected_changes))
@@ -572,11 +598,10 @@ class Model_Shipping_ItemTest extends Testcase_Shipping {
 	 */
 	public function testPerformFreeze()
 	{
-		$shipping_item = $this->getMock('Model_Shipping_Item', array(
-			'total_delivery_time',
-		), array(
-			'shipping_item'
-		));
+		$shipping_item = $this->getMockBuilder('Model_Shipping_Item')
+            ->setMethods(array('total_delivery_time'))
+            ->setConstructorArgs(array('shipping_item'))
+            ->getMock();
 
 		$shipping_item
 			->expects($this->once())
