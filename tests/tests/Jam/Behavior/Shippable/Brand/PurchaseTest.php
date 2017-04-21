@@ -20,7 +20,10 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 
 		$this->assertEquals(0, $brand_purchase->items_count('shipping'));
 
-		$brand_purchase_shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('update_items_address'), array('brand_purchase_shipping'));
+		$brand_purchase_shipping = $this->getMockBuilder('Model_Brand_Purchase_Shipping')
+            ->setMethods(array('update_items_address'))
+            ->setConstructorArgs(array('brand_purchase_shipping'))
+            ->getMock();
 
 		$brand_purchase_shipping
 			->expects($this->once())
@@ -88,7 +91,10 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 		$post = Jam::build('shipping_method')->load_fields(array('id' => 1, 'name' => 'Post'));
 		$courier = Jam::build('shipping_method')->load_fields(array('id' => 1, 'name' => 'Courier'));
 
-		$shipping = $this->getMock('Model_Shipping', array('methods_for', 'ships_to'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('methods_for', 'ships_to'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 
 		$shipping
 			->expects($this->exactly(3))
@@ -119,7 +125,10 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 				),
 			));
 
-		$brand_purchase = $this->getMock('Model_Brand_Purchase', array('items', 'shipping_country'), array('brand_purchase'));
+		$brand_purchase = $this->getMockBuilder('Model_Brand_Purchase')
+            ->setMethods(array('items', 'shipping_country'))
+            ->setConstructorArgs(array('brand_purchase'))
+            ->getMock();
 		$brand_purchase_shipping = $brand_purchase->build('shipping');
 
 		$brand_purchase
@@ -162,7 +171,10 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 	{
 		$location = Jam::find('location', 'Germany');
 
-		$shipping = $this->getMock('Model_Shipping', array('ship_to'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('ship_to'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 
 		$shipping
 			->expects($this->exactly(6))
@@ -179,11 +191,10 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 
 		foreach ($item_params as $id => $ships_to_result)
 		{
-			$reference = $this->getMock('Model_Product', array(
-				'ships_to'
-			), array(
-				'product'
-			));
+			$reference = $this->getMockBuilder('Model_Product')
+                ->setMethods(array('ships_to'))
+                ->setConstructorArgs(array('product'))
+                ->getMock();
 
 			$reference
 				->expects($this->exactly(2))
@@ -217,7 +228,10 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 	public function test_model_call_total_delivery_time()
 	{
 		$range = new Jam_Range(array(10, 20));
-		$shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('total_delivery_time'), array('brand_purchase_shipping'));
+		$shipping = $this->getMockBuilder('Model_Brand_Purchase_Shipping')
+            ->setMethods(array('total_delivery_time'))
+            ->setConstructorArgs(array('brand_purchase_shipping'))
+            ->getMock();
 		$shipping
 			->expects($this->once())
 				->method('total_delivery_time')
@@ -234,7 +248,10 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 	public function test_model_call_shipping_country()
 	{
 		$location = Jam::find('location', 'France');
-		$purchase = $this->getMock('Model_Purchase', array('shipping_country'), array('model_purchase'));
+		$purchase = $this->getMockBuilder('Model_Purchase')
+            ->setMethods(array('shipping_country'))
+            ->setConstructorArgs(array('model_purchase'))
+            ->getMock();
 		$purchase
 			->expects($this->once())
 				->method('shipping_country')
@@ -251,7 +268,10 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 	public function test_model_call_shipping_address()
 	{
 		$address = Jam::find('address', 1);
-		$purchase = $this->getMock('Model_Purchase', array('shipping_address'), array('model_purchase'));
+		$purchase = $this->getMockBuilder('Model_Purchase')
+            ->setMethods(array('shipping_address'))
+            ->setConstructorArgs(array('model_purchase'))
+            ->getMock();
 		$purchase
 			->expects($this->once())
 				->method('shipping_address')
@@ -270,7 +290,10 @@ class Jam_Behavior_Shippable_Brand_PurchaseTest extends Testcase_Shipping {
 	{
 		$range = new Jam_Range(array(10, 20));
 
-		$brand_purchase = $this->getMock('Model_Brand_Purchase', array('total_delivery_time', 'paid_at'), array('brand_purchase'));
+		$brand_purchase = $this->getMockBuilder('Model_Brand_Purchase')
+            ->setMethods(array('total_delivery_time', 'paid_at'))
+            ->setConstructorArgs(array('brand_purchase'))
+            ->getMock();
 		$brand_purchase
 			->expects($this->once())
 				->method('total_delivery_time')

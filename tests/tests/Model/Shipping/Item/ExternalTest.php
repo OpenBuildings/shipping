@@ -36,11 +36,10 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 	public function test_price()
 	{
 		$monetary = new Monetary('GBP', new Source_Static);
-		$item = $this->getMock(
-			'Model_Shipping_Item_External',
-			array('currency', 'monetary'),
-			array('shipping_item_external')
-		);
+		$item = $this->getMockBuilder('Model_Shipping_Item_External')
+            ->setMethods(array('currency', 'monetary'))
+            ->setConstructorArgs(array('shipping_item_external'))
+            ->getMock();
 
 		$item
 			->expects($this->once())
@@ -67,11 +66,10 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 	public function test_additional_item_price()
 	{
 		$monetary = new Monetary('GBP', new Source_Static);
-		$item = $this->getMock(
-			'Model_Shipping_Item_External',
-			array('currency', 'monetary'),
-			array('shipping_item_external')
-		);
+		$item = $this->getMockBuilder('Model_Shipping_Item_External')
+            ->setMethods(array('currency', 'monetary'))
+            ->setConstructorArgs(array('shipping_item_external'))
+            ->getMock();
 
 		$item
 			->expects($this->any())
@@ -116,7 +114,7 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 
 		$this->assertSame($external_data, $item->shipping_external_data_insist());
 
-		$this->setExpectedException('Kohana_Exception');
+		$this->expectException('Kohana_Exception');
 		$item->shipping_external_data = NULL;
 
 		$this->assertSame($external_data, $item->shipping_external_data_insist());
@@ -138,7 +136,7 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 
 		$this->assertEquals($shipping, $item->shipping_insist());
 
-		$this->setExpectedException('Kohana_Exception');
+		$this->expectException('Kohana_Exception');
 		$item->purchase_item->reference = NULL;
 		$item->shipping_insist();
 	}
@@ -148,7 +146,10 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_delivery_time()
 	{
-		$item = $this->getMock('Model_Shipping_Item_External', array('shipping_external_data_insist'), array('shipping_item_external'));
+		$item = $this->getMockBuilder('Model_Shipping_Item_External')
+            ->setMethods(array('shipping_external_data_insist'))
+            ->setConstructorArgs(array('shipping_item_external'))
+            ->getMock();
 		$range = new Jam_Range(array(10, 12), 'Model_Shipping::format_shipping_time');
 		$item->delivery_time = $range;
 		$external_data = Jam::build('shipping_external_data', array(
@@ -172,7 +173,10 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 	public function test_shipping_method()
 	{
 		$method = Jam::build('shipping_method');
-		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('get_external_shipping_method'), array('shipping_external'));
+		$shipping = $this->getMockBuilder('Model_Shipping_External_Dummy')
+            ->setMethods(array('get_external_shipping_method'))
+            ->setConstructorArgs(array('shipping_external'))
+            ->getMock();
 		$shipping
 			->expects($this->once())
 			->method('get_external_shipping_method')
@@ -197,13 +201,19 @@ class Model_Shipping_Item_ExternalTest extends Testcase_Shipping {
 		$location = Jam::find('location', 'France');
 		$location = Jam::find('location', 'France');
 
-		$brand_purchase_shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('ship_to'), array('brand_purchase_shipping'));
+		$brand_purchase_shipping = $this->getMockBuilder('Model_Brand_Purchase_Shipping')
+            ->setMethods(array('ship_to'))
+            ->setConstructorArgs(array('brand_purchase_shipping'))
+            ->getMock();
 		$brand_purchase_shipping
 			->expects($this->once())
 			->method('ship_to')
 			->will($this->returnValue($location));
 
-		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('external_data_for'), array('shipping_external'));
+		$shipping = $this->getMockBuilder('Model_Shipping_External_Dummy')
+            ->setMethods(array('external_data_for'))
+            ->setConstructorArgs(array('shipping_external'))
+            ->getMock();
 		$external_data = Jam::build('shipping_external_data');
 
 		$shipping

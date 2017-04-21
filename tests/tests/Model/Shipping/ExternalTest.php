@@ -24,7 +24,10 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	{
 		$location = Jam::find('location', 'France');
 		$external_data = Jam::build('shipping_external_data');
-		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('external_data_for'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping_External_Dummy')
+            ->setMethods(array('external_data_for'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 
 		$shipping
 			->expects($this->once())
@@ -42,7 +45,10 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_ships_to()
 	{
-		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('external_data_for'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping_External_Dummy')
+            ->setMethods(array('external_data_for'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 		$france = Jam::find('location', 'France');
 		$uk = Jam::find('location', 'United Kingdom');
 		$external_data = Jam::build('shipping_external_data');
@@ -64,7 +70,10 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_delivery_time_for()
 	{
-		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('external_data_for'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping_External_Dummy')
+            ->setMethods(array('external_data_for'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 		$france = Jam::find('location', 'France');
 		$uk = Jam::find('location', 'United Kingdom');
 		$external_data = Jam::build('shipping_external_data', array('delivery_time' => new Jam_Range(array(13, 20))));
@@ -86,7 +95,10 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_price_for_location()
 	{
-		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('external_data_for'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping_External_Dummy')
+            ->setMethods(array('external_data_for'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 		$france = Jam::find('location', 'France');
 		$uk = Jam::find('location', 'United Kingdom');
 		$external_data = Jam::build('shipping_external_data', array('price' => 13.69));
@@ -134,7 +146,10 @@ class Model_Shipping_ExternalTest extends Testcase_Shipping {
 	 */
 	public function test_methods_for()
 	{
-		$shipping = $this->getMock('Model_Shipping_External_Dummy', array('get_external_shipping_method'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping_External_Dummy')
+            ->setMethods(array('get_external_shipping_method'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 		$location = Jam::find('location', 'France');
 		$method = Jam::build('shipping_method');
 

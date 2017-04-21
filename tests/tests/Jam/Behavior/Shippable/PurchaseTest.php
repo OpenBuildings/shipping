@@ -127,7 +127,10 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 
 		$this->assertEquals(array('shipping_address' => array('association' => array(':errors' => $purchase->shipping_address->errors()))), $purchase->errors()->as_array());
 
-		$purchase = $this->getMock('Model_Purchase', array('items_count'), array('purchase'));
+		$purchase = $this->getMockBuilder('Model_Purchase')
+            ->setMethods(array('items_count'))
+            ->setConstructorArgs(array('purchase'))
+            ->getMock();
 
 		$purchase
 			->expects($this->exactly(2))

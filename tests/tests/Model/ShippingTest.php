@@ -172,7 +172,10 @@ class Model_ShippingTest extends Testcase_Shipping {
 		$france = Jam::find('location', 'France');
 		$australia = Jam::find('location', 'Australia');
 		$uk = Jam::find('location', 'United Kingdom');
-		$shipping = $this->getMock('Model_Shipping', array('groups_in'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('groups_in'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 
 		$params = array(
 			array('id' => 10, 'price' => new Jam_Price(20, 'USD', $monetary)),
@@ -245,7 +248,10 @@ class Model_ShippingTest extends Testcase_Shipping {
 	public function test_delivery_time_for()
 	{
 		$france = Jam::find('location', 'France');
-		$shipping = $this->getMock('Model_Shipping', array('groups_in'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('groups_in'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 
 		$group1 = Jam::build('shipping_group', array('delivery_time' => new Jam_Range(array(10, 20))));
 		$group2 = Jam::build('shipping_group', array('delivery_time' => new Jam_Range(array(13, 12))));
@@ -273,7 +279,10 @@ class Model_ShippingTest extends Testcase_Shipping {
 	public function test_total_delivery_time_for()
 	{
 		$france = Jam::find('location', 'France');
-		$shipping = $this->getMock('Model_Shipping', array('delivery_time_for'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('delivery_time_for'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 		$range = new Jam_Range(array(3, 5), 'Model_Shipping::format_shipping_time');
 
 		$shipping
@@ -309,7 +318,10 @@ class Model_ShippingTest extends Testcase_Shipping {
 		$location = Jam::find('location', 'France');
 		$method = Jam::find('shipping_method', 1);
 		$group = Jam::build('shipping_group');
-		$shipping = $this->getMock('Model_Shipping', array('group_for', 'cheapest_group_in'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('group_for', 'cheapest_group_in'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 
 		$shipping
 			->expects($this->once())
@@ -337,7 +349,10 @@ class Model_ShippingTest extends Testcase_Shipping {
 	 */
 	public function test_price_for_location()
 	{
-		$shipping = $this->getMock('Model_Shipping', array('cheapest_group_in'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('cheapest_group_in'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 		$group = Jam::find('shipping_group', 6);
 		$france = Jam::find('location', 'France');
 		$uk = Jam::find('location', 'United Kingdom');
@@ -359,7 +374,10 @@ class Model_ShippingTest extends Testcase_Shipping {
 	 */
 	public function test_additional_price_for_location()
 	{
-		$shipping = $this->getMock('Model_Shipping', array('cheapest_group_in'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('cheapest_group_in'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 		$group = Jam::find('shipping_group', 6);
 		$france = Jam::find('location', 'France');
 		$uk = Jam::find('location', 'United Kingdom');
@@ -381,7 +399,10 @@ class Model_ShippingTest extends Testcase_Shipping {
 	 */
 	public function test_discount_threshold_for_location()
 	{
-		$shipping = $this->getMock('Model_Shipping', array('cheapest_group_in'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('cheapest_group_in'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 		$group = Jam::find('shipping_group', 6);
 		$france = Jam::find('location', 'France');
 		$uk = Jam::find('location', 'United Kingdom');

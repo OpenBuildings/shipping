@@ -242,13 +242,19 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 
 		$price = new Jam_Price(10, 'GBP');
 
-		$shipping = $this->getMock('Model_Shipping', array('total_price'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('total_price'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 		$shipping
 			->expects($this->once())
 			->method('total_price')
 			->will($this->returnValue($price));
 
-		$group_items = $this->getMock('Group_Shipping_Items', array('shipping'), array($brand_purchase_shipping, $purchase_items, $method));
+		$group_items = $this->getMockBuilder('Group_Shipping_Items')
+            ->setMethods(array('shipping'))
+            ->setConstructorArgs(array($brand_purchase_shipping, $purchase_items, $method))
+            ->getMock();
 
 		$group_items
 			->expects($this->once())
@@ -270,13 +276,19 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 
 		$range = new Jam_Range(array(10, 20));
 
-		$shipping = $this->getMock('Model_Shipping', array('total_delivery_time'), array('shipping'));
+		$shipping = $this->getMockBuilder('Model_Shipping')
+            ->setMethods(array('total_delivery_time'))
+            ->setConstructorArgs(array('shipping'))
+            ->getMock();
 		$shipping
 			->expects($this->once())
 			->method('total_delivery_time')
 			->will($this->returnValue($range));
 
-		$group_items = $this->getMock('Group_Shipping_Items', array('shipping'), array($brand_purchase_shipping, $purchase_items, $method));
+		$group_items = $this->getMockBuilder('Group_Shipping_Items')
+            ->setMethods(array('shipping'))
+            ->setConstructorArgs(array($brand_purchase_shipping, $purchase_items, $method))
+            ->getMock();
 
 		$group_items
 			->expects($this->once())
@@ -294,7 +306,10 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 		$method = Jam::build('shipping_method');
 		$purchase_items = array(Jam::build('purchase_item'));
 
-		$shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('duplicate', 'build_items_from'), array('brand_purchase_shipping'));
+		$shipping = $this->getMockBuilder('Model_Brand_Purchase_Shipping')
+            ->setMethods(array('duplicate', 'build_items_from'))
+            ->setConstructorArgs(array('brand_purchase_shipping'))
+            ->getMock();
 
 		$shipping
 			->expects($this->once())
@@ -325,7 +340,10 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 		$purchase_items = array(Jam::build('purchase_item'));
 		$items = array(Jam::build('shipping_item'));
 
-		$shipping = $this->getMock('Model_Brand_Purchase_Shipping', array('items_from'), array('brand_purchase_shipping'));
+		$shipping = $this->getMockBuilder('Model_Brand_Purchase_Shipping')
+            ->setMethods(array('items_from'))
+            ->setConstructorArgs(array('brand_purchase_shipping'))
+            ->getMock();
 
 		$shipping
 			->expects($this->once())
@@ -361,7 +379,10 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 			Jam::build('shipping_item', array('shipping_group' => array('method_id' => 2))),
 		);
 
-		$group_items = $this->getMock('Group_Shipping_Items', array('existing_shipping_items'), array($shipping, $purchase_items, $method));
+		$group_items = $this->getMockBuilder('Group_Shipping_Items')
+            ->setMethods(array('existing_shipping_items'))
+            ->setConstructorArgs(array($shipping, $purchase_items, $method))
+            ->getMock();
 
 		$group_items
 			->expects($this->exactly(3))
@@ -400,7 +421,10 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 			Jam::build('shipping_item', array('purchase_item_id' => 3)),
 		);
 
-		$group_items = $this->getMock('Group_Shipping_Items', array('shipping', 'existing_shipping_items'), array($brand_purchase_shipping, $purchase_items, $method));
+		$group_items = $this->getMockBuilder('Group_Shipping_Items')
+            ->setMethods(array('shipping', 'existing_shipping_items'))
+            ->setConstructorArgs(array($brand_purchase_shipping, $purchase_items, $method))
+            ->getMock();
 
 		$group_items
 			->expects($this->once())
