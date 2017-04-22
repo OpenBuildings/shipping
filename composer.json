@@ -15,7 +15,7 @@
 	"require": {
 		"php": "^7",
 		"composer/installers": "*",
-		"openbuildings/purchases": "^0.9.0",
+		"openbuildings/purchases": "^0.9 | ^0.10",
 		"clippings/freezable": "0.2.*",
         "openbuildings/jam": "^0.5.13"
     },

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5544454d33b16acb5876336ab892b77",
+    "content-hash": "5eeefa5da0568d5060d4df4cfdbcc97a",
     "packages": [
         {
             "name": "clippings/freezable",
@@ -998,33 +998,36 @@
         },
         {
             "name": "openbuildings/purchases",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/purchases.git",
-                "reference": "9a3770e15676481df442a9d14f67a6d8dad1129a"
+                "reference": "3e79e81348c7602c8e828fb58942ad73ed4bc035"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/9a3770e15676481df442a9d14f67a6d8dad1129a",
-                "reference": "9a3770e15676481df442a9d14f67a6d8dad1129a",
+                "url": "https://api.github.com/repos/OpenBuildings/purchases/zipball/3e79e81348c7602c8e828fb58942ad73ed4bc035",
+                "reference": "3e79e81348c7602c8e828fb58942ad73ed4bc035",
                 "shasum": ""
             },
             "require": {
-                "clippings/freezable": "0.2.*",
+                "clippings/freezable": "^0.2",
                 "composer/installers": "*",
-                "omnipay/common": "~2.0",
-                "openbuildings/jam": "~0.5.0",
-                "openbuildings/jam-auth": "^0.4.0",
-                "openbuildings/jam-locations": "0.1.*",
-                "openbuildings/jam-monetary": "~0.1.19",
-                "php": ">=5.3.0"
+                "kohana/core": "^3.3",
+                "kohana/database": "^3.3.4",
+                "omnipay/common": "^2",
+                "openbuildings/jam": "^0.5",
+                "openbuildings/jam-auth": "^0.4",
+                "openbuildings/jam-locations": "^0.1",
+                "openbuildings/jam-monetary": "^0.1.19",
+                "php": "^7"
             },
             "require-dev": {
-                "omnipay/dummy": "~2.0",
-                "openbuildings/environment-backup": "0.1.*",
-                "openbuildings/kohana-test-bootsrap": "0.1.*",
-                "openbuildings/phpunit-spiderling": "0.1.*"
+                "omnipay/dummy": "^2",
+                "openbuildings/environment-backup": "^0.1",
+                "openbuildings/kohana-test-bootstrap": "^0.2",
+                "openbuildings/phpunit-spiderling": "^0.2",
+                "phpunit/phpunit": "^6"
             },
             "suggest": {
                 "openbuildings/promotions": "Extends purchases functionality with promotions and gift cards",
@@ -1062,7 +1065,7 @@
                 "purchase",
                 "store"
             ],
-            "time": "2015-09-29T09:48:56+00:00"
+            "time": "2017-04-22T11:28:49+00:00"
         },
         {
             "name": "rackspace/php-opencloud",
