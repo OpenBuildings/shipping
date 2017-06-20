@@ -369,31 +369,39 @@ class Group_Shipping_ItemsTest extends Testcase_Shipping {
 		$purchase_items = array(Jam::build('purchase_item'));
 		$shipping = Jam::build('brand_purchase_shipping');
 
-		$inactive_items = array(
-			Jam::build('shipping_item', array('shipping_group' => array('method_id' => 2))),
-			Jam::build('shipping_item', array('shipping_group' => array('method_id' => 1))),
-		);
-
 		$active_items = array(
 			Jam::build('shipping_item', array('shipping_group' => array('method_id' => 2))),
 			Jam::build('shipping_item', array('shipping_group' => array('method_id' => 2))),
 		);
 
+		$inactive_items = array(
+			Jam::build('shipping_item', array('shipping_group' => array('method_id' => 2))),
+			Jam::build('shipping_item', array('shipping_group' => array('method_id' => 1))),
+		);
+
+		$items_without_shipping_group= array(
+			Jam::build('shipping_item', array('shipping_group' => array('method_id' => 2))),
+			Jam::build('shipping_item', array('shipping_group' => NULL)),
+		);
+
 		$group_items = $this->getMockBuilder('Group_Shipping_Items')
-            ->setMethods(array('existing_shipping_items'))
-            ->setConstructorArgs(array($shipping, $purchase_items, $method))
-            ->getMock();
+			->setMethods(array('existing_shipping_items'))
+			->setConstructorArgs(array($shipping, $purchase_items, $method))
+			->getMock();
 
 		$group_items
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('existing_shipping_items')
-			->will($this->onConsecutiveCalls($inactive_items, $active_items, array()));
+			->will($this->onConsecutiveCalls($active_items, $inactive_items, $items_without_shipping_group, array()));
+
+		$result = $group_items->is_active();
+		$this->assertTrue($result);
 
 		$result = $group_items->is_active();
 		$this->assertFalse($result);
 
 		$result = $group_items->is_active();
-		$this->assertTrue($result);
+		$this->assertFalse($result);
 
 		$result = $group_items->is_active();
 		$this->assertFalse($result);
