@@ -215,6 +215,10 @@ class Kohana_Group_Shipping_Items {
 
 		foreach ($items as $item)
 		{
+			if ($item->shipping_method() === NULL) {
+				return FALSE;
+			}
+
 			if ($item->shipping_method()->id() != $this->shipping_method->id())
 			{
 				return FALSE;
