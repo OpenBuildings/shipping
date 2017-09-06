@@ -116,6 +116,8 @@ class Kohana_Jam_Behavior_Shippable_Brand_Purchase extends Jam_Behavior {
 				$brand_purchase->shipping = $brand_purchase->shipping;
 			}
 
+			$shipping_items = array();
+
 			foreach ($brand_purchase->items(array('shippable' => TRUE)) as $purchase_item)
 			{
 				if ( ! $purchase_item->shipping_item)
@@ -125,7 +127,11 @@ class Kohana_Jam_Behavior_Shippable_Brand_Purchase extends Jam_Behavior {
 					$purchase_item->shipping_item->update_address($brand_purchase->shipping);
 					$purchase_item->shipping_item = $purchase_item->shipping_item;
 				}
+
+				$shipping_items [] = $purchase_item->shipping_item;
 			}
+
+			$brand_purchase->shipping->items = $shipping_items;
 		}
 	}
 

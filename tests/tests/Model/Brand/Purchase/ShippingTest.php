@@ -545,6 +545,6 @@ class Model_Brand_Purchase_ShippingTest extends Testcase_Shipping {
 		$result = Jam::find('purchase', 2);
 
 		$this->assertEquals($result->brand_purchases[0]->items[3]->reference->id(), $purchase->brand_purchases[0]->shipping->id());
-		$this->assertEquals($result->brand_purchases[0]->items[2]->id(), $purchase->brand_purchases[0]->shipping->items[1]->purchase_item->id());
+		$this->assertEquals($result->brand_purchases[0]->items[2]->id(), $purchase->brand_purchases[0]->shipping->items[2]->purchase_item->id());
 	}
 }
