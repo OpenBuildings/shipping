@@ -19,7 +19,7 @@ class Kohana_Model_Shipping extends Jam_Model {
 		if ($min == 1 AND $max == 1)
 			return '1 day';
 
-		return $min == $max ? "{$min} days" : "{$min} - {$max} days";
+		return $min == $max ? "{$min} working days" : "{$min} - {$max} working days";
 	}
 
 	/**

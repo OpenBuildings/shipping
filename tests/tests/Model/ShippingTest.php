@@ -15,8 +15,8 @@ class Model_ShippingTest extends Testcase_Shipping {
 	public function data_format_shipping_time()
 	{
 		return array(
-			array(3, 5, '3 - 5 days'),
-			array(5, 5, '5 days'),
+			array(3, 5, '3 - 5 working days'),
+			array(5, 5, '5 working days'),
 			array(NULL, NULL, '-'),
 			array(0, 0, 'same day'),
 		);
