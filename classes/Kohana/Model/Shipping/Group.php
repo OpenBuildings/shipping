@@ -30,7 +30,8 @@ class Kohana_Model_Shipping_Group extends Jam_Model {
 				'additional_item_price' => Jam::field('price', array('convert_empty' => FALSE)),
 				'discount_threshold' => Jam::field('price'),
 			))
-			->validator('price', 'shipping', 'location', 'method', 'delivery_time', array('present' => TRUE))
+			->validator('shipping', 'location', 'method', 'delivery_time', array('present' => TRUE))
+			->validator('price', array('present' => array('allow_zero' => TRUE)))
 			->validator('additional_item_price', 'discount_threshold', 'price', array('price' => array('greater_than_or_equal_to' => 0)))
 			->validator('delivery_time', array('range' => array('consecutive' => TRUE, 'greater_than_or_equal_to' => 0)));
 	}
