@@ -43,12 +43,13 @@ class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 		$purchase = Jam::find('purchase', 2);
 		$expected = Jam::find('location', 'United Kingdom');
 		$changed = Jam::find('location', 'France');
+		$initialLocation = Jam::find('location', 'Everywhere');
 
 		$this->assertEquals($expected, $purchase->shipping_country());
 
 		$purchase->shipping_same_as_billing = FALSE;
 
-		$this->assertNull($purchase->shipping_country(), 'Should load country from billing address');
+		$this->assertEquals($initialLocation, $purchase->shipping_country());
 
 		$expected2 = Jam::find('location', 'Russia');
 

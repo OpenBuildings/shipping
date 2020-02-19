@@ -268,12 +268,13 @@ VALUES
 INSERT INTO `purchases` (`id`, `creator_id`, `number`, `currency`, `billing_address_id`, `shipping_same_as_billing`, `monetary`, `is_frozen`, `is_deleted`, `shipping_address_id`)
 VALUES
   (1,1,'CNV7IC','EUR',1,1,'O:31:\"OpenBuildings\\Monetary\\Monetary\":4:{s:18:\"currency_templates\";a:5:{s:3:\"USD\";s:8:\"$:amount\";s:3:\"EUR\";s:10:\"€:amount\";s:3:\"GBP\";s:9:\"£:amount\";s:3:\"BGN\";s:12:\":amount лв\";s:3:\"JPY\";s:9:\"¥:amount\";}s:20:\"\0*\0_default_currency\";s:3:\"GBP\";s:10:\"\0*\0_source\";C:33:\"OpenBuildings\\Monetary\\Source_ECB\":775:{a:33:{s:3:\"USD\";s:6:\"1.3357\";s:3:\"JPY\";s:6:\"132.05\";s:3:\"BGN\";s:6:\"1.9558\";s:3:\"CZK\";s:6:\"25.769\";s:3:\"DKK\";s:6:\"7.4566\";s:3:\"GBP\";s:7:\"0.83850\";s:3:\"HUF\";s:6:\"298.78\";s:3:\"LTL\";s:6:\"3.4528\";s:3:\"LVL\";s:6:\"0.7025\";s:3:\"PLN\";s:6:\"4.1944\";s:3:\"RON\";s:6:\"4.4588\";s:3:\"SEK\";s:6:\"8.6943\";s:3:\"CHF\";s:6:\"1.2374\";s:3:\"NOK\";s:6:\"7.8920\";s:3:\"HRK\";s:6:\"7.5955\";s:3:\"RUB\";s:7:\"43.0625\";s:3:\"TRY\";s:6:\"2.6592\";s:3:\"AUD\";s:6:\"1.4248\";s:3:\"BRL\";s:6:\"3.0086\";s:3:\"CAD\";s:6:\"1.3759\";s:3:\"CNY\";s:6:\"8.1748\";s:3:\"HKD\";s:7:\"10.3570\";s:3:\"IDR\";s:8:\"14855.82\";s:3:\"ILS\";s:6:\"4.7205\";s:3:\"INR\";s:7:\"83.9450\";s:3:\"KRW\";s:7:\"1444.54\";s:3:\"MXN\";s:7:\"17.2205\";s:3:\"MYR\";s:6:\"4.3945\";s:3:\"NZD\";s:6:\"1.6267\";s:3:\"PHP\";s:6:\"58.090\";s:3:\"SGD\";s:6:\"1.6824\";s:3:\"THB\";s:6:\"42.342\";s:3:\"ZAR\";s:7:\"13.0230\";}}s:13:\"\0*\0_precision\";i:2;}',1,0,1),
-  (2,1,'AAV7IC','GBP',1,1,'',0,0,1);
+  (2,1,'AAV7IC','GBP',1,1,'',0,0,3);
 
 INSERT INTO `addresses` (`id`,`country_id`,`city_id`,`email`,`first_name`,`last_name`,`phone`,`zip`,`line1`,`line2`,`state`,`fax`,`is_deleted`)
 VALUES
   (1,7,9,'user@example.com','name1', 'name2','phone123','ZIP','Street 1', 'House 1', '', 'faz123', 0),
-  (2,7,9,'user@example.com','name1', 'name2','phone123','ZIP','Street 1', 'House 1', '', 'faz123', 0);
+  (2,7,9,'user@example.com','name1', 'name2','phone123','ZIP','Street 1', 'House 1', '', 'faz123', 0),
+  (3,1,2,'user@example.com','name1', 'name2','phone123','ZIP','Street 1', 'House 1', '', 'faz123', 0);
 # Dump of table brand_purchases
 # ------------------------------------------------------------
 
@@ -287,11 +288,11 @@ VALUES
 
 INSERT INTO `purchase_items` (`id`, `brand_purchase_id`, `reference_id`, `reference_model`, `price`, `quantity`, `model`, `is_payable`, `is_discount`, `is_deleted`, `is_frozen`)
 VALUES
-  (1,1,1,'product',200.00,1,'purchase_item_product',1,0,0,1),
-  (2,1,1,'variation',200.00,1,'purchase_item_product',1,0,0,1),
-  (3,1,2,'variation',100.00,1,'purchase_item_product',1,0,0,1),
-  (4,1,1,'brand_purchase_shipping',10,1,'purchase_item_shipping',1,0,0,1),
-  (5,2,1,'product',NULL,1,'purchase_item_product',1,0,0,1);
+  (1,1,1,'product',200.00,1,'purchase_item_product',1,0,0,0),
+  (2,1,1,'variation',200.00,1,'purchase_item_product',1,0,0,0),
+  (3,1,2,'variation',100.00,1,'purchase_item_product',1,0,0,0),
+  (4,1,1,'brand_purchase_shipping',10,1,'purchase_item_shipping',1,0,0,0),
+  (5,2,1,'product',NULL,1,'purchase_item_product',1,0,0,0);
 
 # Dump of table brands
 # ------------------------------------------------------------
@@ -346,5 +347,5 @@ VALUES
 
 INSERT INTO `shipping_items` (`id`, `model`, `brand_purchase_shipping_id`, `purchase_item_id`, `shipping_group_id`, `is_frozen`)
 VALUES
-  (1, 'shipping_item', 1, 1, 1,1),
-  (2, 'shipping_item', 1, 2, 2,1);
+  (1, 'shipping_item', 1, 1, 1,0),
+  (2, 'shipping_item', 1, 2, 2,0);
