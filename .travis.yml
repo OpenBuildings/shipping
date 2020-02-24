@@ -3,6 +3,9 @@ language: php
 
 sudo: false
 
+services:
+  - mysql
+
 php:
   - 7.1
   - 7.2
@@ -31,6 +34,7 @@ install: travis_retry composer install --no-interaction --no-progress --prefer-d
 
 before_script:
   - mkdir -p build/logs
+  - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION';"
   - mysql -e 'create database `OpenBuildings/shipping`;'
   - mysql OpenBuildings/shipping < tests/test_data/structure.sql
 
