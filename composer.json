@@ -20,15 +20,15 @@
 	"require": {
 		"php": "^7.1",
 		"composer/installers": "*",
-		"openbuildings/purchases": "^0.11",
-		"clippings/freezable": "0.2.*",
-        "openbuildings/jam": "^0.5.13"
+		"openbuildings/purchases": "^0.12",
+		"clippings/freezable": "^0.3",
+        "openbuildings/jam": "^0.6"
     },
     "require-dev": {
         "openbuildings/environment-backup": "0.1.*",
         "phpunit/phpunit": "^7",
         "openbuildings/kohana-test-bootstrap": "^0.2.0",
-		"openbuildings/jam-auth": "^0.4"
+		"openbuildings/jam-auth": "^0.5"
 	},
     "autoload-dev": {
         "classmap": ["tests/classes"]
