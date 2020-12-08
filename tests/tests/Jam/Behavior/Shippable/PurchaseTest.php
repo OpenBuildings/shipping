@@ -6,7 +6,7 @@
  */
 class Jam_Behavior_Shippable_PurchaseTest extends Testcase_Shipping {
 
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 

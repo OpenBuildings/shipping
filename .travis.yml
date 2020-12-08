@@ -7,8 +7,6 @@ services:
   - mysql
 
 php:
-  - 7.1
-  - 7.2
   - 7.3
 
 matrix:
@@ -29,6 +27,9 @@ notifications:
   email: false
   slack:
     secure: Gxa5PJc/WCjmKcmz6yBhRTe3p26pNkKvag+0LtL3u9CjmaSsnnvP5kHzOWpkYufbmtN7C7pLlwZHusDKXcXigP/zd1guo0lJ7lFfBUezOs1jUkqesmgP2+TPD+VeLoVzQRnZTb8knkEf/EW74zQxVu35flMLGIwZBYFUzZpd5yI=
+
+before_install:
+  - composer self-update --1
 
 install: travis_retry composer install --no-interaction --no-progress --prefer-dist
 
