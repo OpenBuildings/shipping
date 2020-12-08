@@ -13,7 +13,7 @@ abstract class Testcase_Shipping extends \PHPUnit\Framework\TestCase {
 
     public $environment;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Database::instance()->begin();
@@ -25,7 +25,7 @@ abstract class Testcase_Shipping extends \PHPUnit\Framework\TestCase {
         ));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Database::instance()->rollback();
         $this->env->restore();
